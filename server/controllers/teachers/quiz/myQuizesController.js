@@ -19,4 +19,4 @@ const myQuizesController = async (req, res) => {
     }
 }
 
-module.exports = myQuizesController
+module.exports = myQuizesController;

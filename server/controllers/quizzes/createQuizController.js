@@ -9,8 +9,8 @@ async function createQuizController(req, res) {
   const decoded = jwt.verify(token.replace(/^Bearer\s/, ''), process.env.JWT_SECRET);
   console.log('Decoded Token in Controller', decoded);
   const TeacherID = decoded.teacherId;
-  console.log('Teacher ID: ', TeacherID);
-
+  console.log('Teacher ID: ',TeacherID);
+  
   let QuizID;
 
 
@@ -27,7 +27,7 @@ async function createQuizController(req, res) {
     console.log('Request Body:', req.body);
     // Generate a random 4-digit alphanumeric value
     const randomValue = Math.random().toString(36).substring(2, 6).toUpperCase();
-
+    
     // Concatenate the prefix with the random value to create the quiz ID
     const quizID = `itersoa${randomValue}`;
 
@@ -60,12 +60,12 @@ async function createQuizController(req, res) {
 
     // Get the newly inserted Quiz's ID
     const getQuizIDQuery = 'SELECT QuizID FROM Quizzes WHERE QuizID = $1';
-    console.log('getQuizIDQuery', getQuizIDQuery);
+    console.log('getQuizIDQuery',getQuizIDQuery);
     const quizResult = await pool.query(getQuizIDQuery, [quizID]);
-    console.log('quizResult', quizResult);
+    console.log('quizResult',quizResult);
     // const { QuizID } = quizResult.rows[0];
     // console.log('QuizID:', QuizID);
-
+    
     QuizID = quizResult.rows[0].quizid;  // Assign QuizID
 
     console.log('QuizID:', QuizID);
