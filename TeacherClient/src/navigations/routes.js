@@ -1,17 +1,17 @@
-import Home from '../page'
+import Home from '../pages';
 
-import Login from '../page/auth/login'
-import Register from '../page/auth/register'
+import Login from '../pages/auth/login';
+import Register from '../pages/auth/signup';
 
-import Dashboard from '../page/dashboard'
-import AddQuiz from '../page/dashboard/quiz/add-quiz'
-import LiveQuiz from '../page/dashboard/quiz/live-quize'
-import MyQuizes from '../page/dashboard/quiz/my-quize'
-import QuestionBank from '../page/dashboard/quiz/question-bank'
+import Dashboard from '../pages/dashboard';
+import AddQuiz from '../pages/dashboard/quize/add-quiz';
+import LiveQuiz from '../pages/dashboard/quize/live-quiz';
+import MyQuizes from '../pages/dashboard/quize/my-quizes';
+import QuestionBank from '../pages/dashboard/quize/question-bank';
 
 export const routes = [
     {
-        element:<Home /> ,
+        element: <Home />,
         path: '/',
     },
     {
