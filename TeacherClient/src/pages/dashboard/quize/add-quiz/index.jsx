@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
+import DashBoard from '../../../../components/frames/dashboard';
 
 const AddQuizes = () => {
     return (
-        <div>
+        <DashBoard>
             AddQuizes
-        </div>
+        </DashBoard>
     )
 }
 

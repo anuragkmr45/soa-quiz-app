@@ -1,10 +1,12 @@
 import React from 'react'
 
+import DashBoard from '../../components/frames/dashboard'
+
 const Dashboard = () => {
     return (
-        <div>
+        <DashBoard>
             Dashboard
-        </div>
+        </DashBoard>
     )
 }
 
