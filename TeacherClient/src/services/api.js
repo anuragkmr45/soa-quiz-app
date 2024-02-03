@@ -32,6 +32,11 @@ const apiEndpoints = {
             setAuthToken(token, false);
             return api.post('/dashboard/add-quiz', { Title, Description, DateCreated, SubjectID, TopicName, Questions });
         },
+        createLiveQuiz: ({ quizId, duration }) => {
+            const token = localStorage.getItem('authToken');
+            setAuthToken(token, false);
+            return api.post('/dashboard/make-quiz-live', { quizId, duration });
+        },
         getMyQuizzes: () => {
             const token = localStorage.getItem('authToken');
             setAuthToken(token, false);

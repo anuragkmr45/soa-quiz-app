@@ -6,7 +6,7 @@ const authenticateStudent = require('../middlewares/student/auth/authenticateStu
 
 // teacher's side
 const loginController = require("../controllers/teachers/auth/login");
-const {logoutTeacherController}  = require("../controllers/teachers/auth/logout");
+const { logoutTeacherController } = require("../controllers/teachers/auth/logout");
 const registerController = require("../controllers/teachers/auth/register");
 const checkResultController = require("../controllers/teachers/quiz/checkResultController");
 const myQuizesController = require("../controllers/teachers/quiz/myQuizesController");
@@ -30,15 +30,16 @@ router.post('/teacher-logout', authenticateTeacher, logoutTeacherController);
 router.post('/teacher-login', loginController);
 router.post('/teacher-register', registerController);
 router.post('/dashboard/add-quiz', authenticateTeacher, createQuizController)
+router.post('/dashboard/make-quiz-live', authenticateTeacher, createLiveQuizController);
 router.post('/student-login', studentLoginController);
 router.post('/student-register', studentRegController);
-router.post('/student-logout',authenticateStudent, logoutStudentController);
+router.post('/student-logout', authenticateStudent, logoutStudentController);
 
 
 // get
 router.get('/student-profile', authenticateStudent, studentProfile)
 router.get('/dashboard/previous-quizes', authenticateTeacher, myQuizesController)
-router.get('/dashboard/previous-quizes/:quizId/results', authenticateTeacher, checkResultController )
-router.get('/my-results', authenticateStudent, checkStudentResultController )
+router.get('/dashboard/previous-quizes/:quizId/results', authenticateTeacher, checkResultController)
+router.get('/my-results', authenticateStudent, checkStudentResultController)
 
 module.exports = router;
