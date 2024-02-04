@@ -7,7 +7,9 @@ const Login = () => {
 
     return (
         <AuthPageFrames>
-            <LoginForm />
+            <div className="my-10">
+                <LoginForm />
+            </div>
         </AuthPageFrames>
     )
 }

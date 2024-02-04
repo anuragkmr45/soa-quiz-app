@@ -60,13 +60,16 @@ const SignUpForm = () => {
         }
 
         try {
-            setLoading(true)
-            await apiEndpoints.teacher.register({ name, email, password });
-            setLoading(false);
-            setPasswordsMatch(true);
-            showSuccessToast("Regiester Successfully !!")
-            navigate('/teacher-login');
-
+            if (name && email && password && email.endsWith("@soa.ac.in") && password.length > 6 && password === confirmPassword) {
+                setLoading(true)
+                await apiEndpoints.teacher.register({ name, email, password });
+                setLoading(false);
+                setPasswordsMatch(true);
+                showSuccessToast("Regiester Successfully !!")
+                navigate('/teacher-login');
+            } else {
+                console.error('Error in input fiels')
+            }
         } catch (error) {
             console.error("Error while registeration : ", error)
             setLoading(false);
@@ -99,12 +102,12 @@ const SignUpForm = () => {
             <div className="flex flex-col my-3">
                 <input
                     className="input-ghost-secondary input w-full text-secondary"
-                    placeholder="Email"
+                    placeholder="yourEmail@soa.ac.in"
                     type='email'
                     value={email}
                     onChange={(value) => setEmail(value.target.value)}
                 />
-                <small className='text-red-700 text-xs'><strong>Note:- </strong> Email Must Be Of soa.ac.in</small>
+                {/* <small className='text-red-700 text-xs'><strong>Note:- </strong> Email Must Be Of soa.ac.in</small> */}
             </div>
             <div className="flex my-3">
                 <input
@@ -140,7 +143,7 @@ const SignUpForm = () => {
                     onSelect={disableEvent}
                 />
                 <div className='my-auto' >
-                    <span class="badge badge-outline-secondary rounded-none relative right-12 border-none">
+                    <span className="badge badge-outline-secondary rounded-none relative right-12 border-none">
                         {passwordsMatch ? <GiConfirmed className='text-2xl' /> : <MdConfirmationNumber className='text-2xl' />}
                     </span>
                 </div>
