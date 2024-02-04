@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-// import useEmailAuth from '../../../hooks/auth/useEmailAuth'
 import Loader from '../../loader/dotedCircel';
 
 import { CiDatabase, CiHome } from "react-icons/ci";
 import { FaRegFileExcel } from "react-icons/fa";
 
 const SidebarNavigation = ({ children }) => {
-
-    // const { handleSignOut } = useEmailAuth();
-    // const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
 

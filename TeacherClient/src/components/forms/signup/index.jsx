@@ -151,7 +151,7 @@ const SignUpForm = () => {
                     Loading ...
                 </button>
             ) : (
-                <button className="btn btn-secondary w-1/2 mt-2">
+                <button className="btn btn-secondary w-1/2 mt-2" onClick={handleRegistration}>
                     SignUp  <FaArrowRight className='mx-2' />
                 </button>
             )}
