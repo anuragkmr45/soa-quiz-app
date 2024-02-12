@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+
 import apiEndpoints from '../../../services/api';
 import { showSuccessToast, showErrorToast } from '../../../components/tosters/notifications'
 
@@ -12,6 +14,7 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState('');
+    const [showPass, setShowPass] = useState(false);
 
     const navigate = useNavigate();
 
@@ -43,6 +46,14 @@ const LoginForm = () => {
         }
     };
 
+    const togglePasswordVisibility = () => {
+        try {
+            setShowPass(!showPass);
+        } catch (error) {
+            console.error('Error while show password: ', error);
+        }
+    }
+
     return (
         <aside className="flex flex-col items-center">
             <input
@@ -52,13 +63,18 @@ const LoginForm = () => {
                 value={email}
                 onChange={(value) => { setEmail(value.target.value) }}
             />
-            <input
-                className="input-ghost-secondary input  my-2 max-w-full text-secondary"
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={(value) => { setPassword(value.target.value) }}
-            />
+            <div className='flex w-full'>
+                <input
+                    className="input-ghost-secondary input  my-2 max-w-full text-secondary"
+                    placeholder="Password"
+                    type={showPass ? 'text' : 'password'}
+                    value={password}
+                    onChange={(value) => { setPassword(value.target.value) }}
+                />
+                <button className='border-none px-4 py-2 text-black my-auto' onClick={togglePasswordVisibility}>
+                    {showPass ? <IoEyeOutline className='my-auto' /> : <IoEyeOffOutline className='my-auto' />}
+                </button>
+            </div>
 
             {
                 loading ? (

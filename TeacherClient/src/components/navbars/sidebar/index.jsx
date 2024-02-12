@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
+import LogoutModal from '../../modal/logout-modal';
 import Loader from '../../loader/dotedCircel';
 
 import { CiDatabase, CiHome } from "react-icons/ci";
@@ -9,12 +10,6 @@ import { FaRegFileExcel } from "react-icons/fa";
 const SidebarNavigation = ({ children }) => {
 
     const [loading, setLoading] = useState(false);
-
-    const handleLogout = async () => {
-
-        setLoading(true)
-        console.log('logout')
-    }
 
     return (
         <div className="sticky flex h-screen flex-row gap-4 overflow-y-auto rounded-lg sm:overflow-x-hidden">
@@ -29,7 +24,7 @@ const SidebarNavigation = ({ children }) => {
                         <span className="text-xs font-normal text-content2">SOA Quiz App</span>
                     </div>
                 </section>
-                <section className="sidebar-content min-h-[20rem]">
+                <section className="sidebar-content">
                     <nav className="menu rounded-md">
                         <section className="menu-section px-4">
                             <span className="menu-title">Main menu</span>
@@ -74,15 +69,16 @@ const SidebarNavigation = ({ children }) => {
                 </section>
                 <section className="sidebar-footer bg-gray-2 pt-2">
                     <div className="divider my-0"></div>
-                    <div className="dropdown z-50 flex h-fit w-full cursor-pointer hover:bg-gray-4">
-                        <label className="whites mx-2 flex h-fit w-full cursor-pointer p-0 hover:bg-gray-4" tabIndex="0">
-                            <button
-                                className='btn btn-outline-error my-2 w-full'
-                                onClick={handleLogout} >
-                                LogOut
-                            </button>
+                    {/* <div className="dropdown z-50 flex h-fit w-full cursor-pointer hover:bg-gray-4"> */}
+                    <label className="whites mx-2 flex h-fit w-full cursor-pointer" tabIndex="0">
+                        <label
+                            className='btn btn-outline-error my-2 w-4/5 text-center mx-auto'
+                            htmlFor='logout-modal'
+                        >
+                            LogOut
                         </label>
-                    </div>
+                    </label>
+                    {/* </div> */}
                 </section>
             </aside>
             <div className="px-2 py-5 w-full h-full">
@@ -94,6 +90,7 @@ const SidebarNavigation = ({ children }) => {
                     )
                 }
             </div>
+            <LogoutModal />
         </div>
     )
 }

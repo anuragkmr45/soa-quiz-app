@@ -26,7 +26,7 @@ const { logoutStudentController } = require('../controllers/students/auth/logout
 const router = express.Router();
 
 // post 
-router.post('/teacher-logout', authenticateTeacher, logoutTeacherController);
+router.post('/', authenticateTeacher, logoutTeacherController);
 router.post('/teacher-login', loginController);
 router.post('/teacher-register', registerController);
 router.post('/dashboard/add-quiz', authenticateTeacher, createQuizController)

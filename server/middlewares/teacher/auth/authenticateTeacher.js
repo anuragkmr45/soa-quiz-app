@@ -4,7 +4,7 @@ const pool = require('../../../config/db');
 async function authenticateTeacher(req, res, next) {
 
   const token = req.header('Authorization');
-  console.log('1Token', token);
+  // console.log('1Token', token);
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized", details: "No token Found", errorDetails: error.message });

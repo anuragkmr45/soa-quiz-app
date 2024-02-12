@@ -91,7 +91,7 @@ const SignUpForm = () => {
     };
 
     return (
-        <form action="#" className="l">
+        <form className="l">
             <input
                 className="input-ghost-secondary input w-full my-3 text-secondary"
                 placeholder="Name"
