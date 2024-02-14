@@ -25,9 +25,13 @@ const setAuthToken = (token, includeBearer = true) => {
 
 const apiEndpoints = {
     teacher: {
-        logout: () => api.post('/').then(response => console.log(response)).catch(error => console.error(error)),
         login: ({ email, password }) => api.post('/teacher-login', { email, password }),
         register: ({ name, email, password }) => api.post('/teacher-register', { name, email, password }),
+        logout: () => {
+            const token = localStorage.getItem('authToken');
+            setAuthToken(token, false);
+            return api.post('/');
+        },
         createQuiz: ({ Title, Description, DateCreated, SubjectID, TopicName, Questions }) => {
             const token = localStorage.getItem('authToken');
             setAuthToken(token, false);
