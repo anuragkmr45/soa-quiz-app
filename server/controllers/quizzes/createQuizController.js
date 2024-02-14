@@ -22,7 +22,7 @@ async function createQuizController(req, res) {
       SubjectID,
       TopicName,
       Questions,
-    } = req.body.body;
+    } = req.body;
 
     console.log('Request Body:', req.body);
     // Generate a random 4-digit alphanumeric value
