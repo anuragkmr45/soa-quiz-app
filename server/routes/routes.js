@@ -1,5 +1,7 @@
 const express = require('express');
 
+module.exports = (io) => {
+
 // middlewares
 const authenticateTeacher = require('../middlewares/teacher/auth/authenticateTeacher');
 const authenticateStudent = require('../middlewares/student/auth/authenticateStudent');
@@ -32,8 +34,7 @@ router.post('/teacher-login', loginController);
 router.post('/teacher-register', registerController);
 router.post('/teacher-logout', authenticateTeacher, logoutTeacherController);
 router.post('/dashboard/add-quiz', authenticateTeacher, createQuizController);
-router.post('/dashboard/add-quiz', authenticateTeacher, createQuizController)
-router.post('/dashboard/make-quiz-live', authenticateTeacher, createLiveQuizController);
+router.post('/dashboard/make-quiz-live', authenticateTeacher, (req, res) => createLiveQuizController(req, res, io));
 router.post('/student-login', studentLoginController);
 router.post('/student-register', studentRegController);
 router.post('/student-logout', authenticateStudent, logoutStudentController);
@@ -49,4 +50,5 @@ router.get('/dashboard/quiz-preview', authenticateTeacher,getQuizDetailsControll
 
 router.get('/my-results', authenticateStudent, checkStudentResultController);
 
-module.exports = router;
+return router;
+};

@@ -31,28 +31,23 @@ const createQuizLive = async (req, res, io) => {
                 return res.status(500).json({ error: 'Internal Server Error' });
             }
 
-            // Create a socket.io room for the live quiz
+            // Emit socket events here
             const roomName = `quiz-room-${quizId}`;
-            const room = io.of('/').in(roomName);
 
-            // Set up event handlers for real-time quiz interactions
-            room.on('connection', (socket) => {
-                // Emit quiz data (excluding answers) to connected students
-                socket.emit('quizData', quizDetails);
+            // Emit quiz data (excluding answers) to connected students
+            io.to(roomName).emit('quizData', quizDetails);
 
-                // Handle the real-time timer
-                const timerDuration = duration * 120 * 1000; // Convert minutes to milliseconds
-                let timeLeft = timerDuration;
+            // Handle the real-time timer
+            const timerDuration = duration * 120 * 1000; // Convert minutes to milliseconds
+            let timeLeft = timerDuration;
 
-                const timerInterval = setInterval(() => {
-                    timeLeft -= 1000; // Reduce time left by 1 second
-                    if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        room.emit('timerEnd'); // Notify clients that the timer has ended
-                        room.disconnectSockets(true); // Disconnect clients and close the room
-                    }
-                }, 1000);
-            });
+            const timerInterval = setInterval(() => {
+                timeLeft -= 1000; // Reduce time left by 1 second
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    io.to(roomName).emit('timerEnd'); // Notify clients that the timer has ended
+                }
+            }, 1000);
 
             // Return the generated password to the teacher
             res.json({ roomPassword });
