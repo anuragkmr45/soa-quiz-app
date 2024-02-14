@@ -1,5 +1,7 @@
 const express = require('express');
 
+module.exports = (io) => {
+
 // middlewares
 const authenticateTeacher = require('../middlewares/teacher/auth/authenticateTeacher');
 const authenticateStudent = require('../middlewares/student/auth/authenticateStudent');
@@ -12,9 +14,10 @@ const checkResultController = require("../controllers/teachers/quiz/checkResultC
 const myQuizesController = require("../controllers/teachers/quiz/myQuizesController");
 
 // quiz
-const createQuizController = require("../controllers/quizzes/createQuizController")
-const createLiveQuizController = require("../controllers/teachers/quiz/makeQuizLive")
-const joinLiveQuizController = require("../controllers/students/quiz/joinLiveQuiz")
+const createQuizController = require("../controllers/quizzes/createQuizController");
+const createLiveQuizController = require("../controllers/teachers/quiz/makeQuizLive");
+const joinLiveQuizController = require("../controllers/students/quiz/joinLiveQuiz");
+const getQuizDetailsController = require("../controllers/teachers/quiz/getQuizDetails");
 
 // student's side
 const studentLoginController = require("../controllers/students/auth/login")
@@ -29,8 +32,9 @@ const router = express.Router();
 router.post('/', authenticateTeacher, logoutTeacherController);
 router.post('/teacher-login', loginController);
 router.post('/teacher-register', registerController);
-router.post('/dashboard/add-quiz', authenticateTeacher, createQuizController)
-router.post('/dashboard/make-quiz-live', authenticateTeacher, createLiveQuizController);
+router.post('/teacher-logout', authenticateTeacher, logoutTeacherController);
+router.post('/dashboard/add-quiz', authenticateTeacher, createQuizController);
+router.post('/dashboard/make-quiz-live', authenticateTeacher, (req, res) => createLiveQuizController(req, res, io));
 router.post('/student-login', studentLoginController);
 router.post('/student-register', studentRegController);
 router.post('/student-logout', authenticateStudent, logoutStudentController);
@@ -40,6 +44,11 @@ router.post('/student-logout', authenticateStudent, logoutStudentController);
 router.get('/student-profile', authenticateStudent, studentProfile)
 router.get('/dashboard/previous-quizes', authenticateTeacher, myQuizesController)
 router.get('/dashboard/previous-quizes/:quizId/results', authenticateTeacher, checkResultController)
-router.get('/my-results', authenticateStudent, checkStudentResultController)
 
-module.exports = router;
+router.get('/my-results', authenticateStudent, checkStudentResultController);
+router.get('/dashboard/quiz-preview', authenticateTeacher,getQuizDetailsController);
+
+router.get('/my-results', authenticateStudent, checkStudentResultController);
+
+return router;
+};
