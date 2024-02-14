@@ -37,7 +37,7 @@ const MyQuizes = () => {
                         Data Not Found !!!
                     </h1>
                 ) : (
-                    quizzes?.slice().reverse().map((data, index) => {
+                    quizzes?.slice().map((data, index) => {
                         const quizDate = new Date(data.datecreated);
                         const formattedDate = quizDate.toLocaleDateString();
                         const formattedTime = quizDate.toLocaleTimeString();

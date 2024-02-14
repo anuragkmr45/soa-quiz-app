@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DashBoard from '../../../../components/frames/dashboard';
 import apiEndpoints from '../../../../services/api';
+import AlertBox from '../../../../components/tosters/alert';
 
 const LiveQuizes = () => {
 
-    // State for quiz ID and duration
+    const [alertVisibility, setAlertVisibility] = useState(true);
     const [quizId, setQuizId] = useState('');
     const [duration, setDuration] = useState('');
 
@@ -32,10 +33,27 @@ const LiveQuizes = () => {
             // setError('Internal Server Error');
         }
     };
+    const handleAlertVisibility = () => {
+        try {
+            setAlertVisibility(false);
+        } catch (error) {
+            console.error('Error while ahndling alert: ', error);
+        }
+    }
 
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            handleAlertVisibility();
+        }, 2000);
+
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, []);
 
     return (
         <DashBoard>
+            <AlertBox />
             <div className="min-h-screen flex justify-center items-center">
 
                 {
@@ -45,27 +63,22 @@ const LiveQuizes = () => {
                             <p className="bg-gray-100 p-2 rounded-md">{roomPassword}</p>
                         </div>
                     ) : (
-                        <div className="bg-gray-300 p-8 rounded-lg shadow-md w-3/4">
-                            <h1 className="text-2xl font-bold mb-4 text-black">Create Live Quiz</h1>
-                            <form onSubmit={handleSubmit} className='text-center'>
-                                <div className="mb-4 flex">
-                                    <input
-                                        className="input-ghost-secondary input max-w-full text-primary"
-                                        placeholder="Quiz ID"
-                                        value={quizId}
-                                        onChange={(value) => { setQuizId(value.target.value) }}
-                                        required
-                                    />
-                                </div>
-                                <div className="mb-4 flex">
-                                    <input
-                                        className="input-ghost-secondary input max-w-full text-primary"
-                                        placeholder="Duration In Minutes"
-                                        value={duration}
-                                        onChange={(value) => { setDuration(value.target.value) }}
-                                        required
-                                    />
-                                </div>
+                        <div className="p-8 rounded-lg shadow-2xl w-3/4">
+                            <form onSubmit={handleSubmit} className='text-center space-y-6'>
+                                <input
+                                    className="input-ghost-secondary input max-w-full text-primary"
+                                    placeholder="Quiz ID"
+                                    value={quizId}
+                                    onChange={(value) => { setQuizId(value.target.value) }}
+                                    required
+                                />
+                                <input
+                                    className="input-ghost-secondary input max-w-full text-primary"
+                                    placeholder="Duration In Minutes"
+                                    value={duration}
+                                    onChange={(value) => { setDuration(value.target.value) }}
+                                    required
+                                />
                                 <button
                                     className="btn btn-outline-secondary"
                                     type='submit'

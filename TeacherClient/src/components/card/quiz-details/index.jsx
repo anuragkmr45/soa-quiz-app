@@ -5,7 +5,7 @@ const QuizDetailCard = ({ quizTitle, quizId, date, time }) => {
         <div className="card my-5 max-w-full">
             <div className="card-body max-w-full">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <h2 className="col-span-2">{quizTitle}</h2>
+                    <h2 className="col-span-2 text-xl">{quizTitle}</h2>
                     <div className="col-span-1">
                         <p>
                             <b>Quiz ID: </b> {quizId}
