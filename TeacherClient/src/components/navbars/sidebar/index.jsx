@@ -44,7 +44,7 @@ const SidebarNavigation = ({ children }) => {
                                 </li>
 
                                 <li className="menu-item">
-                                    <Link to='/dashboard/status-check' className='flex' >
+                                    <Link to='/dashboard/make-quiz-live' className='flex' >
                                         <CiDatabase className='my-auto mx-2' />
                                         <span>All Live Quizes</span>
                                     </Link>

@@ -36,7 +36,7 @@ export const dashboardRoutes = [
     },
     {
         element: <LiveQuiz />,
-        path: '/dashboard/status-check',
+        path: '/dashboard/make-quiz-live',
     },
     {
         element: <MyQuizes />,

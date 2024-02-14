@@ -31,7 +31,7 @@ const LiveQuizes = () => {
                     showSuccessToast(`Quiz :- ${quizId} Is Live Now for new ${duration} min !!`)
                     const { roomPassword } = response.data;
                     setRoomPassword(roomPassword);
-
+                    console.log(response)
                 } else {
                     console.error("Error while creating quiz live: ", response.status)
                 }
