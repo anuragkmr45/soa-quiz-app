@@ -1,61 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import DashBoard from '../../../../components/frames/dashboard';
+import React, { useState } from 'react';
 import apiEndpoints from '../../../../services/api';
+
+import DashBoard from '../../../../components/frames/dashboard';
 import AlertBox from '../../../../components/tosters/alert';
+import { showSuccessToast, showErrorToast } from '../../../../components/tosters/notifications'
 
 const LiveQuizes = () => {
 
-    const [alertVisibility, setAlertVisibility] = useState(true);
     const [quizId, setQuizId] = useState('');
     const [duration, setDuration] = useState('');
-
-    // State for room password
     const [roomPassword, setRoomPassword] = useState('');
 
-    // Function to handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            // Call the API endpoint to create live quiz
-            const response = await apiEndpoints.teacher.createLiveQuiz({ quizId, duration });
 
-            if (response.status === 200) {
-                const { roomPassword } = response.data;
-                setRoomPassword(roomPassword);
-                // setError('');
-            } else {
-                // setError('Failed to create live quiz');
-                console.error("Error while creating quiz live: ", response.status)
+            if (quizId === '') {
+                showErrorToast('Quiz Id is required !!')
             }
+
+            if (duration === '') {
+                showErrorToast('Quiz duration is required !!')
+            }
+
+            if (quizId !== '' && duration !== '') {
+                const response = await apiEndpoints.teacher.createLiveQuiz({ quizId, duration });
+                if (response.status === 200) {
+
+                    showSuccessToast(`Quiz :- ${quizId} Is Live Now for new ${duration} min !!`)
+                    const { roomPassword } = response.data;
+                    setRoomPassword(roomPassword);
+
+                } else {
+                    console.error("Error while creating quiz live: ", response.status)
+                }
+            }
+
         } catch (error) {
             console.error('Error creating live quiz:', error);
-            // setError('Internal Server Error');
         }
     };
-    const handleAlertVisibility = () => {
-        try {
-            setAlertVisibility(false);
-        } catch (error) {
-            console.error('Error while ahndling alert: ', error);
-        }
-    }
-
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            handleAlertVisibility();
-        }, 2000);
-
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, []);
 
     return (
         <DashBoard>
             <AlertBox />
             <div className="min-h-screen flex justify-center items-center">
-
                 {
                     roomPassword ? (
                         <div className="flex justify-center items-center">
