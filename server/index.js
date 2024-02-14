@@ -21,8 +21,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-const router = require('./routes/routes')
+const router = require('./routes/routes')(io)
 app.use('/', router)
+// require('./sockets')(io);
 
 // const io = socketIO(server);
 // const verifyTokenAsync = promisify(jwt.verify);
