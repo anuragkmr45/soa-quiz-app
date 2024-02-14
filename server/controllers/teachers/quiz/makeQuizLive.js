@@ -1,7 +1,7 @@
 const Memcached = require('memcached');
 const memcached = new Memcached('localhost:11211');
 const jwt = require('jsonwebtoken');
-const socketQuizController = require('./socketQuizController'); 
+const socketQuizController = require('./socketQuizController');
 
 const createQuizLive = async (req, res, io) => {
     try {

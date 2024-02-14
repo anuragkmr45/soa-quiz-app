@@ -11,6 +11,7 @@ const api = axios.create({
 });
 
 const setAuthToken = (token, includeBearer = true) => {
+
     if (token) {
         if (includeBearer) {
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -31,6 +32,11 @@ const apiEndpoints = {
             const token = localStorage.getItem('authToken');
             setAuthToken(token, false);
             return api.post('/dashboard/add-quiz', { Title, Description, DateCreated, SubjectID, TopicName, Questions });
+        },
+        createLiveQuiz: ({ quizId, duration }) => {
+            const token = localStorage.getItem('authToken');
+            setAuthToken(token, false);
+            return api.post('/dashboard/make-quiz-live', { quizId, duration });
         },
         getMyQuizzes: () => {
             const token = localStorage.getItem('authToken');

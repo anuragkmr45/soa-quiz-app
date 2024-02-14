@@ -32,18 +32,21 @@ router.post('/teacher-login', loginController);
 router.post('/teacher-register', registerController);
 router.post('/teacher-logout', authenticateTeacher, logoutTeacherController);
 router.post('/dashboard/add-quiz', authenticateTeacher, createQuizController);
+router.post('/dashboard/add-quiz', authenticateTeacher, createQuizController)
 router.post('/dashboard/make-quiz-live', authenticateTeacher, createLiveQuizController);
 router.post('/student-login', studentLoginController);
 router.post('/student-register', studentRegController);
 router.post('/student-logout', authenticateStudent, logoutStudentController);
 
 
-
 // get
 router.get('/student-profile', authenticateStudent, studentProfile)
 router.get('/dashboard/previous-quizes', authenticateTeacher, myQuizesController)
 router.get('/dashboard/previous-quizes/:quizId/results', authenticateTeacher, checkResultController)
+
 router.get('/my-results', authenticateStudent, checkStudentResultController);
 router.get('/dashboard/quiz-preview', authenticateTeacher,getQuizDetailsController);
+
+router.get('/my-results', authenticateStudent, checkStudentResultController);
 
 module.exports = router;

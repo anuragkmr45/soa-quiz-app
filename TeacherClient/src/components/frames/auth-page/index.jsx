@@ -1,10 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 
 const AuthPageFrames = ({ children }) => {
+
+    // const navigate = useNavigate();
 
     useEffect(() => {
         document.title = 'Quiz App | Authentication';
 
+        // const checkAuth = () => {
+        //     try {
+        //         const loggedIn = localStorage.getItem('loggedIn');
+        //         if (loggedIn === 'true') {
+        //             navigate('/dashboard');
+        //         }
+        //     } catch (error) {
+        //         console.error("Error while checking auth: ", error);
+        //     }
+        // };
+
+        // checkAuth()
     }, []);
 
     return (
