@@ -47,6 +47,7 @@ router.get('/dashboard/previous-quizes/:quizId/results', authenticateTeacher, ch
 
 router.get('/my-results', authenticateStudent, checkStudentResultController);
 router.get('/dashboard/quiz-preview', authenticateTeacher,getQuizDetailsController);
+router.get('/join-quiz', joinLiveQuizController);
 
 router.get('/my-results', authenticateStudent, checkStudentResultController);
 
