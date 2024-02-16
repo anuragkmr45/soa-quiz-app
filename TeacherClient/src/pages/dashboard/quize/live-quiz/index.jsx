@@ -29,9 +29,8 @@ const LiveQuizes = () => {
                 if (response.status === 200) {
 
                     showSuccessToast(`Quiz :- ${quizId} Is Live Now for new ${duration} min !!`)
-                    const { roomPassword } = response.data;
+                    const { roomPassword } = response.data.roomPassword;
                     setRoomPassword(roomPassword);
-                    console.log(response)
                 } else {
                     console.error("Error while creating quiz live: ", response.status)
                 }
@@ -42,15 +41,28 @@ const LiveQuizes = () => {
         }
     };
 
+    const handleCopyRoomPassword = async () => {
+        try {
+            if (roomPassword) {
+                await navigator.clipboard.writeText(roomPassword);
+                showSuccessToast('Room password copied to clipboard');
+            }
+        } catch (error) {
+            console.error('Error copying room password:', error);
+        }
+    };
+
     return (
         <DashBoard>
-            <AlertBox />
+            <AlertBox roomPassword={roomPassword} />
             <div className="min-h-screen flex justify-center items-center">
                 {
                     roomPassword ? (
-                        <div className="flex justify-center items-center">
-                            <p className="text-sm font-medium">Room Password:</p>
-                            <p className="bg-gray-100 p-2 rounded-md">{roomPassword}</p>
+                        <div className="flex justify-center items-center space-x-5">
+                            <p className="text-sm font-medium">Room Password :</p>
+                            <p className="bg-gray-100 p-2 rounded-md text-black cursor-pointer" onClick={handleCopyRoomPassword} >
+                                {roomPassword}
+                            </p>
                         </div>
                     ) : (
                         <div className="p-8 rounded-lg shadow-2xl w-3/4">

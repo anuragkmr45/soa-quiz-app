@@ -23,12 +23,16 @@ const LogoutModal = () => {
     const handleLogout = async () => {
         setLoading(true);
         try {
-            await apiEndpoints.teacher.logout();
-            localStorage.removeItem('authToken');
-            navigate('/teacher-login');
+            const res = await apiEndpoints.teacher.logout();
+
+            if (res.status === 200) {
+                handleCloseModal()
+                navigate('/teacher-login');
+            }
         } catch (error) {
             console.error('Error logging out:', error);
         } finally {
+            handleCloseModal()
             setLoading(false);
         }
     }
