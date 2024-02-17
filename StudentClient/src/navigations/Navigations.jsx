@@ -22,16 +22,16 @@ const Navigations = () => {
     return (
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
-        // initialRouteName="Login"
+            initialRouteName="Splash"
         >
-            {/* {splash ? (
+            {splash ? (
                 <Stack.Screen name="Splash" component={SplashScreen} />
             ) : (
                 <Stack.Screen name="Login" component={LoginScreen} />
             )}
 
-            <Stack.Screen name="Signup" component={SignupScreen} /> */}
-            {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Quiz Test" component={QuizTestScreen} />
             <Stack.Screen name="Result" component={ResultScreen} />
         </Stack.Navigator>

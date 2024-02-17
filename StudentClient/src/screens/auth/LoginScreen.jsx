@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableHighlight, Animated } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import apiEndpoints from '../../services/api.js';
-import LoginGif from '../../assest/gif/login.gif'
+import LoginGif from '../../assest/image/login.png'
 import AuthFrmae from '../../components/frames/AuthFrame.jsx'
 import { defaultStyling } from '../../constant/styles.js';
 
@@ -26,9 +26,17 @@ const LoginScreen = () => {
                 return;
             }
 
-            // Proceed with login logic
-            const res = await apiEndpoints.login(registrationNo, password);
-            console.log(res);
+            if (registrationNo !== '' && password !== '') {
+                const res = await apiEndpoints.login({
+                    registrationNumber: registrationNo,
+                    password: password,
+                });
+
+                if (res.status === 200) {
+                    navigation.navigate('Home');
+                }
+
+            }
         } catch (error) {
             console.error('Error while login: ', error);
         }

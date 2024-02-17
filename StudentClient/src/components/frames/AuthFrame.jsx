@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Children } from 'react';
-import { View, StyleSheet, Text, Animated, ScrollView } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { View, StyleSheet, Text, Animated, ScrollView, Image } from 'react-native';
+// import FastImage from 'react-native-fast-image';
 
 import { defaultStyling } from '../../constant/styles';
 
@@ -18,11 +18,16 @@ const AuthFrame = ({ children, text, img }) => {
 
     return (
         <View style={styles.container}>
-            <FastImage
+            <Image
+                source={img}
+                // resizeMode={FastImage.resizeMode.cover}
+                style={styles.image}
+            />
+            {/* <FastImage
                 source={img}
                 resizeMode={FastImage.resizeMode.cover}
                 style={styles.image}
-            />
+            /> */}
             <View style={styles.cardContainer}>
                 <Animated.View style={[styles.card, {
                     transform: [{

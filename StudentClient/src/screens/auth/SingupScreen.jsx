@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import apiEndpoints from '../../services/api';
-import LoginGif from '../../assest/gif/login.gif'
+import LoginGif from '../../assest/image/login.png'
 import AuthFrame from '../../components/frames/AuthFrame';
 import { defaultStyling } from '../../constant/styles'
 
 const SignupScreen = () => {
     const [name, setName] = useState('');
     const [regNo, setRegNo] = useState('');
+    const [email, setEmail] = useState('');
+    const [course, setCourse] = useState('');
     const [batch, setBatch] = useState('');
     const [branch, setBranch] = useState('');
     const [section, setSection] = useState('');
@@ -23,11 +25,31 @@ const SignupScreen = () => {
     };
 
     const handleSignup = async () => {
+
         try {
-            const res = await apiEndpoints.register({ name, regNo, branch, section, batch, password })
-            console.log(res)
+
+            if (name !== '' && regNo !== '' && batch !== '' && branch !== '' && section !== '' && password !== '') {
+                const res = await apiEndpoints.register({
+                    name: name,
+                    registrationNumber: regNo,
+                    email: email,
+                    password: password,
+                    batch: batch,
+                    branch: branch,
+                    section: section,
+                    course: course,
+                })
+
+                if (res.status === 201) {
+                    goToLogin()
+                    Alert.alert(`${name} Registered Successfully !! `)
+                }
+
+            }
+
         } catch (error) {
             console.error("Error while signup: ", error)
+            Alert.alert(`${name} Already Exist !! `)
         }
     };
 
@@ -45,6 +67,19 @@ const SignupScreen = () => {
                 onChangeText={text => setRegNo(text)}
                 style={styles.input}
                 keyboardType="numeric"
+            />
+            <TextInput
+                label="Email"
+                value={email}
+                onChangeText={text => setEmail(text)}
+                style={styles.input}
+                keyboardType='email-address'
+            />
+            <TextInput
+                label="Course"
+                value={course}
+                onChangeText={text => setCourse(text)}
+                style={styles.input}
             />
             <TextInput
                 label="Batch"

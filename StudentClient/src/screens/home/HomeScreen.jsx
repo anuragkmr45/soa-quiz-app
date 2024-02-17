@@ -5,12 +5,13 @@ import React from 'react'
 import { defaultStyling } from '../../constant/styles'
 import ProfileCard from '../../components/cards/ProfileCard'
 import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard'
+import apiEndpoints from '../../services/api'
 
 const HomeScreen = () => {
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         try {
-
+            await apiEndpoints.logout();
         } catch (error) {
             console.error('Error while logout: ', error)
             alert('Something went wrong !! Try again later')

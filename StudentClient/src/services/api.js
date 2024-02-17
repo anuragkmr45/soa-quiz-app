@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:5000';
+const baseURL = 'http://192.168.29.186:5000';
 
 const api = axios.create({
     baseURL: baseURL,
@@ -24,10 +24,10 @@ const setAuthToken = (token, includeBearer = true) => {
 };
 
 const apiEndpoints = {
-    login: ({ regNo, password }) => api.post('/student-login', { regNo, password }),
+    login: ({ registrationNumber, password }) => api.post('/student-login', { registrationNumber, password }),
     logout: () => api.post('/student-logout').then(response => console.log(response)).catch(error => console.error(error)),
-    register: ({ name, regNo, branch, section, batch, password }) =>
-        api.post('/student-register', { name, regNo, branch, section, batch, password }),
+    register: ({ name, registrationNumber, email, password, batch, branch, section, course }) =>
+        api.post('/student-register', { name, registrationNumber, email, password, batch, branch, section, course }),
     getProfile: (token) => {
         setAuthToken(token);
         return api.get('/student-profile');
