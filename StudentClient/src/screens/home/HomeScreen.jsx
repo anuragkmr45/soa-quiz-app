@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
