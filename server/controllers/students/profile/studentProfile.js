@@ -1,18 +1,19 @@
 const pool = require('../../../config/db');
+const jwt = require('jsonwebtoken');
 
-const studentProfile = async () => {
+const studentProfile = async (req, res) => {
 
     const token = req.header('Authorization');
 
-        if (!token) {
-            return res.status(401).json({ error: "Unauthorized", details: "No token Found", errorDetails: error.message });
-          }
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized", details: "No token Found", errorDetails: error.message });
+    }
 
     try {
-          const decoded = jwt.verify(token.replace(/^Bearer\s/, ''), process.env.JWT_SECRET);
-          console.log("Decoded Token:", decoded);
+        const decoded = jwt.verify(token.replace(/^Bearer\s/, ''), process.env.JWT_SECRET);
+        console.log("Decoded Token:", decoded);
 
-         const registrationnumber = decoded.registrationNumber;
+        const registrationnumber = decoded.registrationNumber;
         // Get student details from the database based on the registration number in the JWT token
         const result = await pool.query('SELECT * FROM students WHERE registrationnumber = $1', [registrationnumber]);
 

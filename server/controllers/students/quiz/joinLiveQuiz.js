@@ -44,6 +44,13 @@ const joinLiveQuiz = async (req, res) => {
         quizDetailsWithoutSensitiveInfo.studentDetails = studentResult.rows[0];
 
         res.json(quizDetailsWithoutSensitiveInfo);
+        return {
+            registrationNumber: decoded.registrationNumber,
+            name: decoded.name,
+            batch: decoded.batch,
+            branch: decoded.branch,
+            section: decoded.section,
+        };
     } catch (error) {
         console.error('Error joining quiz:', error);
         if (error instanceof jwt.JsonWebTokenError) {
