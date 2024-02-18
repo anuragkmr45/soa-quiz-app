@@ -1,6 +1,5 @@
 const express = require('express');
 const http = require('http'); 
-const socketIo = require('socket.io'); 
 const bodyParser = require('body-parser');
 const compression = require('compression');
 require('dotenv').config();
@@ -10,20 +9,17 @@ const cors = require('cors');
 
 const app = express();
 const port = process.env.HOST_PORT || 3000;
-const server = http.createServer(app); 
-const io = socketIo(server);
-
 // CORS
 app.use(cors());
 
+// Some middlewares
 app.use(compression({ filter: shouldCompress }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-const router = require('./routes/routes')(io)
+const router = require('./routes/routes');
 app.use('/', router)
-// require('./sockets')(io);
 
 // const io = socketIO(server);
 // const verifyTokenAsync = promisify(jwt.verify);
@@ -61,15 +57,15 @@ app.use('/', router)
 //   })();
 // });
 
-// // Socket.IO connection logic
+// Socket.IO connection logic
 // io.on('connection', (socket) => {
 //   console.log('A user connected');
 
 //   // Implement socket event handlers here
 
-//   socket.on('disconnect', () => {
-//     console.log('User disconnected');
-//   });
+// socket.on((data) => {
+//   console.log('Joining quiz room:', data.quizId);
+// });
 // });
 
 // // Apply Socket.IO middleware

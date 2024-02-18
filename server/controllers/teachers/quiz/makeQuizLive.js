@@ -1,60 +1,68 @@
 const Memcached = require('memcached');
 const memcached = new Memcached('localhost:11211');
 const jwt = require('jsonwebtoken');
-const socketQuizController = require('./socketQuizController');
-
-const createQuizLive = async (req, res, io) => {
+const socketQuizController = require('./socketQuizController'); 
+const createQuizLive = async (req, res) => {
     try {
         // Teacher verification
+        
+        console.log('Attempting to create a live quiz...');
         const token = req.header('Authorization');
+        if (!token) {
+            console.log('No token provided');
+            return res.status(401).json({ error: 'Unauthorized', details: 'No token found' });
+        }
 
-        // Verify the token
         const decoded = jwt.verify(token.replace(/^Bearer\s/, ''), process.env.JWT_SECRET);
         const teacherId = decoded.teacherId;
+        console.log(`Teacher ID decoded: ${teacherId}`);
 
         // Get quiz ID and duration from the request
         const { quizId, duration } = req.body;
+        console.log(`Creating quiz live: QuizID=${quizId}, Duration=${duration} minutes`);
 
         // Fetch quiz details and generate a random password
         const { quizDetails, roomPassword } = await socketQuizController(quizId, teacherId, duration, memcached);
 
-        // Store quiz details and password in Memcached
+        // Room key and data preparation
         const roomKey = `quiz-room:${quizId}`;
         const roomData = {
             quizDetails,
             password: roomPassword,
+            roomName: `quiz-room-${quizId}` // Including roomName in stored data
         };
 
-        memcached.set(roomKey, JSON.stringify(roomData), duration * 60 * 1000, (err) => {
+        // Store quiz details in Memcached
+        memcached.set(roomKey, JSON.stringify(roomData), duration * 60, (err) => {
             if (err) {
-                console.error(err);
-                return res.status(500).json({ error: 'Internal Server Error' });
+                console.error('Memcached set error:', err);
+                return res.status(500).json({ error: 'Internal Server Error', details: 'Failed to store quiz details in Memcached' });
             }
 
-            // Emit socket events here
-            const roomName = `quiz-room-${quizId}`;
+            console.log(`Quiz details stored in Memcached: Key=${roomKey}`);
 
-            // Emit quiz data (excluding answers) to connected students
-            io.to(roomName).emit('quizData', quizDetails);
+        
+            // Instead, focus on ensuring the quiz details are retrievable for the duration of the quiz
 
-            // Handle the real-time timer
-            const timerDuration = duration * 120 * 1000; // Convert minutes to milliseconds
-            let timeLeft = timerDuration;
+            // Respond to the teacher with the room password and name
+            res.json({ "RoomPassword": roomPassword, "RoomName": roomData.roomName });
 
-            const timerInterval = setInterval(() => {
-                timeLeft -= 1000; // Reduce time left by 1 second
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    io.to(roomName).emit('timerEnd'); // Notify clients that the timer has ended
+            // Debug: Check if quiz details are correctly stored in Memcached
+            memcached.get(roomKey, (error, data) => {
+                if (error) {
+                    console.error('Error retrieving quiz details from Memcached:', error);
+                    return;
                 }
-            }, 1000);
-
-            // Return the generated password to the teacher
-            res.json({ roomPassword });
+                if (data) {
+                    console.log('Quiz details successfully retrieved from Memcached for verification:', JSON.parse(data));
+                } else {
+                    console.log('Quiz details not found in Memcached post-storage (unexpected).');
+                }
+            });
         });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Error in createQuizLive:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: 'Exception caught in createQuizLive' });
     }
 };
 
