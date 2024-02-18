@@ -25,7 +25,6 @@ const authenticateStudent = require('../middlewares/student/auth/authenticateStu
     const checkStudentResultController = require("../controllers/students/profile/checkResultController")
     const { logoutStudentController } = require('../controllers/students/auth/logout')
 
-    const router = express.Router();
 
     // post 
     router.post('/', authenticateTeacher, logoutTeacherController);
