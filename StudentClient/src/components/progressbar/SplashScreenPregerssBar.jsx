@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     loader: {
         height: 12,
         borderRadius: 3,
+        zIndex: 10
     },
 });
 

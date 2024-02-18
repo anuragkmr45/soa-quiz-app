@@ -1,14 +1,12 @@
-import { View, StyleSheet } from 'react-native'
-import { Divider, Button } from 'react-native-paper'
-import React from 'react'
-
-import { defaultStyling } from '../../constant/styles'
-import ProfileCard from '../../components/cards/ProfileCard'
-import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard'
-import apiEndpoints from '../../services/api'
+import React from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import { Button, Card } from 'react-native-paper';
+import { defaultStyling } from '../../constant/styles';
+import ProfileCard from '../../components/cards/ProfileCard';
+import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard';
+import apiEndpoints from '../../services/api';
 
 const HomeScreen = () => {
-
     const handleLogout = async () => {
         try {
             await apiEndpoints.logout();
@@ -19,85 +17,65 @@ const HomeScreen = () => {
     }
 
     return (
-        <View style={styles.conatiner}>
+        <View style={styles.container}>
             <ProfileCard />
-            <Divider />
+            <Card style={styles.card} >
+                <Card.Content>
+                    <Text variant="bodyMedium" style={styles.cardContent}>Name: </Text>
+                    <Text variant="bodyMedium" style={styles.cardContent}>Name: </Text>
+                    <Text variant="bodyMedium" style={styles.cardContent}>Name: </Text>
+                    <Text variant="bodyMedium" style={styles.cardContent}>Name: </Text>
+                </Card.Content>
+            </Card>
             <UploadQuizDtlCard />
+
             <View style={styles.buttonContainer}>
                 <Button mode="contained" icon='' style={styles.button} onPress={handleLogout}>
                     Logout
                 </Button>
             </View>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
-    conatiner: {
+    container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: defaultStyling.backgroundColor,
-        color: defaultStyling.color,
-        // padding: 2,
+        backgroundColor: defaultStyling.dark,
+    },
+    card: {
+        // color: defaultStyling.dark
+        width: '80%',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+        elevation: 6,
+    },
+    cardContent: {
+        color: defaultStyling.dark
+    },
+    text: {
+        color: 'white',
+        marginBottom: 10,
     },
     buttonContainer: {
         position: 'absolute',
-        bottom: 20, // Adjust the position as needed
-        width: '100%',
+        bottom: 20,
+        width: '92%',
         paddingHorizontal: 20,
     },
     button: {
         width: '100%',
-        backgroundColor: '#830415'
+        backgroundColor: '#830415',
+        borderRadius: 12,
+        paddingVertical: 5,
     },
-})
+});
 
-export default HomeScreen
-
-
-// import React from 'react';
-// import { View, StyleSheet } from 'react-native';
-// import { TextInput, Button, Card, Title, Paragraph } from 'react-native-paper';
-// import { defaultStyling } from '../../constant/styles';
-
-// const HomeScreen = () => {
-//     return (
-//         <View style={styles.container}>
-//             <Card style={styles.card}>
-//                 <Card.Content>
-//                     <Title>User Profile</Title>
-//                     <Paragraph>Name: John Doe</Paragraph>
-//                     <Paragraph>Reg No: 123456</Paragraph>
-//                     <Paragraph>Branch: Computer Science</Paragraph>
-//                     <Paragraph>Section: A</Paragraph>
-//                 </Card.Content>
-//             </Card>
-//             <View style={styles.form}>
-//                 <TextInput label="Quiz ID" />
-//                 <TextInput label="Password" secureTextEntry />
-//                 <Button mode="contained" style={styles.button}>Submit</Button>
-//             </View>
-//         </View>
-//     );
-// };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         padding: 20,
-//         justifyContent: 'center',
-//         backgroundColor: defaultStyling.backgroundColor
-//     },
-//     card: {
-//         marginBottom: 20,
-//     },
-//     form: {
-//         marginTop: 20,
-//     },
-//     button: {
-//         marginTop: 10,
-//     },
-// });
-
-// export default HomeScreen;
+export default HomeScreen;

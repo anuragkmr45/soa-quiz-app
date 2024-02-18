@@ -4,7 +4,7 @@ import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import apiEndpoints from '../../services/api';
-import LoginGif from '../../assest/image/login.png'
+import LoginGif from '../../assest/image/auth-img.png'
 import AuthFrame from '../../components/frames/AuthFrame';
 import { defaultStyling } from '../../constant/styles'
 
@@ -120,15 +120,19 @@ const styles = StyleSheet.create({
     input: {
         width: '100%',
         marginBottom: 20,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        color: defaultStyling.dark
     },
     button: {
-        width: '100%',
+        marginTop: 10,
+        backgroundColor: defaultStyling.dark,
+        borderRadius: 8,
+        paddingVertical: 8
     },
     signupText: {
         textAlign: 'center',
         marginTop: 20,
-        color: defaultStyling.secondaryTextColor,
+        color: defaultStyling.dark,
     },
 });
 

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Button, Card, TextInput } from 'react-native-paper';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text, ImageBackground } from 'react-native';
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
+import BgImg from '../../assest/image/bg-img.png';
 
 const UploadQuizDtlCard = () => {
     const [quizId, setQuizId] = React.useState('');
@@ -21,6 +22,13 @@ const UploadQuizDtlCard = () => {
     return (
         <View style={styles.container}>
             <Card style={styles.card}>
+                <Text
+                    style={{
+                        color: defaultStyling.dark,
+                        alignSelf: 'center',
+                        fontWeight: '500',
+                        fontSize: 25
+                    }}>Attend Live Quize</Text>
                 <Card.Content>
                     <TextInput
                         label="Quiz ID"
@@ -36,7 +44,9 @@ const UploadQuizDtlCard = () => {
                         style={styles.input}
                     />
                     <Button mode="outlined" onPress={handleJoinQuiz} style={styles.button}>
-                        Join Quiz
+                        <Text style={{ color: 'white' }} >
+                            Join Quiz
+                        </Text>
                     </Button>
                 </Card.Content>
             </Card>
@@ -53,7 +63,8 @@ const styles = StyleSheet.create({
     },
     card: {
         width: '80%',
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 20,
     },
     input: {
         marginBottom: 10,
@@ -61,6 +72,8 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
+        borderRadius: 10,
+        backgroundColor: defaultStyling.dark,
         borderColor: defaultStyling.backgroundColor,
     },
 });

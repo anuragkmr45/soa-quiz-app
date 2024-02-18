@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Text } from 'react-native-paper';
 import { Image, View, StyleSheet } from 'react-native';
+import FastImage from 'react-native-fast-image';
+
 import apiEndpoints from '../../services/api';
+
+import Avatar from '../../assest/gif/avatar.gif'
 
 const ProfileCard = () => {
 
@@ -18,19 +22,21 @@ const ProfileCard = () => {
     // }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.content}>
-                <Card.Content>
-                    <Text variant="titleLarge" style={styles.details} >Welcome  !! </Text>
-                    <Text variant="titleLarge" style={styles.details} >User Name</Text>
-                    {/* <Text variant="bodyMedium" style={styles.details}>Reg no</Text>
-                <Text variant="bodyMedium" style={styles.details}>brancg</Text>
-                <Text variant="bodyMedium" style={styles.details}>Section</Text>
-                <Text variant="bodyMedium" style={styles.details}>Batch</Text> */}
-                </Card.Content>
+        <>
+            <View style={styles.container}>
+                <View style={styles.content}>
+                    <Card.Content>
+                        <Text variant="titleLarge" style={styles.details} >Welcome  !! </Text>
+                        <Text variant="titleLarge" style={styles.details} >User Name</Text>
+                    </Card.Content>
+                </View>
+                <FastImage
+                    source={Avatar}
+                    style={styles.image}
+                    resizeMode={FastImage.resizeMode.cover}
+                />
             </View>
-            <Image source={{ uri: 'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg' }} style={styles.image} />
-        </View>
+        </>
     )
 };
 
@@ -43,10 +49,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent', // Set background color to transparent
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 140,
+        height: 140,
         borderRadius: 50,
-        margin: 10,
+        // margin: 10,
     },
     content: {
         flex: 1,
@@ -54,7 +60,8 @@ const styles = StyleSheet.create({
     },
     details: {
         color: 'white'
-    }
+    },
+
 });
 
 export default ProfileCard;

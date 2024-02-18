@@ -38,8 +38,8 @@ const AuthFrame = ({ children, text, img }) => {
                     }]
                 }]}>
                     <View style={styles.topSection}>
-                        <Text style={{ color: defaultStyling.secondaryTextColor, fontSize: 20, fontWeight: 500 }}>{text}</Text>
-                        <Text style={{ color: defaultStyling.secondaryTextColor, fontSize: 10 }}>Please {text} To Continue</Text>
+                        <Text style={{ color: defaultStyling.dark, fontSize: 20, fontWeight: 500 }}>{text}</Text>
+                        <Text style={{ color: defaultStyling.dark, fontSize: 10 }}>Please {text} To Continue</Text>
                     </View>
                     <ScrollView contentContainerStyle={styles.scrollViewContent}>
                         {children}
@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: defaultStyling.backgroundColor,
+        backgroundColor: defaultStyling.dark,
     },
     cardContainer: {
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        height: '65%',
+        height: '70%',
         alignItems: 'center',
     },
     card: {
@@ -69,15 +69,24 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         padding: 20,
-        elevation: 5,
         backgroundColor: 'white',
+        // Add shadow properties
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+        elevation: 6, // Elevation for Android
     },
+
     topSection: {
         alignItems: 'center',
         marginBottom: 20,
     },
     image: {
-        width: '50%',
+        width: '60%',
         height: '20%',
         marginTop: 40
     },

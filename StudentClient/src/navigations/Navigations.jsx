@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import SplashScreen from '../screens/SplashScreen';
+import LandingScreen from '../screens/App.jsx'
 import LoginScreen from '../screens/auth/LoginScreen.jsx';
 import SignupScreen from '../screens/auth/SingupScreen.jsx';
 import HomeScreen from '../screens/home/HomeScreen.jsx';
@@ -14,7 +15,7 @@ const Navigations = () => {
     useEffect(() => {
         setTimeout(() => {
             setSplash(false);
-        }, 3000);
+        }, 1610);
     }, []);
 
     const Stack = createNativeStackNavigator();
@@ -27,9 +28,10 @@ const Navigations = () => {
             {splash ? (
                 <Stack.Screen name="Splash" component={SplashScreen} />
             ) : (
-                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Landing" component={LandingScreen} />
             )}
 
+            <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Quiz Test" component={QuizTestScreen} />

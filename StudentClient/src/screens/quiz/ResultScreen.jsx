@@ -2,8 +2,10 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native'
+// import FastImage from 'react-native-fast-image';
 
 import { defaultStyling } from '../../constant/styles';
+// import ResultGif from '../../assest/gif/result-gif.gif'
 
 const ResultScreen = () => {
     // Dummy data for demonstration
@@ -17,6 +19,11 @@ const ResultScreen = () => {
 
     return (
         <View style={styles.container}>
+            {/* <FastImage
+                source={ResultGif}
+                style={styles.background}
+                resizeMode={FastImage.resizeMode.cover}
+            /> */}
             <Text style={styles.title}>Quiz Name Result</Text>
             <View style={styles.resultContainer}>
                 <View style={styles.resultItem}>
@@ -87,7 +94,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     button: {
+        backgroundColor: defaultStyling.dark,
+        color: 'white',
         width: '100%',
+        borderRadius: 10,
+        paddingVertical: 8,
     },
 });
 
