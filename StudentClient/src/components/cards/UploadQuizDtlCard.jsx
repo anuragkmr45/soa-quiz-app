@@ -3,7 +3,6 @@ import { Button, Card, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Text, ImageBackground } from 'react-native';
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
-import BgImg from '../../assest/image/bg-img.png';
 
 const UploadQuizDtlCard = () => {
     const [quizId, setQuizId] = React.useState('');
@@ -24,7 +23,7 @@ const UploadQuizDtlCard = () => {
             <Card style={styles.card}>
                 <Text
                     style={{
-                        color: defaultStyling.dark,
+                        color: 'white',
                         alignSelf: 'center',
                         fontWeight: '500',
                         fontSize: 25
@@ -59,22 +58,24 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
     },
     card: {
+        backgroundColor: defaultStyling.semidark,
         width: '80%',
         paddingHorizontal: 10,
         paddingVertical: 20,
     },
     input: {
         marginBottom: 10,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        color: defaultStyling.dark
     },
     button: {
         marginTop: 10,
         borderRadius: 10,
         backgroundColor: defaultStyling.dark,
-        borderColor: defaultStyling.backgroundColor,
+        // borderColor: defaultStyling,
     },
 });
 

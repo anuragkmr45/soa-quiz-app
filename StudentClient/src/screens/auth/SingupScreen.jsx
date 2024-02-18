@@ -107,7 +107,9 @@ const SignupScreen = () => {
                 style={styles.input}
             />
             <Button mode="contained" onPress={handleSignup} style={styles.button}>
-                Sign Up
+                <Text style={{ color: 'white' }}>
+                    Sign Up
+                </Text>
             </Button>
             <Text onPress={goToLogin} style={styles.signupText} >
                 Already having acoount? Go to Login

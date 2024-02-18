@@ -49,7 +49,9 @@ const ResultScreen = () => {
             </View>
             <View style={styles.buttonContainer}>
                 <Button mode="contained" icon='' style={styles.button} onPress={() => { navigation.navigate('Home') }}>
-                    Go Back To Home
+                    <Text style={{ color: 'white' }} >
+                        Go Back To Home
+                    </Text>
                 </Button>
             </View>
         </View>
@@ -89,13 +91,12 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         position: 'absolute',
-        bottom: 20, // Adjust the position as needed
+        bottom: 20,
         width: '100%',
         paddingHorizontal: 20,
     },
     button: {
         backgroundColor: defaultStyling.dark,
-        color: 'white',
         width: '100%',
         borderRadius: 10,
         paddingVertical: 8,

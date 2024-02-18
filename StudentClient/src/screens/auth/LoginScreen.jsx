@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import apiEndpoints from '../../services/api.js';
 import { useToken } from '../../context/TokenContext.jsx';
+
 import { defaultStyling } from '../../constant/styles.js';
 import LoginGif from '../../assest/image/auth-img.png'
 import AuthFrmae from '../../components/frames/AuthFrame.jsx'
@@ -16,10 +17,9 @@ const LoginScreen = () => {
 
     const [registrationNo, setRegistrationNo] = useState('');
     const [password, setPassword] = useState('');
-    const [authToken, setAuthToken, token] = useState('')
 
     const navigation = useNavigation();
-    const { storeToken, getToken } = useToken()
+    const { storeToken } = useToken()
 
     const handleLogin = async () => {
         try {
@@ -39,46 +39,28 @@ const LoginScreen = () => {
                     password: password,
                 });
 
-                if (res.status === 200) {
-                    setAuthToken(res.data.token)
-                    // storeToken(authToken)
+                if (res.token !== '') {
+                    await handleStoreToken(res.token);
                     navigation.navigate('Home');
                 }
-
             }
         } catch (error) {
             console.error('Error while login: ', error);
         }
     };
 
+
+    const handleStoreToken = async (newToken) => {
+        try {
+            await storeToken(newToken);
+        } catch (error) {
+            console.error('Error storing token:', error);
+        }
+    };
+
     const goToSignup = () => {
         navigation.navigate('Signup');
     };
-
-    // const handleGetToken = async () => {
-    //     try {
-    //         const res = await getToken()
-    //         return res;
-    //     } catch (error) {
-    //         console.error('Error while fetching token data: ', error);
-    //         return;
-    //     }
-    // }
-
-    useEffect(() => {
-
-
-        // if (token !== '') {
-        //     console.log('token : ', token)
-        //     navigation.navigate('Home');
-        // }
-
-    }, [])
-
-    // console.log('token: ', token)
-
-    // console.log('authToken: ', authToken)
-    // console.log('------------------------------------------')
 
     return (
         <AuthFrmae text='Login' img={LoginGif}>
@@ -96,7 +78,9 @@ const LoginScreen = () => {
                 secureTextEntry
             />
             <Button mode="contained" onPress={handleLogin} style={styles.button}>
-                Login
+                <Text style={{ color: 'white' }} >
+                    Login
+                </Text>
             </Button>
             <TouchableHighlight>
                 <Text style={styles.signupText} onPress={goToSignup}>
@@ -111,7 +95,7 @@ const styles = StyleSheet.create({
     input: {
         marginBottom: 20,
         backgroundColor: 'white',
-        color: defaultStyling.dark
+        color: 'black'
     },
     button: {
         marginTop: 10,

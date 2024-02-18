@@ -6,6 +6,7 @@ import LandingScreen from '../screens/App.jsx'
 import LoginScreen from '../screens/auth/LoginScreen.jsx';
 import SignupScreen from '../screens/auth/SingupScreen.jsx';
 import HomeScreen from '../screens/home/HomeScreen.jsx';
+import AboutScreen from '../screens/home/About.jsx';
 import QuizTestScreen from '../screens/quiz/QuizTestScreen.jsx';
 import ResultScreen from '../screens/quiz/ResultScreen.jsx';
 
@@ -34,6 +35,7 @@ const Navigations = () => {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="About" component={AboutScreen} />
             <Stack.Screen name="Quiz Test" component={QuizTestScreen} />
             <Stack.Screen name="Result" component={ResultScreen} />
         </Stack.Navigator>

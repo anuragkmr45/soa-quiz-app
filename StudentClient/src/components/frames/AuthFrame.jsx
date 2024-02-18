@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     card: {
+        // backgroundColor: defaultStyling.semidark,
         width: '100%',
         height: '100%',
         borderTopLeftRadius: 50,

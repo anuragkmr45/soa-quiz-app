@@ -11,7 +11,6 @@ const api = axios.create({
 });
 
 const setAuthToken = (token, includeBearer = true) => {
-
     if (token) {
         if (includeBearer) {
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -24,22 +23,57 @@ const setAuthToken = (token, includeBearer = true) => {
 };
 
 const apiEndpoints = {
-    login: ({ registrationNumber, password }) => api.post('/student-login', { registrationNumber, password }),
-    logout: () => api.post('/student-logout').then(response => console.log(response)).catch(error => console.error(error)),
-    register: ({ name, registrationNumber, email, password, batch, branch, section, course }) =>
-        api.post('/student-register', { name, registrationNumber, email, password, batch, branch, section, course }),
-    getProfile: (token) => {
-        setAuthToken(token);
-        return api.get('/student-profile');
+    login: async ({ registrationNumber, password }) => {
+        try {
+            const response = await api.post('/student-login', { registrationNumber, password });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     },
-    joinQuiz: ({ quizId, password }) => {
+    logout: async () => {
+        try {
+            const response = await api.post('/student-logout');
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    register: async ({ name, registrationNumber, email, password, batch, branch, section, course }) => {
+        try {
+            const response = await api.post('/student-register', { name, registrationNumber, email, password, batch, branch, section, course });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    getProfile: async (token) => {
+        setAuthToken(token);
+        try {
+            const response = await api.get('/student-profile');
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    joinQuiz: async ({ quizId, password }) => {
         const token = localStorage.getItem('token');
         setAuthToken(token);
-        return api.post('/join-live-quiz', { quizId, password });
+        try {
+            const response = await api.post('/join-live-quiz', { quizId, password });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     },
-    getMyResults: (token) => {
+    getMyResults: async (token) => {
         setAuthToken(token);
-        return api.get('/my-results');
+        try {
+            const response = await api.get('/my-results');
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     },
 };
 

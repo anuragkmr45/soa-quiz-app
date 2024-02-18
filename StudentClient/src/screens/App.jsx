@@ -1,15 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { defaultStyling } from '../constant/styles';
+import { useToken } from '../context/TokenContext';
 
+import { defaultStyling } from '../constant/styles';
 import BgImg from '../assest/image/bg-img.png';
 import HeroImg from '../assest/image/heroimg.png'
 
 const App = () => {
 
+    const [token, setToken] = useState('')
+
     const navigation = useNavigation();
+    const { getToken } = useToken();
+
+    const handleNavigation = () => {
+        try {
+            if (token === null) {
+                navigation.navigate('Login')
+            }
+            if (token !== null) {
+                navigation.navigate('Home')
+            }
+        } catch (error) {
+            console.error('Error while navigation: ', error);
+        }
+    }
+
+    useEffect(() => {
+
+        const fetchToken = async () => {
+            try {
+                const authToken = await getToken();
+                setToken(authToken)
+            } catch (error) {
+                console.error('Error retrieving token:', error);
+            }
+        };
+
+        fetchToken();
+    }, [getToken]);
+
 
     return (
         <ImageBackground
@@ -22,8 +54,10 @@ const App = () => {
                     <Image source={HeroImg} style={styles.image} />
                     <Text style={styles.text}>SOA Quiz App</Text>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('Login') }}>
-                    <Text style={styles.buttonText}>Get Started</Text>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={handleNavigation}>
+                    <Text style={styles.buttonText}>Get Started </Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>
