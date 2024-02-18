@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const authenticateStudentToken = (token) => {
     try {
         const decoded = jwt.verify(token.replace(/^Bearer\s/, ''), process.env.JWT_SECRET);
-        return { 
+        return {
             registrationNumber: decoded.registrationNumber,
             name: decoded.name,
             batch: decoded.batch,

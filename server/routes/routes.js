@@ -16,10 +16,10 @@ module.exports = (io) => {
     // quiz
     const createQuizController = require("../controllers/quizzes/createQuizController");
     const createLiveQuizController = require("../controllers/teachers/quiz/makeQuizLive");
-    const joinLiveQuizController = require("../controllers/students/quiz/joinLiveQuiz");
     const getQuizDetailsController = require("../controllers/teachers/quiz/getQuizDetails");
 
     // student's side
+    const joinLiveQuizController = require("../controllers/students/quiz/joinLiveQuiz");
     const studentLoginController = require("../controllers/students/auth/login")
     const studentRegController = require("../controllers/students/auth/register")
     const studentProfile = require("../controllers/students/profile/studentProfile")
@@ -34,6 +34,7 @@ module.exports = (io) => {
     router.post('/teacher-register', registerController);
     router.post('/dashboard/add-quiz', authenticateTeacher, createQuizController);
     router.post('/dashboard/make-quiz-live', authenticateTeacher, (req, res) => createLiveQuizController(req, res, io));
+    router.post('/join-live-quiz', authenticateStudent, (req, res) => joinLiveQuizController(req, res, io));
     router.post('/student-login', studentLoginController);
     router.post('/student-register', studentRegController);
     router.post('/student-logout', authenticateStudent, logoutStudentController);
