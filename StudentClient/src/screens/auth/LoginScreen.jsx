@@ -17,23 +17,23 @@ const LoginScreen = () => {
 
     const [registrationNo, setRegistrationNo] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false)
 
     const navigation = useNavigation();
     const { storeToken } = useToken()
 
     const handleLogin = async () => {
+        setLoading(true);
         try {
             if (registrationNo === '') {
-                alert('Registration no is required');
-                return;
+                throw new Error('Registration number is required.');
             }
 
             if (password === '') {
-                alert('Password is required');
-                return;
+                throw new Error('Password is required.');
             }
 
-            if (registrationNo !== '' && password !== '') {
+            if (registrationNo !== '' & password !== '') {
                 const res = await apiEndpoints.login({
                     registrationNumber: registrationNo,
                     password: password,
@@ -44,8 +44,12 @@ const LoginScreen = () => {
                     navigation.navigate('Home');
                 }
             }
+
         } catch (error) {
-            console.error('Error while login: ', error);
+            // console.error('Error while login: ', error);
+            alert('Login failed. Please check your credentials and try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -54,7 +58,7 @@ const LoginScreen = () => {
         try {
             await storeToken(newToken);
         } catch (error) {
-            console.error('Error storing token:', error);
+            // console.error('Error storing token:', error);
         }
     };
 
@@ -77,10 +81,20 @@ const LoginScreen = () => {
                 onChangeText={text => setPassword(text)}
                 secureTextEntry
             />
-            <Button mode="contained" onPress={handleLogin} style={styles.button}>
-                <Text style={{ color: 'white' }} >
-                    Login
-                </Text>
+            <Button mode="contained" onPress={handleLogin} style={styles.button} disabled={loading}>
+
+                {
+                    loading ? (
+                        <Text style={{ color: 'white' }} >
+                            Loading ...
+                        </Text>
+                    ) : (
+                        <Text style={{ color: 'white' }} >
+                            Login
+                        </Text>
+                    )
+                }
+
             </Button>
             <TouchableHighlight>
                 <Text style={styles.signupText} onPress={goToSignup}>

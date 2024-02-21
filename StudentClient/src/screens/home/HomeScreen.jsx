@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Modal, ActivityIndicator } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
@@ -15,13 +15,17 @@ import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard';
 
 const HomeScreen = () => {
 
-    const [token, setToken] = useState('')
-    const [profile, setProfile] = useState()
+    const [token, setToken] = useState('');
+    const [profile, setProfile] = useState();
+    const [loading, setLoading] = useState(false);
+    const [dataLoading, setDataLoading] = useState(false);
+    // const [modalVisible, setModalVisible] = useState(false);
 
     const { deleteToken, getToken } = useToken();
     const navigation = useNavigation();
 
     const handleLogout = async () => {
+        setLoading(true)
         try {
             await deleteToken();
             const res = await apiEndpoints.logout();
@@ -29,17 +33,21 @@ const HomeScreen = () => {
         } catch (error) {
             console.error('Error while logout: ', error)
             alert('Something went wrong !! Try again later')
+        } finally {
+            setLoading(false)
         }
     }
 
     const handleProfile = async () => {
-
+        setDataLoading(true)
         await fetchToken();
         try {
             const res = await apiEndpoints.getProfile(token)
             setProfile(res)
         } catch (error) {
             console.error('Error while feetching student profile: ', error);
+        } finally {
+            setDataLoading(false)
         }
     }
 
@@ -86,11 +94,37 @@ const HomeScreen = () => {
 
             <View style={styles.buttonContainer}>
                 <Button mode="contained" icon='' style={styles.button} onPress={handleLogout}>
-                    <Text style={{ color: 'white' }} >
-                        Logout
-                    </Text>
+
+                    {
+                        loading ? (
+                            <Text style={{ color: 'white' }} >
+                                loading ...
+                            </Text>
+                        ) : (
+                            <Text style={{ color: 'white' }} >
+                                Logout
+                            </Text>
+                        )
+                    }
                 </Button>
             </View>
+
+            {/* Modal for loading */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={dataLoading}
+                onRequestClose={() => {
+                    // Handle modal close if needed
+                }}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <ActivityIndicator size="large" color="white" />
+                        <Text style={styles.modalText}>Loading...</Text>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -142,7 +176,23 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         paddingVertical: 5,
     },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    },
+    modalContent: {
+        backgroundColor: defaultStyling.dark,
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalText: {
+        marginTop: 10,
+        fontSize: 16,
+        color: 'white'
+    },
 });
-
 
 export default HomeScreen;

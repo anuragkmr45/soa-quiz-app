@@ -17,6 +17,7 @@ const SignupScreen = () => {
     const [branch, setBranch] = useState('');
     const [section, setSection] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false)
 
     const navigation = useNavigation();
 
@@ -25,7 +26,7 @@ const SignupScreen = () => {
     };
 
     const handleSignup = async () => {
-
+        setLoading(true)
         try {
 
             if (name !== '' && regNo !== '' && batch !== '' && branch !== '' && section !== '' && password !== '') {
@@ -50,6 +51,8 @@ const SignupScreen = () => {
         } catch (error) {
             console.error("Error while signup: ", error)
             Alert.alert(`${name} Already Exist !! `)
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -107,9 +110,19 @@ const SignupScreen = () => {
                 style={styles.input}
             />
             <Button mode="contained" onPress={handleSignup} style={styles.button}>
-                <Text style={{ color: 'white' }}>
-                    Sign Up
-                </Text>
+
+                {
+                    loading ? (
+                        <Text style={{ color: 'white' }}>
+                            Loading ...
+                        </Text>
+                    ) : (
+                        <Text style={{ color: 'white' }}>
+                            Sign Up
+                        </Text>
+                    )
+                }
+
             </Button>
             <Text onPress={goToLogin} style={styles.signupText} >
                 Already having acoount? Go to Login

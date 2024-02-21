@@ -72,38 +72,27 @@ async function createQuizController(req, res) {
 
     console.log('QuizID:', QuizID);
 
-    for (const { Question, Options, Answer } of Questions) {
-      // Insert into Questions Table
-      const insertQuestionQuery = `
-        INSERT INTO Questions (Question, Option1, Option2, Option3, Option4, Answer, TopicID)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-        RETURNING QuestionID
-      `;
-      const questionResult = await pool.query(insertQuestionQuery, [
-        Question,
-        Options[0],
-        Options[1],
-        Options[2],
-        Options[3],
-        Answer,
-        topicID,
-      ]);
+    for (const { Question, Option1, Option2, Option3, Option4, Answer } of Questions) {
+      console.log('Inserting Question:', Question);
+      const insertQuestionResult = await pool.query(
+        `INSERT INTO Questions (Question, Option1, Option2, Option3, Option4, Answer, TopicID)
+        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING QuestionID`,
+        [Question, Option1, Option2, Option3, Option4, Answer, topicID]
+      );
+      const questionID = insertQuestionResult.rows[0].questionid;
+      console.log('Inserted Question ID:', questionID);
 
-      const QuestionID = questionResult.rows[0].questionid;
-
-      // Insert into QuizQuestions Table
-      const insertQuizQuestionQuery = `
-        INSERT INTO QuizQuestions (QuizID, QuestionID)
-        VALUES ($1, $2)
-      `;
-      console.log('Inserting into QuizQuestions:', QuizID, QuestionID);
-      await pool.query(insertQuizQuestionQuery, [QuizID, QuestionID]);
+      await pool.query(
+        `INSERT INTO QuizQuestions (QuizID, QuestionID) VALUES ($1, $2)`,
+        [quizID, questionID]
+      );
+      console.log('Linked QuestionID:', questionID, 'with QuizID:', quizID);
     }
 
-    res.status(201).json({ success: true, message: 'Quiz created successfully' });
+    res.status(201).json({ success: true, message: 'Quiz created successfully', quizID });
   } catch (error) {
     console.error('Error creating quiz:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    res.status(500).json({ success: false, message: 'Internal Server Error', detail: error.message });
   }
 }
 

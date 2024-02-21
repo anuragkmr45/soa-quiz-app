@@ -75,10 +75,11 @@ const AddQuizes = () => {
             if (!jsonData || !jsonData.Title || !jsonData.Questions || !jsonData.Questions.length) {
                 throw new Error('Quiz data is incomplete.');
             }
-            console.log('jsonData: ', jsonData)
+            // console.log('jsonData: ', jsonData)
             const res = await apiEndpoints.teacher.createQuiz(jsonData);
+            // console.log(res)
 
-            if (res.status === 200) {
+            if (res.status === 201) {
                 navigate('/dashboard/previous-quizes')
             }
 

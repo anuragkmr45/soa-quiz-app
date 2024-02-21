@@ -10,10 +10,11 @@ const LiveQuizes = () => {
     const [quizId, setQuizId] = useState('');
     const [duration, setDuration] = useState('');
     const [roomPassword, setRoomPassword] = useState('');
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setLoading(true)
         try {
 
             if (quizId === '') {
@@ -27,9 +28,9 @@ const LiveQuizes = () => {
             if (quizId !== '' && duration !== '') {
                 const response = await apiEndpoints.teacher.createLiveQuiz({ quizId, duration });
                 if (response.status === 200) {
-
+                    console.log(response)
                     showSuccessToast(`Quiz :- ${quizId} Is Live Now for new ${duration} min !!`)
-                    const { roomPassword } = response.data.roomPassword;
+                    const { roomPassword } = response;
                     setRoomPassword(roomPassword);
                 } else {
                     console.error("Error while creating quiz live: ", response.status)
@@ -38,6 +39,8 @@ const LiveQuizes = () => {
 
         } catch (error) {
             console.error('Error creating live quiz:', error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -51,6 +54,8 @@ const LiveQuizes = () => {
             console.error('Error copying room password:', error);
         }
     };
+
+    console.log(roomPassword)
 
     return (
         <DashBoard>
@@ -81,13 +86,26 @@ const LiveQuizes = () => {
                                     onChange={(value) => { setDuration(value.target.value) }}
                                     required
                                 />
-                                <button
-                                    className="btn btn-outline-secondary"
-                                    type='submit'
-                                    onClick={handleSubmit}
-                                >
-                                    Create Live Quiz
-                                </button>
+
+                                {
+                                    loading ? (
+                                        <button
+                                            className="btn btn-outline-secondary"
+                                        >
+                                            Loading ...
+                                        </button>
+                                    ) : (
+
+                                        <button
+                                            className="btn btn-outline-secondary"
+                                            type='submit'
+                                            onClick={handleSubmit}
+                                        >
+                                            Create Live Quiz
+                                        </button>
+                                    )
+                                }
+
                             </form>
                         </div>
                     )

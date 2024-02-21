@@ -4,7 +4,7 @@ const baseURL = 'http://localhost:5000';
 
 const api = axios.create({
     baseURL: baseURL,
-    timeout: 10000,
+    // timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -51,6 +51,11 @@ const apiEndpoints = {
             const token = localStorage.getItem('authToken');
             setAuthToken(token, false);
             return api.get(`/teachers/dashboard/previous-quizes/${quizId}`);
+        },
+        getQuizDetails: (quizId) => {
+            const token = localStorage.getItem('authToken');
+            setAuthToken(token, true);
+            return api.get(`/dashboard/quiz-preview?quizId=${quizId}`);
         },
         getQuizResults: (token, quizId) => {
             setAuthToken(token);

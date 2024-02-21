@@ -38,7 +38,7 @@ router.post('/student-login', studentLoginController);
 router.post('/student-register', studentRegController);
 router.post('/student-logout', authenticateStudent, logoutStudentController);
 router.post('/join-quiz', authenticateStudent, joinLiveQuizController);
-router.post('/score-counter', authenticateStudent, scoreCounterController); // Fixed route naming
+router.post('/score-counter', authenticateStudent, scoreCounterController);
 router.get('/student-profile', authenticateStudent, studentProfile);
 router.get('/my-results', authenticateStudent, checkStudentResultController);
 
