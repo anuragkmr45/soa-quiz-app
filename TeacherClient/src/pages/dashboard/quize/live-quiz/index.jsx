@@ -28,10 +28,10 @@ const LiveQuizes = () => {
             if (quizId !== '' && duration !== '') {
                 const response = await apiEndpoints.teacher.createLiveQuiz({ quizId, duration });
                 if (response.status === 200) {
-                    console.log(response)
+                    // console.log(response.data.RoomPassword)
                     showSuccessToast(`Quiz :- ${quizId} Is Live Now for new ${duration} min !!`)
-                    const { roomPassword } = response;
-                    setRoomPassword(roomPassword);
+                    // const { roomPassword } = ;
+                    setRoomPassword(response.data.RoomPassword);
                 } else {
                     console.error("Error while creating quiz live: ", response.status)
                 }
@@ -55,7 +55,7 @@ const LiveQuizes = () => {
         }
     };
 
-    console.log(roomPassword)
+    // console.log(roomPassword)
 
     return (
         <DashBoard>

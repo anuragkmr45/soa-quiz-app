@@ -26,7 +26,7 @@ const apiEndpoints = {
     login: async ({ registrationNumber, password }) => {
         try {
             const response = await api.post('/student-login', { registrationNumber, password });
-            return response.data;
+            return response;
         } catch (error) {
             throw error;
         }
@@ -56,11 +56,11 @@ const apiEndpoints = {
             throw error;
         }
     },
-    joinQuiz: async ({ quizId, password }) => {
-        const token = localStorage.getItem('token');
+    joinQuiz: async ({ quizId, password, token }) => {
         setAuthToken(token);
+        console.log('quiz called ')
         try {
-            const response = await api.post('/join-live-quiz', { quizId, password });
+            const response = await api.post('/join-quiz', { quizId, password, token });
             return response.data;
         } catch (error) {
             throw error;

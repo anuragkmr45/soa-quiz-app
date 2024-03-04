@@ -1,8 +1,9 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, AppState } from 'react-native';
+import apiEndpoints from '../../services/api';
 
 import CountDown from 'react-native-countdown-component';
-import QuizCard from '../../components/cards/QuizCard';
+// import QuizCard from '../../components/cards/QuizCard';
 import BgImg from '../../assest/image/bg-img.png';
 import { defaultStyling } from '../../constant/styles';
 
@@ -42,12 +43,12 @@ const QuizTestScreen = () => {
                 timeToShow={['M', 'S']}
                 timeLabels={{ m: 'MM', s: 'SS' }}
             />
-            <View style={styles.overlayContainer}>
+            {/* <View style={styles.overlayContainer}>
                 <QuizCard />
             </View>
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Next</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </ImageBackground>
     );
 };

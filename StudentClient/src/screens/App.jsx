@@ -24,7 +24,7 @@ const App = () => {
                 navigation.navigate('Home')
             }
         } catch (error) {
-            console.error('Error while navigation: ', error);
+            console.log('Something went wrong !! restart the app')
         }
     }
 
@@ -36,6 +36,7 @@ const App = () => {
                 setToken(authToken)
             } catch (error) {
                 console.error('Error retrieving token:', error);
+                // alert('Something went wrong !! restart the app')
             }
         };
 

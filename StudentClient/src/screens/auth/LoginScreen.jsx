@@ -15,6 +15,19 @@ const LoginScreen = () => {
     // reg no = 2141011114
     // pass = anurag1234
 
+    //     {
+    //   "name": "John Doe",
+    //   "registrationNumber": "123456789",
+    //   "email": "john.doe@example.com",
+    //   "password": "password123",
+    //   "batch": "2023",
+    //   "branch": "Computer Science",
+    //   "section": "A",
+    //   "course": "Bachelor of Science in Computer Science"
+    // }
+
+
+
     const [registrationNo, setRegistrationNo] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
@@ -36,18 +49,20 @@ const LoginScreen = () => {
             if (registrationNo !== '' & password !== '') {
                 const res = await apiEndpoints.login({
                     registrationNumber: registrationNo,
-                    password: password,
+                    password: password
                 });
-
-                if (res.token !== '') {
-                    await handleStoreToken(res.token);
-                    navigation.navigate('Home');
+                // console.log(res)
+                if (res.status === 200) {
+                    await handleStoreToken(res.data.token);
+                    console.log(res.data.token)
+                    // navigation.navigate('Home');
                 }
+                // console.log(res)
             }
 
         } catch (error) {
-            // console.error('Error while login: ', error);
-            alert('Login failed. Please check your credentials and try again.');
+            console.error('Error while login: ', error);
+            // alert('Login failed. Please check your credentials and try again.');
         } finally {
             setLoading(false);
         }
@@ -56,9 +71,11 @@ const LoginScreen = () => {
 
     const handleStoreToken = async (newToken) => {
         try {
+            // console.log(newToken)
             await storeToken(newToken);
         } catch (error) {
             // console.error('Error storing token:', error);
+            alert('Something went wrong !! Try again later')
         }
     };
 
@@ -109,7 +126,7 @@ const styles = StyleSheet.create({
     input: {
         marginBottom: 20,
         backgroundColor: 'white',
-        color: 'black'
+        color: 'white',
     },
     button: {
         marginTop: 10,

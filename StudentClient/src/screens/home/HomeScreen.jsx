@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Modal, ActivityIndicator } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+// import { WebView } from 'react-native-webview';
 
 import { useToken } from '../../context/TokenContext';
 import apiEndpoints from '../../services/api';
@@ -15,7 +16,7 @@ import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard';
 
 const HomeScreen = () => {
 
-    const [token, setToken] = useState('');
+    const [token, setToken] = useState();
     const [profile, setProfile] = useState();
     const [loading, setLoading] = useState(false);
     const [dataLoading, setDataLoading] = useState(false);
@@ -29,7 +30,12 @@ const HomeScreen = () => {
         try {
             await deleteToken();
             const res = await apiEndpoints.logout();
-            console.log('res: ', res)
+            // console.log('res: ', res)
+            if (res?.message === "Logout successful") {
+                navigation.navigate('Login')
+            } else {
+                alert('Something went wrong!! Restart your app')
+            }
         } catch (error) {
             console.error('Error while logout: ', error)
             alert('Something went wrong !! Try again later')
@@ -44,8 +50,11 @@ const HomeScreen = () => {
         try {
             const res = await apiEndpoints.getProfile(token)
             setProfile(res)
+            console.log(res)
         } catch (error) {
-            console.error('Error while feetching student profile: ', error);
+            console.log('error while getting profile: ', error)
+            // alert('Try');
+            navigation.navigate('Login')
         } finally {
             setDataLoading(false)
         }
@@ -56,6 +65,7 @@ const HomeScreen = () => {
             const authToken = await getToken()
             // console.log('Token retrieved:', authToken);
             setToken(authToken)
+            // console.log('token: ', token)
         } catch (error) {
             console.error('Error while fetching token: ', error)
         }
@@ -67,7 +77,8 @@ const HomeScreen = () => {
     }, []);
 
     useEffect(() => {
-        if (token) {
+        if (token !== null) {
+            // console.log('token home:', token)
             handleProfile();
         }
     }, [token]);
@@ -93,20 +104,22 @@ const HomeScreen = () => {
             <UploadQuizDtlCard />
 
             <View style={styles.buttonContainer}>
-                <Button mode="contained" icon='' style={styles.button} onPress={handleLogout}>
 
-                    {
-                        loading ? (
+                {
+                    loading ? (
+                        <Button mode='contained' style={styles.button}>
                             <Text style={{ color: 'white' }} >
                                 loading ...
                             </Text>
-                        ) : (
+                        </Button>
+                    ) : (
+                        <Button mode="contained" icon='' style={styles.button} onPress={handleLogout}>
                             <Text style={{ color: 'white' }} >
                                 Logout
                             </Text>
-                        )
-                    }
-                </Button>
+                        </Button>
+                    )
+                }
             </View>
 
             {/* Modal for loading */}
@@ -122,6 +135,7 @@ const HomeScreen = () => {
                     <View style={styles.modalContent}>
                         <ActivityIndicator size="large" color="white" />
                         <Text style={styles.modalText}>Loading...</Text>
+                        {/* <WebView src="https://giphy.com/embed/L2lkyiSIYFq6f4gAqq" width="480" height="324" frameBorder="0" class="giphy-embed" allowFullScreen></WebView><p><a href="https://giphy.com/stickers/harrypotter-transparent-harry-potter-dark-arts-L2lkyiSIYFq6f4gAqq">via GIPHY</a></p> */}
                     </View>
                 </View>
             </Modal>
@@ -183,7 +197,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
     },
     modalContent: {
-        backgroundColor: defaultStyling.dark,
+        backgroundColor: 'inherit',
         padding: 20,
         borderRadius: 10,
         alignItems: 'center',

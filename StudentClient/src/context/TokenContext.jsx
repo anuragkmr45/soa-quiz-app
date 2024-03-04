@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useAppState } from '@react-native-community/hooks';
-// import * as Keychain from 'react-native-keychain'; 
-import RNSInfo from 'react-native-sensitive-info'; // Import react-native-sensitive-info
+import RNSInfo from 'react-native-sensitive-info';
 
 const TokenContext = createContext();
 
@@ -15,15 +14,18 @@ export const TokenProvider = ({ children }) => {
 
     const storeToken = async (newToken) => {
         try {
+            const tokenString = JSON.stringify(newToken);
+            // console.log('tokenString: ', tokenString)
+
             if (Platform.OS === 'ios') {
                 // await Keychain.setGenericPassword(TOKEN_KEY, newToken);
             } else {
-                await RNSInfo.setItem(TOKEN_KEY, newToken, {
+                await RNSInfo.setItem(TOKEN_KEY, tokenString, {
                     sharedPreferencesName: 'mySharedPrefs',
                     keychainService: 'myKeychain'
                 });
             }
-            setToken(newToken);
+            setToken(tokenString);
         } catch (error) {
             console.error('Error storing token:', error);
         }
@@ -49,25 +51,31 @@ export const TokenProvider = ({ children }) => {
         try {
             let storedToken = null;
             if (Platform.OS === 'ios') {
-                // const credentials = await Keychain.getGenericPassword();
-                // storedToken = credentials ? credentials.password : null;
+                // For iOS storage using Keychain, if needed
             } else {
                 storedToken = await RNSInfo.getItem(TOKEN_KEY, {
                     sharedPreferencesName: 'mySharedPrefs',
                     keychainService: 'myKeychain'
                 });
             }
-            if (storedToken) {
+
+            // Check if storedToken is a stringified JSON object
+            if (storedToken && typeof storedToken === 'string') {
+                // If it's a stringified JSON object, parse it to get the string token
                 setToken(storedToken);
                 return storedToken;
             } else {
-                return null;
+                const tokenString = JSON.stringify(storedToken);
+                setToken(tokenString);
+                console.log(tokenString)
+                return tokenString;
             }
         } catch (error) {
             console.error('Error getting token:', error);
             return null;
         }
     };
+
 
     // Custom hook to persist token storage across app lifecycle
     const appState = useAppState();

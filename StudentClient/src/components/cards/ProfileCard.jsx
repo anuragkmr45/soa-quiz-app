@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, Text, Modal, Portal, Button } from 'react-native-paper';
 import { View, StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -8,12 +8,12 @@ import { defaultStyling } from '../../constant/styles';
 
 const ProfileCard = ({ profile }) => {
 
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = useState(false);
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
     const containerStyle = { backgroundColor: 'white', padding: 20 };
-
+    // console.log(profile)
     return (
         <>
             <View style={styles.container}>

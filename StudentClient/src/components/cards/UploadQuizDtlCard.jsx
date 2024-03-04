@@ -1,25 +1,42 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Card, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Text } from 'react-native';
-// import apiEndpoints from '../../services/api';
+import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
+import { useToken } from '../../context/TokenContext';
 
 const UploadQuizDtlCard = () => {
-    const [quizId, setQuizId] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [quizId, setQuizId] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [authTok, setAuthToken] = useState()
 
     const navigation = useNavigation();
+    const { getToken } = useToken()
 
-    // const handleJoinQuiz = async () => {
-    //     try {
-    //         const res = await apiEndpoints.joinQuiz(quizId, password)
-    //     } catch (error) {
-    //         console.error('Error while joining quiz: ', error)
-    //     }
-    //     console.log('Quiz ID:', quizId);
-    //     console.log('Password:', password);
-    // };
+    const handleJoinQuiz = async () => {
+        setLoading(true)
+        try {
+            const res = await apiEndpoints.joinQuiz('itersoa', 'aWy96bXO', authTok)
+            console.log(res);
+        } catch (error) {
+            console.error('Error while joining quiz: ', error)
+        } finally {
+            setLoading(false)
+        }
+    };
+
+    useEffect(() => {
+
+        const handleAuthToken = () => {
+            const authTok = getToken()
+            setAuthToken(authTok)
+            console.log(authTok)
+        }
+
+        handleAuthToken()
+    }, [])
 
     return (
         <View style={styles.container}>
@@ -45,7 +62,14 @@ const UploadQuizDtlCard = () => {
                         secureTextEntry
                         style={styles.input}
                     />
-                    <Button mode="outlined" onPress={() => navigation.navigate('Quiz')} style={styles.button}>
+
+                    {/* {
+                        loading ? (
+                        
+                        ) : ()
+                    } */}
+
+                    <Button mode="outlined" onPress={handleJoinQuiz} style={styles.button}>
                         <Text style={{ color: 'white' }} >
                             Join Quiz
                         </Text>
