@@ -40,6 +40,7 @@ const AuthFrame = ({ children, text, img }) => {
                     <View style={styles.topSection}>
                         <Text style={{ color: defaultStyling.dark, fontSize: 20, fontWeight: 500 }}>{text}</Text>
                         <Text style={{ color: defaultStyling.dark, fontSize: 10 }}>Please {text} To Continue</Text>
+                        {/* <Text style={{ color: defaultStyling.dark, fontSize: 10 }}>Login With the same </Text> */}
                     </View>
                     <ScrollView contentContainerStyle={styles.scrollViewContent}>
                         {children}

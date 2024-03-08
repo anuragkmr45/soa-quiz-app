@@ -6,6 +6,7 @@ import useAuthToken from '../hooks/token-manager/useAuthToken';
 import { defaultStyling } from '../constant/styles';
 import BgImg from '../assest/image/bg-img.png';
 import HeroImg from '../assest/image/heroimg.png'
+// import LoginIcon from '../assest/icons/login-icon.png'
 
 const App = () => {
 
@@ -54,7 +55,8 @@ const App = () => {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => { navigation.navigate('Login') }}>
-                            <Text style={styles.buttonText}>Login </Text>
+                            <Text style={styles.buttonText}>Login</Text>
+                            {/* <Image src={LoginIcon} alt="" /> */}
                         </TouchableOpacity>
                     )
                 }

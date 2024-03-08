@@ -46,11 +46,9 @@ const QuizTestScreen = ({ route }) => {
                 quizId: quizData.quizID,
                 responses: userResponses,
             })
-            console.log('quiz res score : ', res.data.score)
-            console.log('quiz res status: ', res.data.success)
 
             if (res.data.success === true) {
-                navigation.navigate('Result', { quizScore: res.data.score })
+                navigation.navigate('Result', { quizResult: res.data })
             }
 
         } catch (error) {

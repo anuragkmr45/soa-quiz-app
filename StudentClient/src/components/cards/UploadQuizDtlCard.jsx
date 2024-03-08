@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Card, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Text } from 'react-native';
+
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
 
@@ -16,7 +17,7 @@ const UploadQuizDtlCard = () => {
         setLoading(true)
         try {
             // if (quizId !== '' && password !== '') {
-            const res = await apiEndpoints.joinQuiz({ quizId: 'itersoa1VQV', password: 'cIiwVNIz' })
+            const res = await apiEndpoints.joinQuiz({ quizId: 'itersoaPY5K', password: 'Z4NFcZsF' })
 
             if (res.status === 200) {
                 const quizData = res.data

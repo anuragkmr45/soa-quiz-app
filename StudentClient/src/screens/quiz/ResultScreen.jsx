@@ -7,15 +7,17 @@ import { useNavigation } from '@react-navigation/native'
 import { defaultStyling } from '../../constant/styles';
 // import ResultGif from '../../assest/gif/result-gif.gif'
 
-const ResultScreen = () => {
+const ResultScreen = ({ route }) => {
     // Dummy data for demonstration
-    const marksObtained = 80;
-    const maxMarks = 100;
-    const totalQuestions = 20;
-    const totalCorrect = 16;
+    const { quizResult } = route.params;
+    const navigation = useNavigation();
+
+    const marksObtained = quizResult && quizResult.score;
+    const maxMarks = quizResult && quizResult.maxmarks;
+    const totalQuestions = quizResult && quizResult.totalQuestions;
+    const totalCorrect = quizResult && quizResult.totalCorrect;
     const totalIncorrect = totalQuestions - totalCorrect;
 
-    const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
@@ -24,7 +26,7 @@ const ResultScreen = () => {
                 style={styles.background}
                 resizeMode={FastImage.resizeMode.cover}
             /> */}
-            <Text style={styles.title}>Quiz Name Result</Text>
+            <Text style={styles.title}>{quizResult && quizResult.quizTitle} Result</Text>
             <View style={styles.resultContainer}>
                 <View style={styles.resultItem}>
                     <Text style={styles.resultLabel}>Marks Obtained:</Text>

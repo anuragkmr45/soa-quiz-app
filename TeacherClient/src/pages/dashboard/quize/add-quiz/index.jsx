@@ -147,7 +147,7 @@ const AddQuizes = () => {
                                     options={subjectOptions}
                                     value={selectedSubject}
                                     onChange={(value) => setSelectedSubject(value)}
-                                    className='input-ghost-secondary input max-w-full'
+                                    className='input-ghost-secondary input max-w-full text-black'
                                 />
                             </div>
                             <input

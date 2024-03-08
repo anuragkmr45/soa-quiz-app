@@ -67,6 +67,7 @@ const HomeScreen = () => {
     }
 
     useEffect(() => {
+
         handleProfile();
         handleResults();
     }, []);

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { BackHandler } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import useAuthToken from '../hooks/token-manager/useAuthToken.js';
 
 import SplashScreen from '../screens/SplashScreen';
 import LandingScreen from '../screens/App.jsx'
@@ -13,13 +16,45 @@ import ResultScreen from '../screens/quiz/ResultScreen.jsx';
 const Navigations = () => {
     const [splash, setSplash] = useState(true);
 
+    const navigation = useNavigation();
+    const { getToken } = useAuthToken()
+    const Stack = createNativeStackNavigator();
+
+    const handleGetToken = async () => {
+        try {
+            const res = await getToken();
+
+            if (res === '') {
+                navigation.navigate('Login')
+            }
+
+        } catch (error) {
+            console.error('error while getting token: ', error);
+        }
+    }
+
     useEffect(() => {
         setTimeout(() => {
             setSplash(false);
         }, 1610);
+        handleGetToken()
+        // Add event listener for back button press
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            () => {
+                // If user is on Login or Signup screen, navigate to Landing screen
+                if (currentRouteName === "Login" || currentRouteName === "Signup") {
+                    navigation.navigate("Landing");
+                    return true; // prevent default back button behavior
+                }
+                return false; // default back button behavior
+            }
+        );
+
+        // Cleanup function
+        return () => backHandler.remove();
     }, []);
 
-    const Stack = createNativeStackNavigator();
 
     return (
         <Stack.Navigator
