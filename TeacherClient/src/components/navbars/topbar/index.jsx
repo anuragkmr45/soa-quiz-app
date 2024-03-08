@@ -5,7 +5,7 @@ import { CiHome } from 'react-icons/ci';
 import { TiThMenuOutline } from "react-icons/ti";
 import { FaRegFileExcel } from "react-icons/fa";
 
-import LogoutModal from '../../modal/logout-modal'
+// import LogoutModal from '../../modal/logout-modal'
 
 const TopBar = ({ children }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);

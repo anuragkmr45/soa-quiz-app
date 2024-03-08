@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import SidebarNavigation from '../../navbars/sidebar';
 import TopbarNavigation from '../../navbars/topbar';
 
 const DashBoard = ({ children }) => {
     const [isMobileScreen, setIsMobileScreen] = useState(false);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         const handleResize = () => {
