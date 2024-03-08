@@ -39,7 +39,7 @@ const About = () => {
                 <TeamCard
                     img="https://firebasestorage.googleapis.com/v0/b/brandladder-webapp.appspot.com/o/team%2F1707362911480.jpg?alt=media&token=20fb203b-607a-4727-bc70-02b4e6f97d23"
                     name='Anurag Kumar'
-                    intro="Technical Director at Brandladder | Android Develeoper at EaseMyLiving |  Open source contributor | MERN Stack, Electron JS and NEXT. JS Developer| Cross Platform App Developer | Devops Trainee | Former CTO | Freelancer | CSE 25' SOA"
+                    intro="Tech Director at Brandladder | Android Develeoper at EaseMyLiving |  Open source contributor | MERN Stack, Electron JS and NEXT. JS Developer | React Native Cross Platform App Developer | Devops Trainee | Former CTO | Ex Project Lead At Progeeks | CSE 25' SOA"
                     insta='https://www.instagram.com/anuragkmr_45'
                     linkedin='https://www.linkedin.com/in/anuragkmr45'
                     github='https://github.com/anuragkmr45'

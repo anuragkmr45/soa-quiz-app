@@ -4,39 +4,33 @@ import { Button, Card, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Text } from 'react-native';
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
-import { useToken } from '../../context/TokenContext';
 
 const UploadQuizDtlCard = () => {
     const [quizId, setQuizId] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [authTok, setAuthToken] = useState()
 
     const navigation = useNavigation();
-    const { getToken } = useToken()
 
     const handleJoinQuiz = async () => {
         setLoading(true)
         try {
-            const res = await apiEndpoints.joinQuiz('itersoa', 'aWy96bXO', authTok)
-            console.log(res);
+            // if (quizId !== '' && password !== '') {
+            const res = await apiEndpoints.joinQuiz({ quizId: 'itersoa1VQV', password: 'cIiwVNIz' })
+
+            if (res.status === 200) {
+                const quizData = res.data
+                // console.log('quizData inside the upload quix card: ', quizData)
+                navigation.navigate('Quiz', { quizData: quizData })
+            }
+            // }
+
         } catch (error) {
             console.error('Error while joining quiz: ', error)
         } finally {
             setLoading(false)
         }
     };
-
-    useEffect(() => {
-
-        const handleAuthToken = () => {
-            const authTok = getToken()
-            setAuthToken(authTok)
-            console.log(authTok)
-        }
-
-        handleAuthToken()
-    }, [])
 
     return (
         <View style={styles.container}>
@@ -63,17 +57,22 @@ const UploadQuizDtlCard = () => {
                         style={styles.input}
                     />
 
-                    {/* {
+                    {
                         loading ? (
-                        
-                        ) : ()
-                    } */}
+                            <Button mode="outlined" style={styles.button}>
+                                <Text style={{ color: 'white' }} >
+                                    Loading ...
+                                </Text>
+                            </Button>
+                        ) : (
+                            <Button mode="outlined" onPress={handleJoinQuiz} style={styles.button}>
+                                <Text style={{ color: 'white' }} >
+                                    Join Quiz
+                                </Text>
+                            </Button>
+                        )
+                    }
 
-                    <Button mode="outlined" onPress={handleJoinQuiz} style={styles.button}>
-                        <Text style={{ color: 'white' }} >
-                            Join Quiz
-                        </Text>
-                    </Button>
                 </Card.Content>
             </Card>
         </View>

@@ -6,14 +6,14 @@ import FastImage from 'react-native-fast-image';
 import Avatar from '../../assest/gif/avatar.gif'
 import { defaultStyling } from '../../constant/styles';
 
-const ProfileCard = ({ profile }) => {
+const ProfileCard = ({ profile, results }) => {
 
     const [visible, setVisible] = useState(false);
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
     const containerStyle = { backgroundColor: 'white', padding: 20 };
-    // console.log(profile)
+
     return (
         <>
             <View style={styles.container}>
@@ -33,11 +33,27 @@ const ProfileCard = ({ profile }) => {
                     resizeMode={FastImage.resizeMode.cover}
                 />
             </View>
-            <Button mode="contained" style={{ backgroundColor: defaultStyling.semidark, borderRadius: 10, width: '80%', marginBottom: 10 }} onPress={showModal}>
-                <Text style={{ color: 'white' }}>
-                    My Profile
-                </Text>
-            </Button>
+            <View style={styles.buttonContainer}>
+                <Button mode="contained" style={styles.button} onPress={showModal}>
+                    <Text style={styles.buttonText}>
+                        My Profile
+                    </Text>
+                </Button>
+
+                {results ? (
+                    results.length === 0 ? (
+                        <Button mode="contained" style={styles.button}>
+                            <Text style={styles.buttonText}>No Data Found</Text>
+                        </Button>
+                    ) : (
+                        <Button mode="contained" style={styles.button}>
+                            <Text style={styles.buttonText}>Results</Text>
+                        </Button>
+                    )
+                ) : null}
+
+            </View>
+
             <Portal>
                 <Modal visible={visible} onDismiss={hideModal} style={{ backgroundColor: 'rgba(0,0,0, 0.6)', paddingHorizontal: 20 }} contentContainerStyle={containerStyle}>
                     <Card style={styles.card} >
@@ -45,6 +61,10 @@ const ProfileCard = ({ profile }) => {
                             <Text
                                 variant="bodyLarge"
                                 style={styles.cardContent}>Name : {profile?.name}
+                            </Text>
+                            <Text
+                                variant="bodyLarge"
+                                style={styles.cardContent}>Registration No : {profile?.registrationnumber}
                             </Text>
                             <Text
                                 variant="bodyLarge"
@@ -98,18 +118,22 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        // width: '100%',
+        justifyContent: 'center',
+        width: '100%',
         marginBottom: 10,
+        paddingHorizontal: 20
     },
     button: {
         backgroundColor: defaultStyling.semidark,
         borderRadius: 10,
-        width: '8%',
+        width: '43%', // Adjust the width as per your requirement
+        marginHorizontal: 5, // Adjust the horizontal spacing between buttons
     },
     buttonText: {
         color: 'white',
+        textAlign: 'center', // Center the text inside the button
     },
+
 });
 
 export default ProfileCard;

@@ -2,47 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { useToken } from '../context/TokenContext';
-
+import useAuthToken from '../hooks/token-manager/useAuthToken';
 import { defaultStyling } from '../constant/styles';
 import BgImg from '../assest/image/bg-img.png';
 import HeroImg from '../assest/image/heroimg.png'
 
 const App = () => {
 
-    const [token, setToken] = useState('')
+    const [isAuth, setIsAuth] = useState(false)
 
     const navigation = useNavigation();
-    const { getToken } = useToken();
-
-    const handleNavigation = () => {
-        try {
-            if (token === null) {
-                navigation.navigate('Login')
-            }
-            if (token !== null) {
-                navigation.navigate('Home')
-            }
-        } catch (error) {
-            console.log('Something went wrong !! restart the app')
-        }
-    }
+    const { getToken } = useAuthToken();
 
     useEffect(() => {
-
-        const fetchToken = async () => {
+        const handleGetToken = async () => {
             try {
-                const authToken = await getToken();
-                setToken(authToken)
+                const res = await getToken()
+
+                if (res) {
+                    setIsAuth(true)
+                }
+
             } catch (error) {
-                console.error('Error retrieving token:', error);
-                // alert('Something went wrong !! restart the app')
+                console.error('Error while getting auth token: ', error);
             }
-        };
+        }
 
-        fetchToken();
-    }, [getToken]);
-
+        handleGetToken();
+    }, [])
 
     return (
         <ImageBackground
@@ -55,11 +42,23 @@ const App = () => {
                     <Image source={HeroImg} style={styles.image} />
                     <Text style={styles.text}>SOA Quiz App</Text>
                 </View>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleNavigation}>
-                    <Text style={styles.buttonText}>Get Started </Text>
-                </TouchableOpacity>
+
+                {
+                    isAuth ? (
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => { navigation.navigate('Home') }}>
+                            <Text style={styles.buttonText}>Get Started </Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => { navigation.navigate('Login') }}>
+                            <Text style={styles.buttonText}>Login </Text>
+                        </TouchableOpacity>
+                    )
+                }
+
             </View>
         </ImageBackground>
     );

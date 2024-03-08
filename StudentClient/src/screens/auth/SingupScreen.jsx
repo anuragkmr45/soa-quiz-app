@@ -29,34 +29,34 @@ const SignupScreen = () => {
         setLoading(true)
         try {
 
-            // if (name !== '' && regNo !== '' && batch !== '' && branch !== '' && section !== '' && password !== '') {
-            // const res = await apiEndpoints.register({
-            //     name: name,
-            //     registrationNumber: regNo,
-            //     email: email,
-            //     password: password,
-            //     batch: batch,
-            //     branch: branch,
-            //     section: section,
-            //     course: course,
-            // })
-            const res = await apiEndpoints.register({
-                name: "John Doe",
-                registrationNumber: "0987654321",
-                email: "john@example.com",
-                password: "password123",
-                batch: "2023",
-                branch: "Computer Science",
-                section: "A",
-                course: "Bachelor of Science in Computer Science",
-            })
+            if (name !== '' && regNo !== '' && batch !== '' && branch !== '' && section !== '' && password !== '') {
+                const res = await apiEndpoints.register({
+                    name: name,
+                    registrationNumber: regNo,
+                    email: email,
+                    password: password,
+                    batch: batch,
+                    branch: branch,
+                    section: section,
+                    course: course,
+                })
+                // const res = await apiEndpoints.register({
+                //     name: "John Doe",
+                //     registrationNumber: "0987654321",
+                //     email: "john@example.com",
+                //     password: "password123",
+                //     batch: "2023",
+                //     branch: "Computer Science",
+                //     section: "A",
+                //     course: "Bachelor of Science in Computer Science",
+                // })
 
-            if (res.status === 201) {
-                goToLogin()
-                Alert.alert(`${name} Registered Successfully !! `)
+                if (res.status === 201) {
+                    goToLogin()
+                    Alert.alert(`${name} Registered Successfully !! `)
+                }
+
             }
-
-            // }
 
         } catch (error) {
             console.error("Error while signup: ", error)

@@ -3,9 +3,8 @@ import { View, StyleSheet, Text, Modal, ActivityIndicator } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-// import { WebView } from 'react-native-webview';
 
-import { useToken } from '../../context/TokenContext';
+import useAuthToken from '../../hooks/token-manager/useAuthToken';
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
 import AboutGif from '../../assest/gif/result-gif.gif'
@@ -16,22 +15,21 @@ import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard';
 
 const HomeScreen = () => {
 
-    const [token, setToken] = useState();
     const [profile, setProfile] = useState();
     const [loading, setLoading] = useState(false);
     const [dataLoading, setDataLoading] = useState(false);
-    // const [modalVisible, setModalVisible] = useState(false);
+    const [results, setResults] = useState([]);
 
-    const { deleteToken, getToken } = useToken();
+    const { getToken, removeToken } = useAuthToken();
     const navigation = useNavigation();
 
     const handleLogout = async () => {
         setLoading(true)
         try {
-            await deleteToken();
-            const res = await apiEndpoints.logout();
-            // console.log('res: ', res)
-            if (res?.message === "Logout successful") {
+            const authToken = await getToken();
+            const res = await apiEndpoints.logout(authToken);
+            if (res?.data.message === "Logout successful") {
+                await removeToken();
                 navigation.navigate('Login')
             } else {
                 alert('Something went wrong!! Restart your app')
@@ -44,48 +42,38 @@ const HomeScreen = () => {
         }
     }
 
+    const handleResults = async () => {
+        try {
+            // const res = await apiEndpoints.getMyResults()
+            // if (res.status === 200) {
+            //     setResults(res.data.quizResults)
+            // }
+        } catch (error) {
+            console.error('Error while fetching student results: ', error)
+        }
+    }
+
     const handleProfile = async () => {
         setDataLoading(true)
-        await fetchToken();
         try {
-            const res = await apiEndpoints.getProfile(token)
+            const res = await apiEndpoints.getProfile()
             setProfile(res)
-            console.log(res)
         } catch (error) {
-            console.log('error while getting profile: ', error)
-            // alert('Try');
+            alert('Something Went Wrong !! Login Again');
             navigation.navigate('Login')
         } finally {
             setDataLoading(false)
         }
     }
 
-    const fetchToken = async () => {
-        try {
-            const authToken = await getToken()
-            // console.log('Token retrieved:', authToken);
-            setToken(authToken)
-            // console.log('token: ', token)
-        } catch (error) {
-            console.error('Error while fetching token: ', error)
-        }
-    }
-
-
     useEffect(() => {
-        fetchToken();
+        handleProfile();
+        handleResults();
     }, []);
-
-    useEffect(() => {
-        if (token !== null) {
-            // console.log('token home:', token)
-            handleProfile();
-        }
-    }, [token]);
 
     return (
         <View style={styles.container}>
-            <ProfileCard profile={profile} />
+            <ProfileCard profile={profile} results={results} />
 
             <Card style={styles.card} onPress={() => { navigation.navigate('About') }} >
                 <Card.Content style={styles.cardContent}>
@@ -94,7 +82,6 @@ const HomeScreen = () => {
                             source={AboutGif}
                             style={styles.image}
                             onError={(error) => console.error('Error loading image:', error)}
-                            onLoad={() => console.log('Image loaded successfully')}
                         />
                     </View>
                     <Text variant="bodyMedium" style={{ fontSize: 16 }}>About Creators</Text>

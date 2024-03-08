@@ -4,16 +4,13 @@ import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import apiEndpoints from '../../services/api.js';
-import { useToken } from '../../context/TokenContext.jsx';
+import useAuthToken from '../../hooks/token-manager/useAuthToken.js';
 
 import { defaultStyling } from '../../constant/styles.js';
 import LoginGif from '../../assest/image/auth-img.png'
 import AuthFrmae from '../../components/frames/AuthFrame.jsx'
 
 const LoginScreen = () => {
-
-    // reg no = 2141011114
-    // pass = anurag1234
 
     //     {
     //   "name": "John Doe",
@@ -28,12 +25,12 @@ const LoginScreen = () => {
 
 
 
-    const [registrationNo, setRegistrationNo] = useState('');
-    const [password, setPassword] = useState('');
+    const [registrationNo, setRegistrationNo] = useState('0987654321');
+    const [password, setPassword] = useState('password123');
     const [loading, setLoading] = useState(false)
 
     const navigation = useNavigation();
-    const { storeToken } = useToken()
+    const { storeToken } = useAuthToken()
 
     const handleLogin = async () => {
         setLoading(true);
@@ -51,13 +48,11 @@ const LoginScreen = () => {
                     registrationNumber: registrationNo,
                     password: password
                 });
-                // console.log(res)
+
                 if (res.status === 200) {
-                    await handleStoreToken(res.data.token);
-                    console.log(res.data.token)
-                    // navigation.navigate('Home');
+                    await storeToken(res.data.token);
+                    navigation.navigate('Home');
                 }
-                // console.log(res)
             }
 
         } catch (error) {
@@ -65,17 +60,6 @@ const LoginScreen = () => {
             // alert('Login failed. Please check your credentials and try again.');
         } finally {
             setLoading(false);
-        }
-    };
-
-
-    const handleStoreToken = async (newToken) => {
-        try {
-            // console.log(newToken)
-            await storeToken(newToken);
-        } catch (error) {
-            // console.error('Error storing token:', error);
-            alert('Something went wrong !! Try again later')
         }
     };
 

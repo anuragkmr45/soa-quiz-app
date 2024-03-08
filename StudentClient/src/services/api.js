@@ -1,6 +1,8 @@
 import axios from 'axios';
+import useAuthToken from '../hooks/token-manager/useAuthToken';
 
 const baseURL = 'http://192.168.29.186:5000';
+// const baseURL = 'http://192.168.166.83:5000';
 
 const api = axios.create({
     baseURL: baseURL,
@@ -9,18 +11,6 @@ const api = axios.create({
         'Content-Type': 'application/json',
     },
 });
-
-const setAuthToken = (token, includeBearer = true) => {
-    if (token) {
-        if (includeBearer) {
-            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        } else {
-            api.defaults.headers.common['Authorization'] = token;
-        }
-    } else {
-        delete api.defaults.headers.common['Authorization'];
-    }
-};
 
 const apiEndpoints = {
     login: async ({ registrationNumber, password }) => {
@@ -31,10 +21,13 @@ const apiEndpoints = {
             throw error;
         }
     },
-    logout: async () => {
+    logout: async (token) => {
         try {
+            const authToken = await useAuthToken().getToken();
+
+            api.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
             const response = await api.post('/student-logout');
-            return response.data;
+            return response;
         } catch (error) {
             throw error;
         }
@@ -42,39 +35,61 @@ const apiEndpoints = {
     register: async ({ name, registrationNumber, email, password, batch, branch, section, course }) => {
         try {
             const response = await api.post('/student-register', { name, registrationNumber, email, password, batch, branch, section, course });
-            return response.data;
+            return response;
         } catch (error) {
             throw error;
         }
     },
-    getProfile: async (token) => {
-        setAuthToken(token);
+    getProfile: async () => {
         try {
+            const authToken = await useAuthToken().getToken();
+
+            api.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
             const response = await api.get('/student-profile');
             return response.data;
         } catch (error) {
             throw error;
+        } finally {
+            delete api.defaults.headers.common['Authorization'];
         }
     },
-    joinQuiz: async ({ quizId, password, token }) => {
-        setAuthToken(token);
-        console.log('quiz called ')
+
+    joinQuiz: async ({ quizId, password }) => {
         try {
-            const response = await api.post('/join-quiz', { quizId, password, token });
-            return response.data;
+            const authToken = await useAuthToken().getToken();
+
+            api.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+            const response = await api.post('/join-quiz', { quizId, password });
+            return response;
         } catch (error) {
             throw error;
         }
     },
-    getMyResults: async (token) => {
-        setAuthToken(token);
+    getMyResults: async () => {
         try {
+            const authToken = await useAuthToken().getToken();
+
+            api.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
             const response = await api.get('/my-results');
-            return response.data;
+            return response;
         } catch (error) {
             throw error;
         }
     },
+
+    scoreCounter: async ({ registrationNumber, quizId, responses }) => {
+        try {
+            console.log('registrationNumber: ', registrationNumber)
+            console.log('quizId: ', quizId)
+            console.log('responses: ', responses)
+            const authToken = await useAuthToken().getToken();
+            api.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+            const response = await api.post('/score-counter', { registrationNumber, quizId, responses });
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
 };
 
 export default apiEndpoints;
