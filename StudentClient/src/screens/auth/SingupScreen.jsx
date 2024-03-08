@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, Alert, View, TouchableHighlight, Modal } from 'react-native';
+import { StyleSheet, Text, Alert, View, TouchableHighlight, Modal, ScrollView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import apiEndpoints from '../../services/api';
 import useGetAndroidID from '../../hooks/background-services/useGetAndroidID';
-import { coursePlaceholder, courseOptions } from '../../.data/course'
-import { batchPlaceholder, batchOptions } from '../../.data/batch'
-import { branchPlaceholder, branchOptions } from '../../.data/branch'
-import { sectionPlaceholder, sectionOptions } from '../../.data/section'
+import { courseOptions } from '../../.data/course'
+import { batchOptions } from '../../.data/batch'
+import { branchOptions } from '../../.data/branch'
+import { sectionOptions } from '../../.data/section'
 import LoginGif from '../../assest/image/auth-img.png'
 import { defaultStyling } from '../../constant/styles'
 import AuthFrame from '../../components/frames/AuthFrame';
@@ -23,15 +23,17 @@ const DropdownMenu = ({ visible, options, onSelect }) => {
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    {options.map(option => (
-                        <TouchableHighlight
-                            key={option.value}
-                            style={{ ...styles.option }}
-                            onPress={() => onSelect(option.value)}
-                        >
-                            <Text style={styles.optionText}>{option.label}</Text>
-                        </TouchableHighlight>
-                    ))}
+                    <ScrollView>
+                        {options.map(option => (
+                            <TouchableHighlight
+                                key={option.value}
+                                style={{ ...styles.option }}
+                                onPress={() => onSelect(option.value)}
+                            >
+                                <Text style={styles.optionText}>{option.label}</Text>
+                            </TouchableHighlight>
+                        ))}
+                    </ScrollView>
                 </View>
             </View>
         </Modal>
@@ -122,7 +124,7 @@ const SignupScreen = () => {
             </TouchableHighlight>
 
             <TouchableHighlight
-                style={styles.input}
+                style={styles.dropdowninput}
                 onPress={() => setBatchMenuVisible(true)}
             >
                 <Text style={{ color: defaultStyling.dark }}>
@@ -131,7 +133,7 @@ const SignupScreen = () => {
             </TouchableHighlight>
 
             <TouchableHighlight
-                style={styles.input}
+                style={styles.dropdowninput}
                 onPress={() => setBranchMenuVisible(true)}
             >
                 <Text style={{ color: defaultStyling.dark }}>
@@ -140,7 +142,7 @@ const SignupScreen = () => {
             </TouchableHighlight>
 
             <TouchableHighlight
-                style={styles.input}
+                style={styles.dropdowninput}
                 onPress={() => setSectionMenuVisible(true)}
             >
                 <Text style={{ color: defaultStyling.dark }}>
@@ -212,9 +214,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         backgroundColor: 'white',
         color: defaultStyling.dark,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        borderWidth: 1,
+        // paddingVertical: 2,
+        paddingHorizontal: 5,
+        // borderWidth: 1,
         borderColor: defaultStyling.dark,
         borderRadius: 5,
     },
@@ -225,8 +227,8 @@ const styles = StyleSheet.create({
         color: defaultStyling.dark,
         paddingVertical: 10,
         paddingHorizontal: 15,
-        borderWidth: 1,
-        borderColor: 'grey',
+        borderBottomWidth: 1,
+        borderBottomColor: 'grey',
         borderRadius: 10,
     },
     button: {
@@ -263,7 +265,8 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     option: {
-        width: '100%',
+        width: 200,
+        alignItems: 'center',
         padding: 10,
         marginBottom: 10
     },

@@ -75,9 +75,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        position: 'relative', // Added
     },
     centerContainer: {
         alignItems: 'center',
+        zIndex: 1, // Added
     },
     image: {
         width: 220,
@@ -106,12 +108,18 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.35,
         shadowRadius: 3.84,
         elevation: 5,
+        zIndex: 1, // Added
     },
     buttonText: {
         fontSize: 18,
         fontWeight: 'bold',
         color: 'white',
         alignSelf: 'center',
+    },
+    overlay: { // Added
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust opacity as needed
+        zIndex: 0, // Ensure it's below other elements
     },
 });
 

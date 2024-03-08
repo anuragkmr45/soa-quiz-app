@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Text, Modal, Portal, Button } from 'react-native-paper';
 import { View, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
 import Avatar from '../../assest/gif/avatar.gif'
@@ -9,6 +10,7 @@ import { defaultStyling } from '../../constant/styles';
 const ProfileCard = ({ profile, results }) => {
 
     const [visible, setVisible] = useState(false);
+    const navigation = useNavigation()
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
@@ -40,17 +42,16 @@ const ProfileCard = ({ profile, results }) => {
                     </Text>
                 </Button>
 
-                {results ? (
-                    results.length === 0 ? (
-                        <Button mode="contained" style={styles.button}>
-                            <Text style={styles.buttonText}>No Data Found</Text>
-                        </Button>
-                    ) : (
-                        <Button mode="contained" style={styles.button}>
-                            <Text style={styles.buttonText}>Results</Text>
-                        </Button>
-                    )
-                ) : null}
+                <Button
+                    mode="contained"
+                    style={styles.button}
+                    onPress={() => {
+                        navigation.navigate('Results', { results: results })
+                    }} >
+                    <Text style={styles.buttonText}>Results</Text>
+                </Button>
+                {/* )
+                ) : null} */}
 
             </View>
 

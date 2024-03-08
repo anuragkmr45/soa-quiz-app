@@ -1,13 +1,31 @@
 import React, { useState, useEffect, Children } from 'react';
 import { View, StyleSheet, Text, Animated, ScrollView, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
 // import FastImage from 'react-native-fast-image';
 
+import useAuthToken from '../../hooks/token-manager/useAuthToken';
 import { defaultStyling } from '../../constant/styles';
 
 const AuthFrame = ({ children, text, img }) => {
+
     const [cardAnimation] = useState(new Animated.Value(0));
+    const { getToken } = useAuthToken()
+    const navigation = useNavigation();
 
     useEffect(() => {
+
+        const handleFetchToken = async () => {
+            try {
+                const authtoken = await getToken()
+                if (authtoken !== '') {
+                    navigation.navigate('Home')
+                }
+            } catch (error) {
+                console.log('error while fetching auth tokenL: ', error);
+            }
+        }
+        handleFetchToken()
+
         // Start the animation when the component mounts
         Animated.timing(cardAnimation, {
             toValue: 1, // Target value
