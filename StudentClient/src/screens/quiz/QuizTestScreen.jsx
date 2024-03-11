@@ -9,71 +9,94 @@ import BgImg from '../../assest/image/bg-img.png';
 import { defaultStyling } from '../../constant/styles';
 
 const QuizTestScreen = ({ route }) => {
-
-    // const [isLoading, setIsLoading] = useState(false)
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [userResponses, setUserResponses] = useState([]);
-    const [appState, setAppState] = useState(AppState.currentState);
-
     const { quizData } = route.params;
     const navigation = useNavigation();
 
+    const [isLoading, setIsLoading] = useState(false)
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [userResponses, setUserResponses] = useState([]);
+    const [remainingDuration, setRemainingDuration] = useState(quizData.Duration * 60 - 5);
+    const [appState, setAppState] = useState(AppState.currentState);
+
+
     const handleOptionSelect = (questionText, selectedOption) => {
-        // Create a copy of userResponses array
         const updatedResponses = [...userResponses];
-        // Update the response for the current question
+
         updatedResponses[currentQuestionIndex] = {
             question: questionText,
             answer: selectedOption
         };
-        // Update the state with the updated responses
         setUserResponses(updatedResponses);
     };
 
-    // console.log('quizData in quiz screen: ', quizData)
     const handleNextQuestion = () => {
         setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     };
 
-    const handlePreviousQuestion = () => {
-        setCurrentQuestionIndex(prevIndex => prevIndex - 1);
-    };
+    // const handlePreviousQuestion = () => {
+    //     setCurrentQuestionIndex(prevIndex => prevIndex - 1);
+    // };
 
+    // console.log('userResponses: ', userResponses)
     const handleQuizSubmit = async () => {
+        setIsLoading(true)
+
         try {
             const res = await apiEndpoints.scoreCounter({
-                registrationNumber: '0987654321',
+                registrationNumber: quizData.registrationNumber,
                 quizId: quizData.quizID,
                 responses: userResponses,
             })
+
 
             if (res.data.success === true) {
                 navigation.navigate('Result', { quizResult: res.data })
             }
 
         } catch (error) {
-            console.error('Error while submiting quiz: ', error)
+            // console.error('Error while submiting quiz: ', error);
+            alert('Quiz Already Submited')
+        } finally {
+            setIsLoading(false)
         }
     }
 
     useEffect(() => {
         const handleAppStateChange = (nextAppState) => {
             if (appState === 'active' && nextAppState === 'background') {
-                console.log('App is working in the background.');
-                handleQuizSubmit()
-            } else if (appState === 'active' && nextAppState === 'inactive') {
-                console.log('App is in the process of transitioning to the background.');
-            } else if (appState.match(/inactive|background/) && nextAppState === 'active') {
-                console.log('App is coming to foreground');
+                // console.log('App is working in the background.');
+                handleQuizSubmit();
+                alert('Quiz Submitted !! Due To Clsoing Of App')
             }
+            // else if (appState === 'active' && nextAppState === 'inactive') {
+            //     console.log('App is in the process of transitioning to the background.');
+            // } else if (appState.match(/inactive|background/) && nextAppState === 'active') {
+            //     console.log('App is coming to foreground');
+            // }
             setAppState(nextAppState);
         };
 
+        if (remainingDuration) {
+
+        }
+
         const subscription = AppState.addEventListener('change', handleAppStateChange);
 
-        // handleProfile()
+        const intervalId = setInterval(() => {
+            setRemainingDuration(prevDuration => {
+                if (prevDuration === 0) {
+                    handleQuizSubmit()
+                    clearInterval(intervalId); // Stop the interval
+                    return prevDuration;
+                } else {
+                    return prevDuration - 1;
+                }
+            });
+        }, 600);
+
         return () => {
-            subscription.remove(); // Remove the listener when component unmounts
+            subscription.remove();
+            clearInterval(intervalId);
         };
     }, [appState]);
 
@@ -94,9 +117,17 @@ const QuizTestScreen = ({ route }) => {
                 timeToShow={['M', 'S']}
                 timeLabels={{ m: 'MM', s: 'SS' }}
             /> */}
-            <Text style={{ textAlign: 'center', color: 'red', fontSize: 10 }}>
-                Closing the app consider as a cheating !!
+
+
+            <Text style={{ textAlign: 'center', color: 'red', fontSize: 10, fontWeight: 'bold', marginTop: 10 }}>
+                Note:- Closing the app consider as a cheating !!
             </Text>
+
+            <View>
+                <Text style={{ color: defaultStyling.dark, textAlign: 'center', fontSize: 40 }}>
+                    {Math.floor(remainingDuration / 60)}:{(remainingDuration % 60).toString().padStart(2, '0')}
+                </Text>
+            </View>
             <View style={styles.overlayContainer}>
                 <QuizCard
                     questionData={quizData.quizDetails.quizData[currentQuestionIndex]}
@@ -104,21 +135,30 @@ const QuizTestScreen = ({ route }) => {
                 />
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={[styles.button, { backgroundColor: defaultStyling.semidark }]}
                     onPress={handlePreviousQuestion}
                     disabled={currentQuestionIndex === 0}
                 >
                     <Text style={styles.buttonText}>Previous</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 {
                     currentQuestionIndex === quizData.quizDetails.quizData.length - 1 ? (
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={handleQuizSubmit}
+                            // onPress={handleQuizSubmit}
+                            onPress={!isLoading ? handleQuizSubmit : ''}
                         >
-                            <Text style={styles.buttonText}>Submit</Text>
+                            {
+                                isLoading ? (
+                                    <Text style={styles.buttonText}>Loading ... </Text>
+                                ) : (
+                                    <>
+                                        <Text style={styles.buttonText}>Submit</Text>
+                                    </>
+                                )
+                            }
                         </TouchableOpacity>
                     ) : (
                         <TouchableOpacity
@@ -171,7 +211,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         marginHorizontal: 6,
-        width: '40%'
+        width: '85%'
     },
     buttonText: {
         fontSize: 18,

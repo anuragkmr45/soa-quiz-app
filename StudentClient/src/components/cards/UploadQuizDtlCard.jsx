@@ -2,39 +2,59 @@ import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Card, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Text } from 'react-native';
+// import QRCodeScanner from 'react-native-qrcode-scanner';
 
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
 
 const UploadQuizDtlCard = () => {
-    const [quizId, setQuizId] = useState('');
-    const [password, setPassword] = useState('');
+    const [quizId, setQuizId] = useState('itersoaAGNJ');
+    const [password, setPassword] = useState('DjxDOcX4');
     const [loading, setLoading] = useState(false);
+    // const [showScanner, setShowScanner] = useState(false);
 
     const navigation = useNavigation();
 
     const handleJoinQuiz = async () => {
         setLoading(true)
         try {
-            // if (quizId !== '' && password !== '') {
-            const res = await apiEndpoints.joinQuiz({ quizId: 'itersoaPY5K', password: 'Z4NFcZsF' })
+            if (quizId !== '' && password !== '') {
+                const res = await apiEndpoints.joinQuiz({ quizId: quizId, password: password })
 
-            if (res.status === 200) {
-                const quizData = res.data
-                // console.log('quizData inside the upload quix card: ', quizData)
-                navigation.navigate('Quiz', { quizData: quizData })
+                if (res.status === 200) {
+                    const quizData = res.data
+                    // console.log('quizData inside the upload quix card: ', quizData)
+                    navigation.navigate('Quiz', { quizData: quizData })
+                }
             }
-            // }
 
         } catch (error) {
+            alert('Quiz Ended !!')
             console.error('Error while joining quiz: ', error)
         } finally {
             setLoading(false)
         }
     };
 
+    // const handleQRCodeScan = (e) => {
+    //     // Extract data from QR code scan result and set quizId/password state
+    //     const { data } = e;
+    //     const [quizIdFromQR, passwordFromQR] = data.split(':');
+    //     setQuizId(quizIdFromQR);
+    //     setPassword(passwordFromQR);
+    //     setShowScanner(false); // Hide scanner after successful scan
+    // };
+
     return (
         <View style={styles.container}>
+
+            {/* <View>
+                <QRCodeScanner
+                    onRead={handleQRCodeScan}
+                    containerStyle={styles.scannerContainer}
+                />
+            </View> */}
+
             <Card style={styles.card}>
                 <Text
                     style={{

@@ -1,8 +1,26 @@
+import { useContext } from 'react';
 import axios from 'axios';
 import useAuthToken from '../hooks/token-manager/useAuthToken';
+import { FirestoreContext } from '../context/FirestoreContext';
 
+// const baseURL = 'https://b5d9-2405-201-a003-9050-d0b1-605b-87d-91bc.ngrok-free.app/'
 const baseURL = 'http://192.168.29.186:5000';
 // const baseURL = 'http://192.168.166.83:5000';
+
+// let baseURL = ''
+
+// const setBaseURLFromFirestore = async () => {
+//     try {
+//         const { getDocuments } = useContext(FirestoreContext);
+//         const documents = await getDocuments('configurations');
+//         baseURL = documents[0].baseURL;
+//     } catch (error) {
+//         console.error('Error setting baseURL from Firestore:', error);
+//     }
+// };
+
+// // Initialize baseURL during module initialization
+// setBaseURLFromFirestore();
 
 const api = axios.create({
     baseURL: baseURL,
@@ -13,15 +31,16 @@ const api = axios.create({
 });
 
 const apiEndpoints = {
-    login: async ({ registrationNumber, password }) => {
+    login: async ({ registrationNumber, password, androidId }) => {
         try {
-            const response = await api.post('/student-login', { registrationNumber, password });
+            // const androidId = useGetAndroidID();
+            const response = await api.post('/student-login', { registrationNumber, password, androidId });
             return response;
         } catch (error) {
             throw error;
         }
     },
-    logout: async (token) => {
+    logout: async () => {
         try {
             const authToken = await useAuthToken().getToken();
 
@@ -32,9 +51,12 @@ const apiEndpoints = {
             throw error;
         }
     },
-    register: async ({ name, registrationNumber, email, password, batch, branch, section, course }) => {
+    register: async ({ name, registrationNumber, email, password, batch, branch, section, course, androidId }) => {
         try {
-            const response = await api.post('/student-register', { name, registrationNumber, email, password, batch, branch, section, course });
+            // const androidId = useGetAndroidID();
+            const response = await api.post('/student-register', {
+                name, registrationNumber, email, password, batch, branch, section, course, androidId
+            });
             return response;
         } catch (error) {
             throw error;
@@ -79,9 +101,9 @@ const apiEndpoints = {
 
     scoreCounter: async ({ registrationNumber, quizId, responses }) => {
         try {
-            console.log('registrationNumber: ', registrationNumber)
-            console.log('quizId: ', quizId)
-            console.log('responses: ', responses)
+            // console.log('registrationNumber: ', registrationNumber)
+            // console.log('quizId: ', quizId)
+            // console.log('responses api side : ', responses)
             const authToken = await useAuthToken().getToken();
             api.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
             const response = await api.post('/score-counter', { registrationNumber, quizId, responses });
@@ -90,6 +112,7 @@ const apiEndpoints = {
             throw error;
         }
     }
+
 };
 
 export default apiEndpoints;

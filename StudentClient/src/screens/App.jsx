@@ -25,7 +25,8 @@ const App = () => {
                 }
 
             } catch (error) {
-                console.error('Error while getting auth token: ', error);
+                // console.error('Error while getting auth token: ', error);
+                alert('Restart you app')
             }
         }
 

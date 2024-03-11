@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import LogoutModal from '../../modal/logout-modal';
 // import Loader from '../../loader/dotedCircel';
 
-import { CiDatabase, CiHome } from "react-icons/ci";
+import { CiDatabase } from "react-icons/ci";
 import { FaRegFileExcel } from "react-icons/fa";
 
 const SidebarNavigation = ({ children }) => {
@@ -27,13 +27,6 @@ const SidebarNavigation = ({ children }) => {
                         <section className="menu-section px-4">
                             <span className="menu-title">Main menu</span>
                             <ul className="menu-items">
-                                <li className="menu-item">
-                                    <Link to='/dashboard' className='flex' >
-                                        <CiHome className='my-auto mx-2' />
-                                        <span>Dashboard</span>
-                                    </Link>
-                                </li>
-
                                 <li className="menu-item">
                                     <Link to='/dashboard/add-quiz' className='flex' >
                                         <FaRegFileExcel className='my-auto mx-2' />

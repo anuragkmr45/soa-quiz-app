@@ -84,7 +84,7 @@ const SignupScreen = () => {
                 }
             }
         } catch (error) {
-            console.error("Error while signup: ", error);
+            // console.error("Error while signup: ", error);
             Alert.alert(`${name} Already Exist !! `);
         } finally {
             setLoading(false);

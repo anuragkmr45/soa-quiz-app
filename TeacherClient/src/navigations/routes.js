@@ -11,25 +11,17 @@ import QuestionBank from '../pages/dashboard/quize/question-bank';
 
 export const routes = [
     {
-        element: <Home />,
+        element: <Login />,
         path: '/',
     },
-    {
-        element: <Login />,
-        path: '/teacher-login',
-    },
-    {
-        element: <Register />,
-        path: '/teacher-register',
-    },
+    // {
+    //     element: <Register />,
+    //     path: '/teacher-register',
+    // },
 
 ]
 
 export const dashboardRoutes = [
-    {
-        element: <Dashboard />,
-        path: '/dashboard',
-    },
     {
         element: <AddQuiz />,
         path: '/dashboard/add-quiz',

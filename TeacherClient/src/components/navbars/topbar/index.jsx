@@ -16,9 +16,19 @@ const TopBar = ({ children }) => {
 
     return (
         <header>
-            <div className="navbar flex justify-between items-center bg-gray-800 text-white p-4">
+            <div className="navbar flex justify-between items-center bg-gray-800 text-white">
                 <div className="navbar-start">
-                    <Link className="navbar-item">Ripple UI</Link>
+                    <Link className="navbar-item flex" to='/dashboard/add-quiz' >
+                        <img
+                            src="https://firebasestorage.googleapis.com/v0/b/quizzy-4f34e.appspot.com/o/logo.png?alt=media&token=d2271cac-936d-442c-94f6-9f9c6e61ee8e"
+                            alt=""
+                            loading='lazy'
+                            className='h-14'
+                        />
+                        <p className='my-auto text-xl font-semibold'>
+                            Quizzy
+                        </p>
+                    </Link>
                 </div>
                 <div className="navbar-end">
                     <div className="dropdown">
@@ -27,17 +37,21 @@ const TopBar = ({ children }) => {
                         </button>
                         {/* <label className="btn btn-solid-primary my-2" tabIndex="0">Click</label> */}
                         <div className="dropdown-menu dropdown-menu-bottom-left">
-                            <Link to='/dashboard' className="dropdown-item text-sm flex flex-row menu-items">
+                            <Link to='/dashboard/add-quiz' className="dropdown-item text-sm flex flex-row menu-items">
                                 <CiHome className='my-auto mx-2' />
-                                <span>Dashboard</span>
-                            </Link>
-                            <Link to='/dashboard' className="dropdown-item text-sm flex flex-row menu-items">
-                                <FaRegFileExcel className='my-auto mx-2' />
                                 <span>Add New Quiz</span>
                             </Link>
-                            <Link to='/dashboard' className="dropdown-item text-sm flex flex-row menu-items">
+                            <Link to='/dashboard/make-quiz-live' className="dropdown-item text-sm flex flex-row menu-items">
+                                <FaRegFileExcel className='my-auto mx-2' />
+                                <span>Make Quiz Live</span>
+                            </Link>
+                            <Link to='/dashboard/previous-quizes' className="dropdown-item text-sm flex flex-row menu-items">
                                 <CiHome className='my-auto mx-2' />
-                                <span>Dashboard</span>
+                                <span>Previous Quizes</span>
+                            </Link>
+                            <Link to='/dashboard/question-bank' className="dropdown-item text-sm flex flex-row menu-items">
+                                <CiHome className='my-auto mx-2' />
+                                <span>Question Bank</span>
                             </Link>
                         </div>
                     </div>

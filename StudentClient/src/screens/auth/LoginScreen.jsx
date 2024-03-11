@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
+import useGetAndroidID from '../../hooks/background-services/useGetAndroidID.js'
 import apiEndpoints from '../../services/api.js';
 import useAuthToken from '../../hooks/token-manager/useAuthToken.js';
 
@@ -12,23 +13,14 @@ import AuthFrmae from '../../components/frames/AuthFrame.jsx'
 
 const LoginScreen = () => {
 
-    //     {
-    //   "name": "John Doe",
-    //   "registrationNumber": "123456789",
-    //   "email": "john.doe@example.com",
-    //   "password": "password123",
-    //   "batch": "2023",
-    //   "branch": "Computer Science",
-    //   "section": "A",
-    //   "course": "Bachelor of Science in Computer Science"
-    // }
+    // 214101115
+    // ayush1234
 
-
-
-    const [registrationNo, setRegistrationNo] = useState('0987654321');
-    const [password, setPassword] = useState('password123');
+    const [registrationNo, setRegistrationNo] = useState('2141011315');
+    const [password, setPassword] = useState('ayush1234');
     const [loading, setLoading] = useState(false)
 
+    const deviceId = useGetAndroidID()
     const navigation = useNavigation();
     const { storeToken } = useAuthToken()
 
@@ -46,9 +38,10 @@ const LoginScreen = () => {
             if (registrationNo !== '' & password !== '') {
                 const res = await apiEndpoints.login({
                     registrationNumber: registrationNo,
-                    password: password
+                    password: password,
+                    androidId: deviceId
                 });
-
+                // console.log('login res: ', res)
                 if (res.status === 200) {
                     await storeToken(res.data.token);
                     navigation.navigate('Home');
@@ -56,8 +49,8 @@ const LoginScreen = () => {
             }
 
         } catch (error) {
-            console.error('Error while login: ', error);
-            // alert('Login failed. Please check your credentials and try again.');
+            // console.error('Error while login: ', error);
+            alert('Invalid Credentials ');
         } finally {
             setLoading(false);
         }
@@ -102,6 +95,11 @@ const LoginScreen = () => {
                     Not registered yet? Go to Signup
                 </Text>
             </TouchableHighlight>
+            {/* <TouchableHighlight>
+                <Text style={[styles.signupText, { color: 'red' }]} onPress={goToSignup}>
+                    Get Help
+                </Text>
+            </TouchableHighlight> */}
         </AuthFrmae>
     );
 };

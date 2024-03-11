@@ -32,7 +32,7 @@ const LoginForm = () => {
                 showSuccessToast(`Login Succesfully`)
 
                 if (res.status === 200) {
-                    navigate('/dashboard');
+                    navigate('/dashboard/add-quiz');
                 }
 
             } catch (error) {
@@ -55,7 +55,7 @@ const LoginForm = () => {
     }
 
     return (
-        <aside className="flex flex-col items-center">
+        <aside className="flex flex-col items-center h-screen">
             <input
                 className="input-ghost-secondary input my-2 max-w-full text-secondary"
                 placeholder="Email"

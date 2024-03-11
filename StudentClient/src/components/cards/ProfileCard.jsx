@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Card, Text, Modal, Portal, Button } from 'react-native-paper';
+import { Card, Text, Modal, Portal, Button, Image } from 'react-native-paper';
 import { View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
+// import ProfileImg from '../../assest/icons/verified.png'
 import Avatar from '../../assest/gif/avatar.gif'
 import { defaultStyling } from '../../constant/styles';
 
@@ -37,6 +38,9 @@ const ProfileCard = ({ profile, results }) => {
             </View>
             <View style={styles.buttonContainer}>
                 <Button mode="contained" style={styles.button} onPress={showModal}>
+                    {/* <View>
+                        <Image source={ProfileImg} style={styles.image} />
+                    </View> */}
                     <Text style={styles.buttonText}>
                         My Profile
                     </Text>
@@ -45,13 +49,12 @@ const ProfileCard = ({ profile, results }) => {
                 <Button
                     mode="contained"
                     style={styles.button}
-                    onPress={() => {
-                        navigation.navigate('Results', { results: results })
-                    }} >
-                    <Text style={styles.buttonText}>Results</Text>
+                // onPress={() => {
+                //     navigation.navigate('Results', { results: results })
+                // }}
+                >
+                    <Text style={styles.buttonText}>Data Not Found</Text>
                 </Button>
-                {/* )
-                ) : null} */}
 
             </View>
 

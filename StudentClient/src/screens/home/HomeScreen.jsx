@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Modal, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text, Modal, ActivityIndicator, Image } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import FastImage from 'react-native-fast-image';
+// import FastImage from 'react-native-fast-image';
 
 import useAuthToken from '../../hooks/token-manager/useAuthToken';
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
-import AboutGif from '../../assest/gif/result-gif.gif'
+// import AboutGif from '../../assest/gif/result-gif.gif'
+import CreatorImg from '../../assest/icons/coding.png'
 
 import ProfileCard from '../../components/cards/ProfileCard';
 import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard';
@@ -35,23 +36,23 @@ const HomeScreen = () => {
                 alert('Something went wrong!! Restart your app')
             }
         } catch (error) {
-            console.error('Error while logout: ', error)
-            alert('Something went wrong !! Try again later')
+            // console.error('Error while logout: ', error)
+            alert('Something went wrong !! Restart your app')
         } finally {
             setLoading(false)
         }
     }
 
-    const handleResults = async () => {
-        try {
-            // const res = await apiEndpoints.getMyResults()
-            // if (res.status === 200) {
-            //     setResults(res.data.quizResults)
-            // }
-        } catch (error) {
-            console.error('Error while fetching student results: ', error)
-        }
-    }
+    // const handleResults = async () => {
+    //     try {
+    //         // const res = await apiEndpoints.getMyResults()
+    //         // if (res.status === 200) {
+    //         //     setResults(res.data.quizResults)
+    //         // }
+    //     } catch (error) {
+    //         console.error('Error while fetching student results: ', error)
+    //     }
+    // }
 
     const handleProfile = async () => {
         setDataLoading(true)
@@ -69,21 +70,26 @@ const HomeScreen = () => {
     useEffect(() => {
 
         handleProfile();
-        handleResults();
+        // handleResults();
     }, []);
 
     return (
         <View style={styles.container}>
             <ProfileCard profile={profile} results={results} />
 
+
             <Card style={styles.card} onPress={() => { navigation.navigate('About') }} >
                 <Card.Content style={styles.cardContent}>
                     <View style={styles.imageContainer}>
-                        <FastImage
+                        {/* <FastImage
                             source={AboutGif}
                             style={styles.image}
                             onError={(error) => console.error('Error loading image:', error)}
-                        />
+                        /> */}
+                        <View style={{ overflow: 'hidden' }}>
+
+                            <Image source={CreatorImg} style={styles.image} />
+                        </View>
                     </View>
                     <Text variant="bodyMedium" style={{ fontSize: 16 }}>About Creators</Text>
                 </Card.Content>

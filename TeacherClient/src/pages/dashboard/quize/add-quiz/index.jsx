@@ -92,10 +92,10 @@ const AddQuizes = () => {
 
     return (
         <DashBoard>
-            <section className='w-full'>
+            <section className='w-11/12 mx-auto py-10'>
                 {
                     jsonData ? (
-                        <aside className='p-5'>
+                        <aside className=''>
                             {
                                 jsonData && !loading ? (
                                     <>
@@ -156,7 +156,11 @@ const AddQuizes = () => {
                                 accept=".csv"
                                 onChange={handleFileChange}
                             />
-                            <button className='btn btn-outline-secondary ' onClick={handleConvert}>Review Quizes</button>
+                            <button
+                                className='btn btn-outline-secondary '
+                                onClick={handleConvert}>
+                                Review Quizes
+                            </button>
                         </div>
                     )
                 }

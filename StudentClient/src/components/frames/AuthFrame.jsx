@@ -24,7 +24,7 @@ const AuthFrame = ({ children, text, img }) => {
                 console.log('error while fetching auth tokenL: ', error);
             }
         }
-        handleFetchToken()
+        // handleFetchToken()
 
         // Start the animation when the component mounts
         Animated.timing(cardAnimation, {

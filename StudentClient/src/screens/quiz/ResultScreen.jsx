@@ -12,13 +12,13 @@ const ResultScreen = ({ route }) => {
     const { quizResult } = route.params;
     const navigation = useNavigation();
 
-    const marksObtained = quizResult && quizResult.score;
-    const maxMarks = quizResult && quizResult.maxmarks;
+    const marksObtained = quizResult && quizResult.obtainedScore;
+    const maxMarks = quizResult && quizResult.totalQuestions;
     const totalQuestions = quizResult && quizResult.totalQuestions;
-    const totalCorrect = quizResult && quizResult.totalCorrect;
-    const totalIncorrect = totalQuestions - totalCorrect;
+    const totalCorrect = quizResult && quizResult.correctAttempts;
+    const totalIncorrect = quizResult && quizResult.wrongAttempts;
 
-
+    // console.log(quizResult)
     return (
         <View style={styles.container}>
             {/* <FastImage

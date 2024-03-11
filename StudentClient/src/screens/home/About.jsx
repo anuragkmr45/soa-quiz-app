@@ -29,20 +29,20 @@ const About = () => {
             <View style={styles.container}>
                 <Text style={styles.title}>Developers</Text>
                 <TeamCard
-                    img="https://firebasestorage.googleapis.com/v0/b/brandladder-webapp.appspot.com/o/team%2Fsurajpropicteam.jpg?alt=media&token=873e0108-aad1-445f-8c37-21b1df62066f"
-                    name='Suraj Sahu'
-                    intro='Chief Technology Officer @BrandLadder | Navigating Multi-Cloud Technologies | Backend Developer in NodeJs, PHP, Java | Machine Learning Explorer | Database Maestro | Crafting Solutions in Python, Java, JavaScript, PHP'
-                    insta='https://www.instagram.com/shaan.suraj'
-                    linkedin='https://www.linkedin.com/in/shaansuraj'
-                    github='https://github.com/shaansuraj'
-                />
-                <TeamCard
                     img="https://firebasestorage.googleapis.com/v0/b/brandladder-webapp.appspot.com/o/team%2F1707362911480.jpg?alt=media&token=20fb203b-607a-4727-bc70-02b4e6f97d23"
                     name='Anurag Kumar'
                     intro="Tech Director at Brandladder | Android Develeoper at EaseMyLiving |  Open source contributor | MERN Stack, Electron JS and NEXT. JS Developer | React Native Cross Platform App Developer | Devops Trainee | Former CTO | Ex Project Lead At Progeeks | CSE 25' SOA"
                     insta='https://www.instagram.com/anuragkmr_45'
                     linkedin='https://www.linkedin.com/in/anuragkmr45'
                     github='https://github.com/anuragkmr45'
+                />
+                <TeamCard
+                    img="https://firebasestorage.googleapis.com/v0/b/brandladder-webapp.appspot.com/o/team%2Fsurajpropicteam.jpg?alt=media&token=873e0108-aad1-445f-8c37-21b1df62066f"
+                    name='Suraj Sahu'
+                    intro='Chief Technology Officer @BrandLadder | Navigating Multi-Cloud Technologies | Backend Developer in NodeJs, PHP, Java | Machine Learning Explorer | Database Maestro | Crafting Solutions in Python, Java, JavaScript, PHP'
+                    insta='https://www.instagram.com/shaan.suraj'
+                    linkedin='https://www.linkedin.com/in/shaansuraj'
+                    github='https://github.com/shaansuraj'
                 />
             </View>
         </ScrollView>
