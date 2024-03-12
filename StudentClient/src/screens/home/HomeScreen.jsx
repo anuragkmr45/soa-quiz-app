@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import useAuthToken from '../../hooks/token-manager/useAuthToken';
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
-// import AboutGif from '../../assest/gif/result-gif.gif'
 import CreatorImg from '../../assest/icons/coding.png'
 
 import ProfileCard from '../../components/cards/ProfileCard';
@@ -42,17 +41,6 @@ const HomeScreen = () => {
         }
     }
 
-    // const handleResults = async () => {
-    //     try {
-    //         // const res = await apiEndpoints.getMyResults()
-    //         // if (res.status === 200) {
-    //         //     setResults(res.data.quizResults)
-    //         // }
-    //     } catch (error) {
-    //         console.error('Error while fetching student results: ', error)
-    //     }
-    // }
-
     const handleProfile = async () => {
         setDataLoading(true)
         try {
@@ -77,27 +65,54 @@ const HomeScreen = () => {
 
     return (
         <View style={styles.container}>
-            <ProfileCard profile={profile} results={results} />
+            {
+                profile && (
+                    <ProfileCard userName={profile?.name} />
+                )
+            }
+            <View
+                style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'space-evenly', flex: 1 }}
+            >
+                <View style={styles.profileBtns}>
+                    <Button
+                        mode="contained"
+                        style={styles.profileBtn}
+                        onPress={() => { navigation.navigate('Profile') }}
+                    >
+                        <Text style={{ color: defaultStyling.primaryTextColor }}>
+                            My Profile
+                        </Text>
+                    </Button>
 
+                    <Button
+                        mode="contained"
+                        style={styles.profileBtn}
+                        onPress={() => {
+                            navigation.navigate('Results', { results: results })
+                        }}
+                    >
+                        <Text style={{ color: defaultStyling.primaryTextColor }}>Results</Text>
+                    </Button>
 
-            <Card style={styles.card} onPress={() => { navigation.navigate('About') }} >
-                <Card.Content style={styles.cardContent}>
-                    <View style={styles.imageContainer}>
-                        {/* <FastImage
+                </View>
+
+                <Card style={styles.card} onPress={() => { navigation.navigate('About') }} >
+                    <Card.Content style={styles.cardContent}>
+                        <View style={styles.imageContainer}>
+                            {/* <FastImage
                             source={AboutGif}
                             style={styles.image}
                             onError={(error) => console.error('Error loading image:', error)}
                         /> */}
-                        <View style={{ overflow: 'hidden' }}>
 
                             <Image source={CreatorImg} style={styles.image} />
                         </View>
-                    </View>
-                    <Text variant="bodyMedium" style={{ fontSize: 16 }}>About Creators</Text>
-                </Card.Content>
-            </Card>
+                        <Text variant="bodyMedium" style={{ fontSize: 16 }}>About Creators</Text>
+                    </Card.Content>
+                </Card>
 
-            <UploadQuizDtlCard />
+                <UploadQuizDtlCard />
+            </View>
 
             <View style={styles.buttonContainer}>
 
@@ -131,7 +146,6 @@ const HomeScreen = () => {
                     <View style={styles.modalContent}>
                         <ActivityIndicator size="large" color="white" />
                         <Text style={styles.modalText}>Loading...</Text>
-                        {/* <WebView src="https://giphy.com/embed/L2lkyiSIYFq6f4gAqq" width="480" height="324" frameBorder="0" class="giphy-embed" allowFullScreen></WebView><p><a href="https://giphy.com/stickers/harrypotter-transparent-harry-potter-dark-arts-L2lkyiSIYFq6f4gAqq">via GIPHY</a></p> */}
                     </View>
                 </View>
             </Modal>
@@ -141,21 +155,32 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
+        width: '100%',
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: defaultStyling.dark,
     },
+    profileBtns: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'center'
+    },
+    profileBtn: {
+        backgroundColor: defaultStyling.semidark,
+        borderRadius: 10,
+        width: '43%',
+        marginHorizontal: 5,
+    },
     card: {
         backgroundColor: defaultStyling.semidark,
-        width: '80%',
+        width: '90%',
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 3,
         },
-        shadowOpacity: 0.27,
-        shadowRadius: 4.65,
+        shadowOpacity: 0.70,
+        shadowRadius: 4,
         elevation: 6,
     },
     cardContent: {
@@ -169,16 +194,23 @@ const styles = StyleSheet.create({
     image: {
         width: 40,
         height: 40,
-        borderRadius: 25, // Assuming you want a circular image
-    },
-    cardContentText: {
-        color: 'white',
+        // borderRadius: 25, 
     },
     buttonContainer: {
-        position: 'absolute',
-        bottom: 20,
-        width: '92%',
+        shadowColor: defaultStyling.light,
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 5,
+        paddingVertical: 25,
+        borderTopLeftRadius: 35,
+        borderTopRightRadius: 35,
+        width: '100%',
         paddingHorizontal: 20,
+        // backgroundColor: 'rgba(255, 255, 255, 0.1)'
     },
     button: {
         width: '100%',

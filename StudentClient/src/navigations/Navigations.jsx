@@ -9,8 +9,10 @@ import LandingScreen from '../screens/App.jsx'
 import LoginScreen from '../screens/auth/LoginScreen.jsx';
 import SignupScreen from '../screens/auth/SingupScreen.jsx';
 import HomeScreen from '../screens/home/HomeScreen.jsx';
+import ProfileScreen from '../screens/home/user-profile/UserProfile.jsx';
 import ResultsScreen from '../screens/student-profile/Results.jsx';
 import AboutScreen from '../screens/home/About.jsx';
+import ScannQRScreen from '../screens/home/join-quiz/ScannQr.jsx';
 import QuizTestScreen from '../screens/quiz/QuizTestScreen.jsx';
 import ResultScreen from '../screens/quiz/ResultScreen.jsx';
 
@@ -42,20 +44,20 @@ const Navigations = () => {
         }, 1610);
         handleGetToken()
         // Add event listener for back button press
-        const backHandler = BackHandler.addEventListener(
-            "hardwareBackPress",
-            () => {
-                // If user is on Login or Signup screen, navigate to Landing screen
-                if (currentRouteName === "Login" || currentRouteName === "Signup") {
-                    navigation.navigate("Landing");
-                    return true; // prevent default back button behavior
-                }
-                return false; // default back button behavior
-            }
-        );
+        // const backHandler = BackHandler.addEventListener(
+        //     "hardwareBackPress",
+        //     () => {
+        //         // If user is on Login or Signup screen, navigate to Landing screen
+        //         if (currentRouteName === "Login" || currentRouteName === "Signup") {
+        //             navigation.navigate("Landing");
+        //             return true; // prevent default back button behavior
+        //         }
+        //         return false; // default back button behavior
+        //     }
+        // );
 
         // Cleanup function
-        return () => backHandler.remove();
+        // return () => backHandler.remove();
     }, []);
 
 
@@ -73,10 +75,12 @@ const Navigations = () => {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="About" component={AboutScreen} />
-            {/* <Stack.Screen name="`Results`" component={ResultsScreen} />
+            <Stack.Screen name="Results" component={ResultsScreen} />
+            <Stack.Screen name="ScannQR" component={ScannQRScreen} />
             <Stack.Screen name="Quiz" component={QuizTestScreen} />
-            <Stack.Screen name="Result" component={ResultScreen} /> */}
+            <Stack.Screen name="Result" component={ResultScreen} />
 
         </Stack.Navigator>
     )

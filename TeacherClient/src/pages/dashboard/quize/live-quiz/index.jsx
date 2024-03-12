@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { encrypt } from 'n-krypta';
 import apiEndpoints from '../../../../services/api';
 
 import DashBoard from '../../../../components/frames/dashboard';
@@ -29,21 +28,17 @@ const LiveQuizes = () => {
             if (quizId !== '' && duration !== '') {
                 const response = await apiEndpoints.teacher.createLiveQuiz({ quizId, duration });
                 if (response.status === 200) {
-                    console.log(response)
+                    // console.log(response)
                     showSuccessToast(`Quiz Is Live Now for new ${duration} min !!`)
 
-                    const encryptionKey = 'njfieuro98w4irfn0i49';
                     const uniqueQrID = 'c8nwuc-fertg546y';
-                    // const qrId = encrypt(uniqueQrID, encryptionKey)
-                    // const quizKey = encrypt(quizId, encryptionKey);
-                    const quizValue = encrypt(response.data.RoomPassword, encryptionKey);
 
                     const credentials = {
                         qrUniqueId: uniqueQrID,
                         quizId: quizId,
-                        password: quizValue
+                        password: response.data.RoomPassword
                     };
-                    // console.log(response.data.RoomPassword)
+                    console.log(response.data.RoomPassword)
                     setShowQR(true);
                     setQuizCredentails(credentials)
 

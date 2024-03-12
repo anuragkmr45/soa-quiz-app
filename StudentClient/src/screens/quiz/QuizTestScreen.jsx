@@ -70,7 +70,7 @@ const QuizTestScreen = ({ route }) => {
     useEffect(() => {
         const handleAppStateChange = (nextAppState) => {
             if (appState === 'active' && nextAppState === 'background') {
-                // console.log('App is working in the background.');
+                console.log('App is working in the background.');
                 handleQuizSubmit();
                 alert('Quiz Submitted !! Due To Clsoing Of App')
             }
@@ -153,7 +153,6 @@ const QuizTestScreen = ({ route }) => {
                     currentQuestionIndex === quizData.quizDetails.quizData.length - 1 ? (
                         <TouchableOpacity
                             style={styles.button}
-                            // onPress={handleQuizSubmit}
                             onPress={!isLoading ? handleQuizSubmit : ''}
                         >
                             {
