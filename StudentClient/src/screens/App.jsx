@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 30,
         width: '90%',
-        shadowColor: 'black',
+        shadowColor: defaultStyling.dark,
         shadowOffset: {
             width: 10,
             height: 200,
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'white',
+        color: defaultStyling.primaryTextColor,
         alignSelf: 'center',
     },
     overlay: { // Added

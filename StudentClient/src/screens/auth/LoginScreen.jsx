@@ -13,11 +13,11 @@ import AuthFrmae from '../../components/frames/AuthFrame.jsx'
 
 const LoginScreen = () => {
 
-    // 214101115
-    // ayush1234
+    // 2141011114
+    // Anurag1234
 
-    const [registrationNo, setRegistrationNo] = useState('2141011315');
-    const [password, setPassword] = useState('ayush1234');
+    const [registrationNo, setRegistrationNo] = useState('2141011114');
+    const [password, setPassword] = useState('Anurag1234');
     const [loading, setLoading] = useState(false)
 
     const deviceId = useGetAndroidID()
@@ -49,7 +49,7 @@ const LoginScreen = () => {
             }
 
         } catch (error) {
-            // console.error('Error while login: ', error);
+            console.error('Error while login: ', error);
             alert('Invalid Credentials ');
         } finally {
             setLoading(false);

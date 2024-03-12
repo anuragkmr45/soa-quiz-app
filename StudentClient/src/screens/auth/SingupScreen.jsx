@@ -44,9 +44,9 @@ const SignupScreen = () => {
     const [name, setName] = useState('');
     const [regNo, setRegNo] = useState('');
     const [email, setEmail] = useState('');
-    const [course, setCourse] = useState('');
-    const [batch, setBatch] = useState('');
-    const [branch, setBranch] = useState('');
+    const [course, setCourse] = useState('BTech');
+    const [batch, setBatch] = useState('2025');
+    const [branch, setBranch] = useState('CSE');
     const [section, setSection] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -114,32 +114,32 @@ const SignupScreen = () => {
                 keyboardType='email-address'
             />
 
-            <TouchableHighlight
+            {/* <TouchableHighlight
                 style={styles.dropdowninput}
                 onPress={() => setCourseMenuVisible(true)}
             >
                 <Text style={{ color: defaultStyling.dark }}>
                     {course ? course : 'Select Course'}
                 </Text>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
 
-            <TouchableHighlight
+            {/* <TouchableHighlight
                 style={styles.dropdowninput}
                 onPress={() => setBatchMenuVisible(true)}
             >
                 <Text style={{ color: defaultStyling.dark }}>
                     {batch ? batch : 'Select Batch'}
                 </Text>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
 
-            <TouchableHighlight
+            {/* <TouchableHighlight
                 style={styles.dropdowninput}
                 onPress={() => setBranchMenuVisible(true)}
             >
                 <Text style={{ color: defaultStyling.dark }}>
                     {branch ? branch : 'Select Branch'}
                 </Text>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
 
             <TouchableHighlight
                 style={styles.dropdowninput}

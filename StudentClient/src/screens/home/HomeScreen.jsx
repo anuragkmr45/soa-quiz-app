@@ -13,7 +13,6 @@ import CreatorImg from '../../assest/icons/coding.png'
 import ProfileCard from '../../components/cards/ProfileCard';
 import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard';
 
-
 const HomeScreen = () => {
 
     const [profile, setProfile] = useState();
@@ -57,10 +56,13 @@ const HomeScreen = () => {
     const handleProfile = async () => {
         setDataLoading(true)
         try {
-            const res = await apiEndpoints.getProfile()
-            setProfile(res)
+            if (!profile) {
+                const res = await apiEndpoints.getProfile()
+                setProfile(res)
+            }
         } catch (error) {
-            alert('Something Went Wrong !! Login Again');
+            console.log(error)
+            alert('Login Again');
             navigation.navigate('Login')
         } finally {
             setDataLoading(false)
@@ -102,13 +104,13 @@ const HomeScreen = () => {
                 {
                     loading ? (
                         <Button mode='contained' style={styles.button}>
-                            <Text style={{ color: 'white' }} >
+                            <Text style={{ color: defaultStyling.primaryTextColor }} >
                                 loading ...
                             </Text>
                         </Button>
                     ) : (
                         <Button mode="contained" icon='' style={styles.button} onPress={handleLogout}>
-                            <Text style={{ color: 'white' }} >
+                            <Text style={{ color: defaultStyling.primaryTextColor }} >
                                 Logout
                             </Text>
                         </Button>
@@ -180,7 +182,7 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '100%',
-        backgroundColor: '#830415',
+        backgroundColor: defaultStyling.danger,
         borderRadius: 12,
         paddingVertical: 5,
     },

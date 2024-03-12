@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { Card, Chip } from 'react-native-paper';
 import { defaultStyling } from '../../constant/styles';
 
@@ -12,22 +12,23 @@ const QuizCard = ({ questionData, onSelectOption }) => {
     };
 
     return (
-        <Card style={{ width: '100%', backgroundColor: 'white' }}>
+        <Card style={{ width: '100%', backgroundColor: defaultStyling.dark }}>
             <ScrollView style={{ paddingVertical: 20 }}>
                 <Card.Content>
                     <ScrollView>
                         <Text style={{ color: defaultStyling.dark, marginBottom: 10, fontSize: 17 }} >
                             {questionData.question_text}
                         </Text>
-                        {questionData.options.map((option, index) => (
+                        {questionData?.options?.map((option, index) => (
                             <View key={index}>
-                                <Chip
+                                <TouchableOpacity
                                     selected={selectedOption === option}
                                     onPress={() => handleOptionPress(option)}
                                     style={{
                                         marginVertical: 8,
-                                        paddingVertical: 10,
-                                        backgroundColor: selectedOption === option ? defaultStyling.dark : '#e0e8eb'
+                                        padding: 10,
+                                        borderRadius: 10,
+                                        backgroundColor: selectedOption === option ? defaultStyling.dark : defaultStyling.semidark
                                     }}
                                 >
                                     <Text style={{
@@ -35,7 +36,7 @@ const QuizCard = ({ questionData, onSelectOption }) => {
                                     }}>
                                         {option}
                                     </Text>
-                                </Chip>
+                                </TouchableOpacity>
                             </View>
                         ))}
                     </ScrollView>

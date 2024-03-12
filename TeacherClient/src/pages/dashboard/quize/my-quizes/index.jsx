@@ -15,7 +15,7 @@ const MyQuizes = () => {
                 const userToken = localStorage.getItem('authToken');
 
                 const response = await apiEndpoints.teacher.getMyQuizzes(userToken);
-                // console.log(response)
+                console.log(response)
                 // Assuming the response.data contains the array of quizzes
                 setQuizzes(response.data.quizzes);
                 setLoading(false)
@@ -32,7 +32,7 @@ const MyQuizes = () => {
             {loading ? (
                 <>loading ...</>
             ) : (
-                quizzes.length === 0 ? (
+                quizzes?.length === 0 ? (
                     <h1 className="my-auto text-center">
                         Data Not Found !!!
                     </h1>

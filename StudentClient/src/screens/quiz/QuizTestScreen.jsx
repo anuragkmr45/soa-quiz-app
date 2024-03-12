@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, AppState } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, AppState, Alert } from 'react-native';
 // import CountDown from 'react-native-countdown-component';
 
 import apiEndpoints from '../../services/api';
@@ -51,11 +51,17 @@ const QuizTestScreen = ({ route }) => {
 
             if (res.data.success === true) {
                 navigation.navigate('Result', { quizResult: res.data })
+                // console.log(res.data)
             }
 
         } catch (error) {
             // console.error('Error while submiting quiz: ', error);
-            alert('Quiz Already Submited')
+            Alert.alert('Quiz Already Submitted', '', [
+                {
+                    text: 'Ok',
+                    onPress: () => navigation.navigate('Home') // Navigate to home screen on OK press
+                }
+            ]);
         } finally {
             setIsLoading(false)
         }

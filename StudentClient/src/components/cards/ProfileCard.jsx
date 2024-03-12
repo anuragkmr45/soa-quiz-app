@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Text, Modal, Portal, Button, Image } from 'react-native-paper';
 import { View, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
 // import ProfileImg from '../../assest/icons/verified.png'
@@ -11,11 +11,10 @@ import { defaultStyling } from '../../constant/styles';
 const ProfileCard = ({ profile, results }) => {
 
     const [visible, setVisible] = useState(false);
-    const navigation = useNavigation()
+    // const navigation = useNavigation()
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-    const containerStyle = { backgroundColor: 'white', padding: 20 };
 
     return (
         <>
@@ -58,8 +57,12 @@ const ProfileCard = ({ profile, results }) => {
 
             </View>
 
-            <Portal>
-                <Modal visible={visible} onDismiss={hideModal} style={{ backgroundColor: 'rgba(0,0,0, 0.6)', paddingHorizontal: 20 }} contentContainerStyle={containerStyle}>
+            <Portal >
+                <Modal
+                    visible={visible}
+                    onDismiss={hideModal}
+                    style={{ backgroundColor: 'rgba(0,0,0, 0.6)', paddingHorizontal: 20 }}
+                >
                     <Card style={styles.card} >
                         <Card.Content>
                             <Text
@@ -110,10 +113,10 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        color: 'white'
+        color: defaultStyling.primaryTextColor
     },
     details: {
-        color: 'white'
+        color: defaultStyling.primaryTextColor
     },
     card: {
         backgroundColor: defaultStyling.semidark,
@@ -134,7 +137,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5, // Adjust the horizontal spacing between buttons
     },
     buttonText: {
-        color: 'white',
+        color: defaultStyling.primaryTextColor,
         textAlign: 'center', // Center the text inside the button
     },
 

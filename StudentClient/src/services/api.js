@@ -1,26 +1,9 @@
-import { useContext } from 'react';
 import axios from 'axios';
 import useAuthToken from '../hooks/token-manager/useAuthToken';
-import { FirestoreContext } from '../context/FirestoreContext';
 
-// const baseURL = 'https://b5d9-2405-201-a003-9050-d0b1-605b-87d-91bc.ngrok-free.app/'
 const baseURL = 'http://192.168.29.186:5000';
 // const baseURL = 'http://192.168.166.83:5000';
-
-// let baseURL = ''
-
-// const setBaseURLFromFirestore = async () => {
-//     try {
-//         const { getDocuments } = useContext(FirestoreContext);
-//         const documents = await getDocuments('configurations');
-//         baseURL = documents[0].baseURL;
-//     } catch (error) {
-//         console.error('Error setting baseURL from Firestore:', error);
-//     }
-// };
-
-// // Initialize baseURL during module initialization
-// setBaseURLFromFirestore();
+// const baseURL = 'https://sheepdog-large-personally.ngrok-free.app';
 
 const api = axios.create({
     baseURL: baseURL,

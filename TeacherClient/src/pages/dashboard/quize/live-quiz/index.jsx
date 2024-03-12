@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-// import { QRCodeSVG } from 'qrcode.react';
+import React, { useState, useEffect } from 'react';
+import { QRCodeSVG } from 'qrcode.react';
+import { encrypt } from 'n-krypta';
 import apiEndpoints from '../../../../services/api';
 
 import DashBoard from '../../../../components/frames/dashboard';
 import { showSuccessToast, showErrorToast } from '../../../../components/tosters/notifications'
 
 const LiveQuizes = () => {
-    // const [style, setStyle] = useState({ backgroundColor: '#FFFFFF', foregroundColor: '#000000' });
     const [quizId, setQuizId] = useState('');
     const [duration, setDuration] = useState('');
     const [quizCredentails, setQuizCredentails] = useState();
@@ -29,13 +29,19 @@ const LiveQuizes = () => {
             if (quizId !== '' && duration !== '') {
                 const response = await apiEndpoints.teacher.createLiveQuiz({ quizId, duration });
                 if (response.status === 200) {
-                    // console.log(response.data.RoomPassword)
+                    console.log(response)
                     showSuccessToast(`Quiz Is Live Now for new ${duration} min !!`)
 
+                    const encryptionKey = 'njfieuro98w4irfn0i49';
+                    const uniqueQrID = 'c8nwuc-fertg546y';
+                    // const qrId = encrypt(uniqueQrID, encryptionKey)
+                    // const quizKey = encrypt(quizId, encryptionKey);
+                    const quizValue = encrypt(response.data.RoomPassword, encryptionKey);
+
                     const credentials = {
-                        qrUniqueId: 'c8nwuc-fertg546y',
+                        qrUniqueId: uniqueQrID,
                         quizId: quizId,
-                        password: response.data.RoomPassword
+                        password: quizValue
                     };
                     // console.log(response.data.RoomPassword)
                     setShowQR(true);
@@ -56,30 +62,6 @@ const LiveQuizes = () => {
         }
     };
 
-    // const generateUniqueID = () => {
-    //     // Implement logic to generate unique ID
-    //     return Math.random().toString(36).substring(7); // Example of generating random alphanumeric string
-    // };
-
-    // const generateNewStyle = () => {
-    //     // Implement logic to generate new styles
-    //     // For example, change background and foreground colors
-    //     const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
-    //     return {
-    //         backgroundColor: randomColor(),
-    //         foregroundColor: randomColor()
-    //     };
-    // };
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         // Generate new style every 2 seconds
-    //         const newStyle = generateNewStyle();
-    //         setStyle(newStyle);
-    //     }, 2000);
-
-    //     return () => clearInterval(interval);
-    // }, []);
-
     return (
         <DashBoard>
             {/* <AlertBox roomPassword={quizCredentails.password} /> */}
@@ -87,12 +69,14 @@ const LiveQuizes = () => {
                 {
                     showQR ? (
                         <div className="flex justify-center items-center p-10">
-                            {/* <QRCodeSVG
+                            <QRCodeSVG
                                 value={JSON.stringify(quizCredentails)}
                                 size={300}
                                 // bgColor={"#000000"}
-                                bgColor={style.backgroundColor}
-                                fgColor={style.foregroundColor}
+                                // bgColor={style.backgroundColor}
+                                // fgColor={style.foregroundColor}
+                                bgColor='black'
+                                fgColor='white'
                                 // fgColor={"#ffffff"}
                                 level={"M"}
                                 includeMargin={false}
@@ -104,11 +88,11 @@ const LiveQuizes = () => {
                             //     width: 24,
                             //     excavate: true,
                             // }}
-                            /> */}
-                            <div className="space-x-4 flex">
+                            />
+                            {/* <div className="space-x-4 flex">
                                 <p className="bg-black text-white p-6">{quizId}</p>
                                 <p className="bg-black text-white p-6">{quizCredentails.password}</p>
-                            </div>
+                            </div> */}
                         </div>
                     ) : (
                         <div className="p-8 rounded-lg shadow-2xl w-11/12 md:w-3/4">

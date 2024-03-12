@@ -1,29 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Card, TextInput } from 'react-native-paper';
-import { View, StyleSheet, Text } from 'react-native';
-// import QRCodeScanner from 'react-native-qrcode-scanner';
+import { View, StyleSheet, Text, BackHandler } from 'react-native';
+import TouchID from 'react-native-touch-id';
 
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
 
 const UploadQuizDtlCard = () => {
-    const [quizId, setQuizId] = useState('itersoaAGNJ');
-    const [password, setPassword] = useState('DjxDOcX4');
+    const [quizId, setQuizId] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    // const [showScanner, setShowScanner] = useState(false);
+    const [isAuth, setIsAuth] = useState(false);
 
     const navigation = useNavigation();
 
+    const getCameraPermissions = async () => {
+        try {
+            const result = await request(PERMISSIONS.ANDROID.CAMERA);
+            console.log('Camera permissions : ', result);
+            return result;
+        } catch (error) {
+            console.error('Error while fetching camera permission : ', error);
+            throw error;
+        }
+    };
     const handleJoinQuiz = async () => {
         setLoading(true)
         try {
-            if (quizId !== '' && password !== '') {
+            await handleToucIdAuth()
+            if (quizId !== '' && password !== '' && isAuth === true) {
                 const res = await apiEndpoints.joinQuiz({ quizId: quizId, password: password })
 
                 if (res.status === 200) {
                     const quizData = res.data
-                    // console.log('quizData inside the upload quix card: ', quizData)
                     navigation.navigate('Quiz', { quizData: quizData })
                 }
             }
@@ -36,24 +46,45 @@ const UploadQuizDtlCard = () => {
         }
     };
 
-    // const handleQRCodeScan = (e) => {
-    //     // Extract data from QR code scan result and set quizId/password state
-    //     const { data } = e;
-    //     const [quizIdFromQR, passwordFromQR] = data.split(':');
-    //     setQuizId(quizIdFromQR);
-    //     setPassword(passwordFromQR);
-    //     setShowScanner(false); // Hide scanner after successful scan
-    // };
+
+    const optionalConfigObject = {
+        title: 'Authentication Required To Join Quiz',
+        imageColor: '#e00606', // Android
+        imageErrorColor: '#ff0000', // Android
+        sensorDescription: 'Touch sensor', // Android
+        sensorErrorDescription: 'Failed', // Android
+        cancelText: 'Cancel', // Android
+        fallbackLabel: 'Show Passcode', // iOS (if empty, then label is hidden)
+        unifiedErrors: false,
+    };
+
+    const handleToucIdAuth = () => {
+        TouchID.isSupported(optionalConfigObject).then((biometryType) => {
+            if (biometryType === 'FaceID') {
+                console.log('FaceID is supported.');
+            } else {
+                TouchID.authenticate('', optionalConfigObject)
+                    .then((success) => {
+                        if (success === true) {
+                            setIsAuth(true)
+                        } else {
+                            setIsAuth(false)
+                        }
+                    })
+                    .catch(error => {
+                        BackHandler.exitApp()
+                    })
+            }
+        })
+    }
+
+    useEffect(() => {
+
+        // getCameraPermissions()
+    }, [])
 
     return (
         <View style={styles.container}>
-
-            {/* <View>
-                <QRCodeScanner
-                    onRead={handleQRCodeScan}
-                    containerStyle={styles.scannerContainer}
-                />
-            </View> */}
 
             <Card style={styles.card}>
                 <Text
@@ -122,7 +153,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         borderRadius: 10,
         backgroundColor: defaultStyling.dark,
-        // borderColor: defaultStyling,
     },
 });
 
