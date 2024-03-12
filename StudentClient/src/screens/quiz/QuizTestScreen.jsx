@@ -72,7 +72,10 @@ const QuizTestScreen = ({ route }) => {
             if (appState === 'active' && nextAppState === 'background') {
                 console.log('App is working in the background.');
                 handleQuizSubmit();
-                alert('Quiz Submitted !! Due To Clsoing Of App')
+                Alert.alert('Quiz Submitted !! Due To Clsoing Of App')
+                Alert.alert('Quiz Submitted !! Due To Clsoing Of App', '', [
+                    { text: 'OK', onPress: () => navigation.navigate('Home') },
+                ])
             }
             // else if (appState === 'active' && nextAppState === 'inactive') {
             //     console.log('App is in the process of transitioning to the background.');
@@ -82,13 +85,9 @@ const QuizTestScreen = ({ route }) => {
             setAppState(nextAppState);
         };
 
-        if (remainingDuration) {
-
-        }
-
         const subscription = AppState.addEventListener('change', handleAppStateChange);
 
-        const intervalId = setInterval(() => {
+        const intervalId = setInterval(async () => {
             setRemainingDuration(prevDuration => {
                 if (prevDuration === 0) {
                     handleQuizSubmit()

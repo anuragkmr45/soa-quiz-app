@@ -65,6 +65,13 @@ const SignupScreen = () => {
     const handleSignup = async () => {
         setLoading(true);
         try {
+
+            if (name === '' && regNo === '' && section === '' && password === '') {
+                Alert.alert('Input All Required Fields', '', [
+                    { text: 'OK' },
+                ])
+            }
+
             if (name !== '' && regNo !== '' && batch !== '' && branch !== '' && section !== '' && password !== '') {
                 const res = await apiEndpoints.register({
                     name: name,
@@ -233,14 +240,14 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
-        backgroundColor: defaultStyling.dark,
+        backgroundColor: defaultStyling.semidark,
         borderRadius: 8,
         paddingVertical: 8
     },
     signupText: {
         textAlign: 'center',
         marginTop: 20,
-        color: defaultStyling.dark,
+        color: defaultStyling.semidark,
     },
     centeredView: {
         flex: 1,

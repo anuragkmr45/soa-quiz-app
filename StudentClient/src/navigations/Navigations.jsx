@@ -77,6 +77,7 @@ const Navigations = () => {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="About" component={AboutScreen} />
+            {/* <Stack.Screen name="About" component={TermsAndContionsScreen} /> */}
             <Stack.Screen name="Results" component={ResultsScreen} />
             <Stack.Screen name="ScannQR" component={ScannQRScreen} />
             <Stack.Screen name="Quiz" component={QuizTestScreen} />

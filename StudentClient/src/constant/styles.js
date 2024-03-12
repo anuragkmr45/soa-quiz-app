@@ -2,14 +2,20 @@ export const defaultStyling = {
     backgroundColor: '#313768',
     primaryTextColor: '#F4EEFF', // white
     secondaryTextColor: '#313768',
-    dark: '#1B262C',
-    semidark: '#393E46',
-    light: '#00ADB5',
+    dark: '#070F2B',
+    semidark: '#2D3250',
+    light: '#9290C3',
     danger: 'rgba(117, 0, 29, 0.7)',
-    // danger: '#800020',
-
-
 }
+// export const defaultStyling = {
+//     backgroundColor: '#313768',
+//     primaryTextColor: '#F4EEFF', // white
+//     secondaryTextColor: '#313768',
+//     dark: '#1B262C',
+//     semidark: '#393E46',
+//     light: '#00ADB5',
+//     danger: 'rgba(117, 0, 29, 0.7)',
+// }
 
 export const container = {
     flex: 1,

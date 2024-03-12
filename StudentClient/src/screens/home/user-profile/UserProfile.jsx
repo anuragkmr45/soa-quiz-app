@@ -1,10 +1,18 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import { View, Text, ScrollView } from 'react-native'
+import apiEndpoints from '../../../services/api'
 
-const UserProfile = () => {
+import { defaultStyling } from '../../../constant/styles'
+
+const UserProfile = ({ route }) => {
+
+    console.log(route.params)
+
     return (
-        <View>
-            <Text>UserProfile</Text>
+        <View style={{ backgroundColor: defaultStyling.dark, flex: 1 }}>
+            <ScrollView>
+                <Text>UserProfile</Text>
+            </ScrollView>
         </View>
     )
 }

@@ -15,7 +15,6 @@ const About = () => {
                     intro='Assistant Professor at ITER, SOA University | DevOps, AI and ML Researcher'
                     insta='https://www.instagram.com/anukampabehera'
                     linkedin='https://www.linkedin.com/in/anukampa-behera-a1393849'
-                // github='https://github.com/shaansuraj'
                 />
                 <TeamCard
                     img="https://media.licdn.com/dms/image/D5603AQEP1cz4sfBjvQ/profile-displayphoto-shrink_400_400/0/1705065056894?e=1714608000&v=beta&t=Yj5-6QkqTlvQ9x80IBsz6z8qVZMgEsPWi1zPu0JwTrI"

@@ -65,12 +65,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: defaultStyling.backgroundColor,
+        backgroundColor: defaultStyling.dark,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: defaultStyling.primaryTextColor
     },
     resultContainer: {
         borderWidth: 1,
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 20,
         width: '80%',
+        backgroundColor: defaultStyling.semidark
     },
     resultItem: {
         flexDirection: 'row',

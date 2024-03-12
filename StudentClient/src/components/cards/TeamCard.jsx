@@ -109,6 +109,10 @@ const TeamCard = ({ img, name, insta, intro, github, linkedin }) => {
 
     const limitedIntro = intro.length > 38 ? intro.substring(0, 230) + " " : intro;
 
+    const handlePress = (url) => {
+        Linking.openURL(url);
+    };
+
     return (
         <View style={styles.container}>
             {/* <View style={styles.imageContainer}> */}
@@ -120,21 +124,30 @@ const TeamCard = ({ img, name, insta, intro, github, linkedin }) => {
                 <View style={styles.actions}>
                     {
                         insta && (
-                            <TouchableOpacity style={styles.iconButton}>
+                            <TouchableOpacity
+                                style={styles.iconButton}
+                                onPress={() => handlePress(insta)}
+                            >
                                 <Image source={Insta} style={styles.icon} />
                             </TouchableOpacity>
                         )
                     }
                     {
                         github && (
-                            <TouchableOpacity style={styles.iconButton}>
+                            <TouchableOpacity
+                                style={styles.iconButton}
+                                onPress={() => handlePress(github)}
+                            >
                                 <Image source={Github} style={styles.icon} />
                             </TouchableOpacity>
                         )
                     }
                     {
                         linkedin && (
-                            <TouchableOpacity style={styles.iconButton}>
+                            <TouchableOpacity s
+                                tyle={styles.iconButton}
+                                onPress={() => handlePress(linkedin)}
+                            >
                                 <Image source={Linkedin} style={styles.icon} />
                             </TouchableOpacity>
                         )
@@ -150,6 +163,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
+        backgroundColor: defaultStyling.semidark,
+        borderRadius: 10,
+
+        borderWidth: 0.2,
+        borderColor: defaultStyling.semidark,
+        borderRadius: 10,
+        shadowColor: defaultStyling.semidark,
+        shadowOpacity: 1,
+        shadowRadius: 1,
+        elevation: 15,
     },
     image: {
         width: 80,

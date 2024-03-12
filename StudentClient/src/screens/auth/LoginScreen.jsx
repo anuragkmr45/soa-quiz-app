@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableHighlight } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
@@ -16,8 +16,8 @@ const LoginScreen = () => {
     // 2141011114
     // Anurag1234
 
-    const [registrationNo, setRegistrationNo] = useState('2141011114');
-    const [password, setPassword] = useState('Anurag1234');
+    const [registrationNo, setRegistrationNo] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
 
     const deviceId = useGetAndroidID()
@@ -27,12 +27,10 @@ const LoginScreen = () => {
     const handleLogin = async () => {
         setLoading(true);
         try {
-            if (registrationNo === '') {
-                throw new Error('Registration number is required.');
-            }
-
-            if (password === '') {
-                throw new Error('Password is required.');
+            if (registrationNo === '' || password !== '') {
+                Alert.alert('Input All Required Fields', '', [
+                    { text: 'OK' },
+                ])
             }
 
             if (registrationNo !== '' & password !== '') {
@@ -112,14 +110,14 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
-        backgroundColor: defaultStyling.dark,
+        backgroundColor: defaultStyling.semidark,
         borderRadius: 8,
         paddingVertical: 8
     },
     signupText: {
         textAlign: 'center',
         marginTop: 20,
-        color: defaultStyling.secondaryTextColor,
+        color: defaultStyling.semidark,
     },
 });
 

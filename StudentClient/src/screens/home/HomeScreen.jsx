@@ -49,7 +49,6 @@ const HomeScreen = () => {
                 setProfile(res)
             }
         } catch (error) {
-            console.log(error)
             alert('Login Again');
             navigation.navigate('Login')
         } finally {
@@ -71,13 +70,20 @@ const HomeScreen = () => {
                 )
             }
             <View
-                style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'space-evenly', flex: 1 }}
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'space-evenly',
+                    flex: 1,
+
+                }}
             >
                 <View style={styles.profileBtns}>
                     <Button
                         mode="contained"
                         style={styles.profileBtn}
-                        onPress={() => { navigation.navigate('Profile') }}
+                        onPress={() => { navigation.navigate('Profile', { profile: profile }) }}
                     >
                         <Text style={{ color: defaultStyling.primaryTextColor }}>
                             My Profile

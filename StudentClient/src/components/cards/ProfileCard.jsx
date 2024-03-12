@@ -35,18 +35,17 @@ const styles = StyleSheet.create({
         padding: '5%',
         alignItems: 'center',
         width: '99%',
-        backgroundColor: defaultStyling.semidark,
+        backgroundColor: defaultStyling.dark,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
-
         shadowColor: defaultStyling.light,
         shadowOffset: {
             width: 0,
-            height: 5, // Set to a positive value to add shadow only at the bottom
+            height: 5,
         },
         shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 15,
+        shadowRadius: 10,
+        elevation: 50,
     },
     image: {
         width: 120,
