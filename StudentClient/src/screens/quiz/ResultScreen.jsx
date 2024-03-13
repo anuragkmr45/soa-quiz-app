@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     button: {
-        backgroundColor: defaultStyling.dark,
+        backgroundColor: defaultStyling.semidark,
         width: '100%',
         borderRadius: 10,
         paddingVertical: 8,

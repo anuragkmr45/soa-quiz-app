@@ -44,6 +44,20 @@ const HomeScreen = () => {
         }
     }
 
+    const handleFetchResults = async () => {
+        try {
+            if (results.length === 0) {
+                const res = await apiEndpoints.getMyResults()
+                // console.log('results: ', res.data.quizResults)
+                if (res.status === 200) {
+                    setResults(res.data.quizResults)
+                }
+            }
+        } catch (error) {
+            console.log('Error while efetching resyutls: ', error)
+        }
+    }
+
     const handleProfile = async () => {
         setDataLoading(true)
         try {
@@ -61,6 +75,7 @@ const HomeScreen = () => {
 
     useEffect(() => {
 
+        handleFetchResults()
         handleProfile();
         requestPermission();
     }, []);
