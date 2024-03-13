@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import useAuthToken from '../hooks/token-manager/useAuthToken';
 import { defaultStyling } from '../constant/styles';
-import BgImg from '../assest/image/bg-img.png';
+// import BgImg from '../assest/image/bg-img.png';
 import HeroImg from '../assest/image/heroimg.png'
 // import LoginIcon from '../assest/icons/login-icon.png'
 
@@ -34,36 +34,38 @@ const App = () => {
     }, [])
 
     return (
-        <ImageBackground
-            source={BgImg}
-            style={styles.backgroundImage}
-            resizeMode="cover"
-        >
-            <View style={styles.container}>
-                <View style={styles.centerContainer}>
-                    <Image source={HeroImg} style={styles.image} />
-                    <Text style={styles.text}>SOA Quiz App</Text>
-                </View>
-
-                {
-                    isAuth ? (
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => { navigation.navigate('Home') }}>
-                            <Text style={styles.buttonText}>Get Started </Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => { navigation.navigate('Login') }}>
-                            <Text style={styles.buttonText}>Login</Text>
-                            {/* <Image src={LoginIcon} alt="" /> */}
-                        </TouchableOpacity>
-                    )
-                }
-
+        // <ImageBackground
+        //     source={BgImg}
+        //     style={styles.backgroundImage}
+        //     resizeMode="cover"
+        // >
+        <View
+            colors={[defaultStyling.dark, defaultStyling.semidark]}
+            style={styles.container}>
+            <View style={styles.centerContainer}>
+                <Image source={HeroImg} style={styles.image} />
+                <Text style={styles.text}>Quizzy</Text>
             </View>
-        </ImageBackground>
+
+            {
+                isAuth ? (
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => { navigation.navigate('Home') }}>
+                        <Text style={styles.buttonText}>Get Started </Text>
+                    </TouchableOpacity>
+                ) : (
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => { navigation.navigate('Login') }}>
+                        <Text style={styles.buttonText}>Login</Text>
+                        {/* <Image src={LoginIcon} alt="" /> */}
+                    </TouchableOpacity>
+                )
+            }
+
+        </View>
+        // </ImageBackground>
     );
 };
 
@@ -76,7 +78,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'relative', // Added
+        position: 'relative',
+        backgroundColor: defaultStyling.semidark
     },
     centerContainer: {
         alignItems: 'center',
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: defaultStyling.dark,
+        color: defaultStyling.primaryTextColor,
     },
     button: {
         backgroundColor: defaultStyling.dark,

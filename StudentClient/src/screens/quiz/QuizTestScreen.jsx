@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, AppState, Alert } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, AppState, Alert, Modal } from 'react-native';
+import FastImage from 'react-native-fast-image'
 // import CountDown from 'react-native-countdown-component';
 
 import apiEndpoints from '../../services/api';
+import ResultLoader from '../../assest/gif/result-loader.gif'
 import QuizCard from '../../components/cards/QuizCard';
 import BgImg from '../../assest/image/bg-img.png';
 import { defaultStyling } from '../../constant/styles';
@@ -55,13 +57,31 @@ const QuizTestScreen = ({ route }) => {
             }
 
         } catch (error) {
-            // console.error('Error while submiting quiz: ', error);
-            Alert.alert('Quiz Already Submitted', '', [
-                {
-                    text: 'Ok',
-                    onPress: () => navigation.navigate('Home') // Navigate to home screen on OK press
-                }
-            ]);
+            console.error('Error while submiting quiz: ', error.message);
+            if (error.message === 'Request failed with status code 500') {
+                Alert.alert('Error Whilee Submiting quiz !!', 'Contact Co-ordinators', [
+                    {
+                        text: 'Ok',
+                        onPress: () => navigation.navigate('Home') // Navigate to home screen on OK press
+                    }
+                ]);
+            }
+            if (error.message === 'Request failed with status code 400') {
+                Alert.alert('Quiz Already Submited', '', [
+                    {
+                        text: 'Ok',
+                        onPress: () => navigation.navigate('Home') // Navigate to home screen on OK press
+                    }
+                ]);
+            }
+            if (error.message === 'Request failed with status code 404') {
+                Alert.alert('Quiz Ended', '', [
+                    {
+                        text: 'Ok',
+                        onPress: () => navigation.navigate('Home') // Navigate to home screen on OK press
+                    }
+                ]);
+            }
         } finally {
             setIsLoading(false)
         }
@@ -106,12 +126,13 @@ const QuizTestScreen = ({ route }) => {
     }, [appState]);
 
     return (
-        <ImageBackground
-            source={BgImg}
-            style={styles.backgroundImage}
-            resizeMode="cover"
-        >
-            {/* <CountDown
+        <>
+            <ImageBackground
+                source={BgImg}
+                style={styles.backgroundImage}
+                resizeMode="cover"
+            >
+                {/* <CountDown
                 until={quizData.Duration * 60} // seconds
                 size={30}
                 onFinish={() => alert('Time Finished')}
@@ -124,59 +145,79 @@ const QuizTestScreen = ({ route }) => {
             /> */}
 
 
-            <Text style={{ textAlign: 'center', color: 'red', fontSize: 10, fontWeight: 'bold', marginTop: 10 }}>
-                Note:- Closing the app consider as a cheating !!
-            </Text>
-
-            <View>
-                <Text style={{ color: defaultStyling.dark, textAlign: 'center', fontSize: 40 }}>
-                    {Math.floor(remainingDuration / 60)}:{(remainingDuration % 60).toString().padStart(2, '0')}
+                <Text style={{ textAlign: 'center', color: 'red', fontSize: 10, fontWeight: 'bold', marginTop: 10 }}>
+                    Note:- Closing the app consider as a cheating !!
                 </Text>
-            </View>
-            <View style={styles.overlayContainer}>
-                <QuizCard
-                    questionData={quizData.quizDetails.quizData[currentQuestionIndex]}
-                    onSelectOption={handleOptionSelect}
-                />
-            </View>
-            <View style={styles.buttonContainer}>
-                {/* <TouchableOpacity
+
+                <View>
+                    <Text style={{ color: defaultStyling.dark, textAlign: 'center', fontSize: 40 }}>
+                        {Math.floor(remainingDuration / 60)}:{(remainingDuration % 60).toString().padStart(2, '0')}
+                    </Text>
+                </View>
+                <View style={styles.overlayContainer}>
+                    <QuizCard
+                        questionData={quizData.quizDetails.quizData[currentQuestionIndex]}
+                        onSelectOption={handleOptionSelect}
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    {/* <TouchableOpacity
                     style={[styles.button, { backgroundColor: defaultStyling.semidark }]}
                     onPress={handlePreviousQuestion}
                     disabled={currentQuestionIndex === 0}
-                >
+                    >
                     <Text style={styles.buttonText}>Previous</Text>
                 </TouchableOpacity> */}
 
-                {
-                    currentQuestionIndex === quizData.quizDetails.quizData.length - 1 ? (
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={!isLoading ? handleQuizSubmit : ''}
-                        >
-                            {
-                                isLoading ? (
-                                    <Text style={styles.buttonText}>Loading ... </Text>
-                                ) : (
-                                    <>
-                                        <Text style={styles.buttonText}>Submit</Text>
-                                    </>
-                                )
-                            }
-                        </TouchableOpacity>
-                    ) : (
-                        <TouchableOpacity
-                            style={[styles.button, { backgroundColor: defaultStyling.semidark }]}
-                            onPress={handleNextQuestion}
-                            disabled={currentQuestionIndex === quizData.quizDetails.quizData.length - 1}
-                        >
-                            <Text style={styles.buttonText}>Next</Text>
-                        </TouchableOpacity>
-                    )
-                }
+                    {
+                        currentQuestionIndex === quizData.quizDetails.quizData.length - 1 ? (
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={!isLoading ? handleQuizSubmit : ''}
+                            >
+                                {
+                                    isLoading ? (
+                                        <Text style={styles.buttonText}>Loading ... </Text>
+                                    ) : (
+                                        <>
+                                            <Text style={styles.buttonText}>Submit</Text>
+                                        </>
+                                    )
+                                }
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity
+                                style={[styles.button, { backgroundColor: defaultStyling.semidark }]}
+                                onPress={handleNextQuestion}
+                                disabled={currentQuestionIndex === quizData.quizDetails.quizData.length - 1}
+                            >
+                                <Text style={styles.buttonText}>Next</Text>
+                            </TouchableOpacity>
+                        )
+                    }
 
-            </View>
-        </ImageBackground>
+                </View>
+            </ImageBackground>
+            {/* Modal for loading */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={isLoading}
+                onRequestClose={() => {
+                    // Handle modal close if needed
+                }}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <FastImage
+                            source={ResultLoader}
+                            style={styles.loadingImg}
+                            resizeMode={FastImage.resizeMode.cover}
+                        />
+                    </View>
+                </View>
+            </Modal>
+        </>
     );
 };
 
@@ -200,6 +241,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: defaultStyling.dark,
+    },
+    modalContent: {
+        backgroundColor: 'inherit',
+        padding: 2,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    loadingImg: {
+        width: 250,
+        height: 250,
+        // borderRadius: 25, 
     },
     button: {
         backgroundColor: defaultStyling.dark,

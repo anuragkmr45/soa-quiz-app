@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Modal, ActivityIndicator, Image } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-// import FastImage from 'react-native-fast-image';
+import FastImage from 'react-native-fast-image';
+import { useCameraPermission } from 'react-native-vision-camera';
 
 import useAuthToken from '../../hooks/token-manager/useAuthToken';
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
 import CreatorImg from '../../assest/icons/coding.png'
+import Loader from '../../assest/gif/loader.gif'
 
 import ProfileCard from '../../components/cards/ProfileCard';
 import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard';
@@ -19,6 +21,7 @@ const HomeScreen = () => {
     const [dataLoading, setDataLoading] = useState(false);
     const [results, setResults] = useState([]);
 
+    const { requestPermission } = useCameraPermission();
     const { getToken, removeToken } = useAuthToken();
     const navigation = useNavigation();
 
@@ -59,7 +62,7 @@ const HomeScreen = () => {
     useEffect(() => {
 
         handleProfile();
-        // handleResults();
+        requestPermission();
     }, []);
 
     return (
@@ -106,10 +109,10 @@ const HomeScreen = () => {
                     <Card.Content style={styles.cardContent}>
                         <View style={styles.imageContainer}>
                             {/* <FastImage
-                            source={AboutGif}
-                            style={styles.image}
-                            onError={(error) => console.error('Error loading image:', error)}
-                        /> */}
+                                source={AboutGif}
+                                style={styles.image}
+                                onError={(error) => console.error('Error loading image:', error)}
+                            /> */}
 
                             <Image source={CreatorImg} style={styles.image} />
                         </View>
@@ -150,8 +153,13 @@ const HomeScreen = () => {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <ActivityIndicator size="large" color="white" />
-                        <Text style={styles.modalText}>Loading...</Text>
+                        {/* <ActivityIndicator size="large" color="white" />
+                        <Text style={styles.modalText}>Loading...</Text> */}
+                        <FastImage
+                            source={Loader}
+                            style={styles.loadingImg}
+                            resizeMode={FastImage.resizeMode.cover}
+                        />
                     </View>
                 </View>
             </Modal>
@@ -232,9 +240,14 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         backgroundColor: 'inherit',
-        padding: 20,
+        padding: 2,
         borderRadius: 10,
         alignItems: 'center',
+    },
+    loadingImg: {
+        width: 250,
+        height: 250,
+        // borderRadius: 25, 
     },
     modalText: {
         marginTop: 10,

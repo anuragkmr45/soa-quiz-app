@@ -27,7 +27,7 @@ const LoginScreen = () => {
     const handleLogin = async () => {
         setLoading(true);
         try {
-            if (registrationNo === '' || password !== '') {
+            if (registrationNo === '' || password === '') {
                 Alert.alert('Input All Required Fields', '', [
                     { text: 'OK' },
                 ])
