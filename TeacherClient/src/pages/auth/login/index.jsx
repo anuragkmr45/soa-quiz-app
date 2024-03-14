@@ -5,7 +5,7 @@ import LoginForm from '../../../components/forms/login'
 
 const Login = () => {
 
-    // swadhin@FaSoap.ac.in
+    // swadhin@soa.ac.in
     // python9113
     return (
         <AuthPageFrames>

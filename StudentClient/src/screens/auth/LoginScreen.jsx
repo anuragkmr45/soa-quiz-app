@@ -26,13 +26,13 @@ const LoginScreen = () => {
 
     const handleLogin = async () => {
         setLoading(true);
+        // console.log('deviceId: ', deviceId)
         try {
             if (registrationNo === '' || password === '') {
                 Alert.alert('Input All Required Fields', '', [
                     { text: 'OK' },
                 ])
             }
-
             if (registrationNo !== '' & password !== '') {
                 const res = await apiEndpoints.login({
                     registrationNumber: registrationNo,
@@ -47,8 +47,17 @@ const LoginScreen = () => {
             }
 
         } catch (error) {
-            console.error('Error while login: ', error);
-            alert('Invalid Credentials ');
+            console.error('Error while login: ', error.message);
+
+            if (error.message === 'Network Error') {
+                Alert.alert('Somthering went wrong !!', 'Try again later', [
+                    { text: 'OK' },
+                ])
+            } else {
+                Alert.alert('Invalid Credentials', '', [
+                    { text: 'OK' },
+                ])
+            }
         } finally {
             setLoading(false);
         }

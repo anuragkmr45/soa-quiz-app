@@ -144,8 +144,8 @@ const TeamCard = ({ img, name, insta, intro, github, linkedin }) => {
                     }
                     {
                         linkedin && (
-                            <TouchableOpacity s
-                                tyle={styles.iconButton}
+                            <TouchableOpacity
+                                style={styles.iconButton}
                                 onPress={() => handlePress(linkedin)}
                             >
                                 <Image source={Linkedin} style={styles.icon} />
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         backgroundColor: defaultStyling.semidark,
         borderRadius: 10,
-
+        paddingHorizontal: 5,
         borderWidth: 0.2,
         borderColor: defaultStyling.semidark,
         borderRadius: 10,
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     image: {
         width: 80,
         height: 80,
-        borderRadius: 40, // half of the width and height to make it rounded
+        borderRadius: 10, // half of the width and height to make it rounded
         marginBottom: 2,
         marginRight: 10,
     },
@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: defaultStyling.primaryTextColor
     },
     intro: {
         fontSize: 10,
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     iconButton: {
-        backgroundColor: defaultStyling.dark,
+        backgroundColor: defaultStyling.secondaryTextColor,
         borderRadius: 50, // for circular shape
         padding: 8,
         marginHorizontal: 5,

@@ -54,7 +54,7 @@ const HomeScreen = () => {
                 }
             }
         } catch (error) {
-            console.log('Error while efetching resyutls: ', error)
+            console.log('Error while fetching resutls: ', error)
         }
     }
 
@@ -136,6 +136,9 @@ const HomeScreen = () => {
                 </Card>
 
                 <UploadQuizDtlCard />
+                <Text style={{ color: '#FF204E', width: '90%', textAlign: 'center', fontSize: 10 }} >
+                    Turn Your Device DND On For Seamless  Experience
+                </Text>
             </View>
 
             <View style={styles.buttonContainer}>

@@ -35,45 +35,50 @@ const ResultScreen = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            {/* <FastImage
-                source={ResultGif}
-                style={styles.background}
-                resizeMode={FastImage.resizeMode.cover}
-            /> */}
-            {/* <Text style={styles.title}>{quizResult && quizResult.quizTitle} Result</Text> */}
-            <View style={styles.resultContainer}>
-                <View style={styles.resultItem}>
-                    <Text style={styles.resultLabel}>Name :</Text>
-                    <Text style={styles.resultValue}>{profile.name}</Text>
-                </View>
-                <View style={styles.resultItem}>
-                    <Text style={styles.resultLabel}>Registration No :</Text>
-                    <Text style={styles.resultValue}>{profile.registrationnumber}</Text>
-                </View>
-                <View style={styles.resultItem}>
-                    <Text style={styles.resultLabel}>Email :</Text>
-                    <Text style={styles.resultValue}>{profile.email}</Text>
-                </View>
-                <View style={styles.resultItem}>
-                    <Text style={styles.resultLabel}>Section :</Text>
-                    <Text style={styles.resultValue}>{profile.section}</Text>
-                </View>
-                <View style={styles.resultItem}>
-                    <Text style={styles.resultLabel}>Branch :</Text>
-                    <Text style={styles.resultValue}>{profile.branch}</Text>
-                </View>
-                <View style={styles.resultItem}>
-                    <Text style={styles.resultLabel}>Batch :</Text>
-                    <Text style={styles.resultValue}>{profile.batch}</Text>
-                </View>
-            </View>
-            <View style={styles.buttonContainer}>
-                <Button mode="contained" icon='' style={styles.button} onPress={() => { navigation.navigate('Home') }}>
-                    <Text style={{ color: 'white' }} >
-                        Go Back To Home
+            {
+                profile ? (
+                    <>
+                        <View style={styles.resultContainer}>
+                            <View style={styles.resultItem}>
+                                <Text style={styles.resultLabel}>Name :</Text>
+                                <Text style={styles.resultValue}>{profile.name}</Text>
+                            </View>
+                            <View style={styles.resultItem}>
+                                <Text style={styles.resultLabel}>Registration No :</Text>
+                                <Text style={styles.resultValue}>{profile.registrationnumber}</Text>
+                            </View>
+                            <View style={styles.resultItem}>
+                                <Text style={styles.resultLabel}>Email :</Text>
+                                <Text style={styles.resultValue}>{profile.email}</Text>
+                            </View>
+                            <View style={styles.resultItem}>
+                                <Text style={styles.resultLabel}>Section :</Text>
+                                <Text style={styles.resultValue}>{profile.section}</Text>
+                            </View>
+                            <View style={styles.resultItem}>
+                                <Text style={styles.resultLabel}>Branch :</Text>
+                                <Text style={styles.resultValue}>{profile.branch}</Text>
+                            </View>
+                            <View style={styles.resultItem}>
+                                <Text style={styles.resultLabel}>Batch :</Text>
+                                <Text style={styles.resultValue}>{profile.batch}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <Button mode="contained" icon='' style={styles.button} onPress={() => { navigation.navigate('Home') }}>
+
+                                <Text style={{ color: 'white' }} >
+                                    Go Back To Home
+                                </Text>
+                            </Button>
+                        </View>
+                    </>
+                ) : (
+                    <Text>
+                        Dara Not  Found
                     </Text>
-                </Button>
-            </View>
+                )
+            }
         </View>
     );
 };

@@ -23,6 +23,7 @@
     "react-native-alert-notification": "^0.4.0",
     "react-native-background-actions": "^3.0.1",
     "react-native-countdown-component": "^2.7.1",
+    "react-native-crypto-js": "^1.0.0",
     "react-native-device-info": "^10.13.1",
     "react-native-fast-image": "^8.6.3",
     "react-native-linear-gradient": "^2.8.3",

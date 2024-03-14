@@ -1,17 +1,36 @@
 import axios from 'axios';
+import { Platform } from 'react-native';
 import useAuthToken from '../hooks/token-manager/useAuthToken';
 
-// const baseURL = 'http://192.168.29.186:5000';
-// const baseURL = 'http://192.168.166.83:5000';
-const baseURL = 'https://weary-bass-dirndl.cyclic.app/';
-
 const api = axios.create({
-    baseURL: baseURL,
+    baseURL: 'https://quizzy.in.net/',
     timeout: 20000,
+    rejectUnauthorized: false,
     headers: {
         'Content-Type': 'application/json',
+        'accept': 'application/json',
     },
 });
+
+
+api.interceptors.request.use(request => {
+    // console.log('Starting Request', request);
+    return request;
+});
+
+api.interceptors.response.use(response => {
+    // console.log('Response:', response);
+    return response;
+}, error => {
+    console.error('Error:', error);
+    return Promise.reject(error);
+});
+
+if (Platform.OS === 'android') {
+    api.defaults.httpsAgent = {
+        rejectUnauthorized: false, // Allow self-signed certificates
+    };
+}
 
 const apiEndpoints = {
     login: async ({ registrationNumber, password, androidId }) => {

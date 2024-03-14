@@ -1,6 +1,6 @@
 export const defaultStyling = {
     backgroundColor: '#313768',
-    primaryTextColor: '#F4EEFF', // white
+    primaryTextColor: '#FAE7F3', // white
     secondaryTextColor: '#313768',
     dark: '#070F2B',
     semidark: '#2D3250',

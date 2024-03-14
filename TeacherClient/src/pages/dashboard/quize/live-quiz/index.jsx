@@ -1,18 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import CryptoJS from 'crypto-js';
-// import { v4 as uuidv4 } from 'uuid';
 import apiEndpoints from '../../../../services/api';
 
 import DashBoard from '../../../../components/frames/dashboard';
 import { showSuccessToast, showErrorToast } from '../../../../components/tosters/notifications'
 
 const LiveQuizes = () => {
-    const [quizId, setQuizId] = useState('');
+    const [quizId, setQuizId] = useState('itersoaZR8T');
+    const [quizPass, setQuizPass] = useState('');
     const [duration, setDuration] = useState('');
-    const [quizCredentails, setQuizCredentails] = useState();
+    const [quizCredentails, setQuizCredentails] = useState({
+        qrUniqueId: '',
+        isValid: true,
+        quizId: '',
+        password: ''
+    });
     const [loading, setLoading] = useState(false)
     const [showQR, setShowQR] = useState(false);
+
+    useEffect(() => {
+        let intervalId;
+        if (showQR) {
+            intervalId = setInterval(() => {
+                handlegetQr();
+            }, 5000);
+        }
+        return () => {
+            clearInterval(intervalId);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showQR]);
+
+    const handlegetQr = () => {
+        try {
+            const qrId = 'duniw7e8wfuc98nei3dwec';
+            const qrExpire = new Date().getTime();
+
+            const qrUniqueId = encryptData(qrId)
+            const encryptedQuizId = encryptData(quizId);
+            const encryptedPassword = encryptData(quizPass);
+
+            const credentials = {
+                qrUniqueId: qrUniqueId,
+                expireDate: qrExpire,
+                quizId: encryptedQuizId,
+                password: encryptedPassword
+            };
+            setQuizCredentails(credentials)
+        } catch (error) {
+            console.error('Error while generating qr: ', error)
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,39 +71,16 @@ const LiveQuizes = () => {
 
                 if (response.status === 200) {
                     // console.log('res[omnse: ', response)
-
+                    setQuizPass(response.data.RoomPassword)
+                    // console.log(pass)
                     showSuccessToast(`Quiz Is Live Now for new ${duration} min !!`)
 
-                    const secretKey = 'c8nwuc-fertg546y';
-                    const qrId = 'duniw7e8wfuc98nei3dwec'
-                    // const token = uuidv4();
-                    // const tokenExpiry = handleExpiryToToken(token);
+                    handlegetQr()
 
-                    const qrUniqueId = encryptData(qrId, secretKey)
-                    // const encryptedToken = encryptData(tokenExpiry, secretKey);
-                    const encryptedQuizId = encryptData(quizId, secretKey);
-                    const encryptedPassword = encryptData(response.data.RoomPassword, secretKey);
-
-                    const credentials = {
-                        qrUniqueId: qrUniqueId,
-                        // qrToken: encryptedToken,
-                        quizId: encryptedQuizId,
-                        password: encryptedPassword
-                    };
-                    console.log('credentials: ', credentials)
                     setShowQR(true);
-                    setQuizCredentails(credentials)
 
                     setTimeout(() => {
                         setShowQR(false);
-                        // Generate new UUID token
-                        // const newToken = uuidv4();
-                        // const newTokenExpiry = handleExpiryToToken(newToken);
-                        // const encryptedNewToken = encryptData(newTokenExpiry, secretKey);
-                        // setQuizCredentails(prevCredentials => ({
-                        //     ...prevCredentials,
-                        //     qrToken: encryptedNewToken
-                        // }));
                     }, duration * 60000);
                 } else {
                     console.error("Error while creating quiz live: ", response.status)
@@ -78,16 +94,14 @@ const LiveQuizes = () => {
         }
     };
 
-    // const handleExpiryToToken = (token) => {
-    //     const expiryTime = Date.now() + (5); // 5 minutes expiry
-    //     return { token, expiry: expiryTime };
-    // };
-
-    const encryptData = (data, key) => {
-        return CryptoJS.AES.encrypt(data, key).toString();
+    const encryptData = (data) => {
+        try {
+            return CryptoJS.AES.encrypt(data, 'abcd').toString();
+        } catch (error) {
+            console.error('Error encrypting data:', error);
+            throw error; // Rethrow the error to propagate it further if needed
+        }
     };
-
-    // console.log('quizCredentails: ', quizCredentails)
 
     return (
         <DashBoard>
@@ -99,22 +113,10 @@ const LiveQuizes = () => {
                             <QRCodeSVG
                                 value={JSON.stringify(quizCredentails)}
                                 size={300}
-                                // bgColor={"#000000"}
-                                // bgColor={style.backgroundColor}
-                                // fgColor={style.foregroundColor}
                                 bgColor='black'
                                 fgColor='white'
-                                // fgColor={"#ffffff"}
                                 level={"M"}
                                 includeMargin={false}
-                            // imageSettings={{
-                            //     src: "https://static.zpao.com/favicon.png",
-                            //     x: undefined,
-                            //     y: undefined,
-                            //     height: 24,
-                            //     width: 24,
-                            //     excavate: true,
-                            // }}
                             />
                             {/* <div className="space-x-4 flex">
                                 <p className="bg-black text-white p-6">{quizId}</p>
