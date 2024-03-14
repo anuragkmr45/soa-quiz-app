@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import CryptoJS from 'crypto-js';
+// import { v4 as uuidv4 } from 'uuid';
 import apiEndpoints from '../../../../services/api';
 
 import DashBoard from '../../../../components/frames/dashboard';
@@ -27,23 +29,42 @@ const LiveQuizes = () => {
 
             if (quizId !== '' && duration !== '') {
                 const response = await apiEndpoints.teacher.createLiveQuiz({ quizId, duration });
+
                 if (response.status === 200) {
-                    // console.log(response)
+                    // console.log('res[omnse: ', response)
+
                     showSuccessToast(`Quiz Is Live Now for new ${duration} min !!`)
 
-                    const uniqueQrID = 'c8nwuc-fertg546y';
+                    const secretKey = 'c8nwuc-fertg546y';
+                    const qrId = 'duniw7e8wfuc98nei3dwec'
+                    // const token = uuidv4();
+                    // const tokenExpiry = handleExpiryToToken(token);
+
+                    const qrUniqueId = encryptData(qrId, secretKey)
+                    // const encryptedToken = encryptData(tokenExpiry, secretKey);
+                    const encryptedQuizId = encryptData(quizId, secretKey);
+                    const encryptedPassword = encryptData(response.data.RoomPassword, secretKey);
 
                     const credentials = {
-                        qrUniqueId: uniqueQrID,
-                        quizId: quizId,
-                        password: response.data.RoomPassword
+                        qrUniqueId: qrUniqueId,
+                        // qrToken: encryptedToken,
+                        quizId: encryptedQuizId,
+                        password: encryptedPassword
                     };
-                    console.log(response.data.RoomPassword)
+                    console.log('credentials: ', credentials)
                     setShowQR(true);
                     setQuizCredentails(credentials)
 
                     setTimeout(() => {
                         setShowQR(false);
+                        // Generate new UUID token
+                        // const newToken = uuidv4();
+                        // const newTokenExpiry = handleExpiryToToken(newToken);
+                        // const encryptedNewToken = encryptData(newTokenExpiry, secretKey);
+                        // setQuizCredentails(prevCredentials => ({
+                        //     ...prevCredentials,
+                        //     qrToken: encryptedNewToken
+                        // }));
                     }, duration * 60000);
                 } else {
                     console.error("Error while creating quiz live: ", response.status)
@@ -56,6 +77,17 @@ const LiveQuizes = () => {
             setLoading(false)
         }
     };
+
+    const handleExpiryToToken = (token) => {
+        const expiryTime = Date.now() + (5); // 5 minutes expiry
+        return { token, expiry: expiryTime };
+    };
+
+    const encryptData = (data, key) => {
+        return CryptoJS.AES.encrypt(data, key).toString();
+    };
+
+    // console.log('quizCredentails: ', quizCredentails)
 
     return (
         <DashBoard>
