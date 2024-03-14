@@ -4,7 +4,7 @@ import axios from 'axios';
 // const baseURL = 'http://192.168.166.83:5000';
 // const baseURL = 'https://weary-bass-dirndl.cyclic.app/';
 // const baseURL = 'https://sheepdog-large-personally.ngrok-free.app/'
-const baseURL = 'tcp://0.tcp.in.ngrok.io:11492'
+const baseURL = 'https://weak-rose-bighorn-sheep-wear.cyclic.app/'
 
 const api = axios.create({
     baseURL: baseURL,
