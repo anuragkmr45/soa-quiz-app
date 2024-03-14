@@ -1,9 +1,9 @@
-import Home from '../pages';
+// import Home from '../pages';
 
 import Login from '../pages/auth/login';
-import Register from '../pages/auth/signup';
+// import Register from '../pages/auth/signup';
 
-import Dashboard from '../pages/dashboard';
+// import Dashboard from '../pages/dashboard';
 import AddQuiz from '../pages/dashboard/quize/add-quiz';
 import LiveQuiz from '../pages/dashboard/quize/live-quiz';
 import MyQuizes from '../pages/dashboard/quize/my-quizes';

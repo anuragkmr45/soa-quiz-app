@@ -78,10 +78,10 @@ const LiveQuizes = () => {
         }
     };
 
-    const handleExpiryToToken = (token) => {
-        const expiryTime = Date.now() + (5); // 5 minutes expiry
-        return { token, expiry: expiryTime };
-    };
+    // const handleExpiryToToken = (token) => {
+    //     const expiryTime = Date.now() + (5); // 5 minutes expiry
+    //     return { token, expiry: expiryTime };
+    // };
 
     const encryptData = (data, key) => {
         return CryptoJS.AES.encrypt(data, key).toString();
