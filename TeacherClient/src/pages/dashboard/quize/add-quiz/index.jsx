@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { topicDtls } from '../../../../.data/subjectData';
 import apiEndpoints from '../../../../services/api';
 
+import AlertBox from '../../../../components/tosters/alert'
 import DashBoard from '../../../../components/frames/dashboard';
 import QuestionCard from '../../../../components/card/question-card'
 
@@ -92,6 +93,7 @@ const AddQuizes = () => {
 
     return (
         <DashBoard>
+            <AlertBox />
             <section className='w-11/12 mx-auto py-10'>
                 {
                     jsonData ? (

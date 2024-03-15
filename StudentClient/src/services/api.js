@@ -2,12 +2,15 @@ import axios from 'axios';
 import { Platform } from 'react-native';
 import useAuthToken from '../hooks/token-manager/useAuthToken';
 
+// const baseURL = 'https://quizzy.in.net/'
+const baseURL = 'https://b1ca-2405-201-a003-9050-d980-b330-5e4-1d01.ngrok-free.app/'
+
 const api = axios.create({
-    baseURL: 'https://quizzy.in.net/',
+    baseURL: baseURL,
     timeout: 20000,
     rejectUnauthorized: false,
     headers: {
-        'Content-Type': 'application/json',
+        'content-type': 'application/json',
         'accept': 'application/json',
     },
 });

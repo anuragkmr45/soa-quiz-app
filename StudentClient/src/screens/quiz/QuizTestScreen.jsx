@@ -44,16 +44,15 @@ const QuizTestScreen = ({ route }) => {
         setIsLoading(true)
 
         try {
+            console.log('fewrfer')
             const res = await apiEndpoints.scoreCounter({
                 registrationNumber: quizData.registrationNumber,
                 quizId: quizData.quizID,
                 responses: userResponses,
             })
 
-
             if (res.data.success === true) {
                 navigation.navigate('Result', { quizResult: res.data })
-                // console.log(res.data)
             }
 
         } catch (error) {

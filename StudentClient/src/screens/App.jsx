@@ -95,6 +95,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         color: defaultStyling.primaryTextColor,
+        fontStyle: 'italic',
+        fontFamily: ''
     },
     button: {
         backgroundColor: defaultStyling.dark,

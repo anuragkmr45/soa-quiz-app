@@ -26,10 +26,10 @@ const ScannQr = () => {
                 quizId: id ? id : quizId,
                 password: pass ? pass : password
             });
-            console.log('quiz res: ', res)
+            // console.log('quiz res: ', res)
             if (res.status === 200) {
                 const quizData = res.data;
-                // navigation.navigate('Quiz', { quizData: quizData });
+                navigation.navigate('Quiz', { quizData: quizData });
             }
         } catch (error) {
             console.log('inside ejoin quiz catch')
