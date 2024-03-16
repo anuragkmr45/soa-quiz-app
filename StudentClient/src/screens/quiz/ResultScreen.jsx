@@ -29,6 +29,7 @@ const ResultScreen = ({ route }) => {
             <Text style={styles.title}>{quizResult && quizResult.quizTitle} Result</Text>
             <View style={styles.resultContainer}>
                 <View style={styles.resultItem}>
+                    {/* blue */}
                     <Text style={styles.resultLabel}>Marks Obtained:</Text>
                     <Text style={styles.resultValue}>{marksObtained}</Text>
                 </View>
@@ -45,6 +46,7 @@ const ResultScreen = ({ route }) => {
                     <Text style={styles.resultValue}>{totalCorrect}</Text>
                 </View>
                 <View style={styles.resultItem}>
+                    {/* red */}
                     <Text style={styles.resultLabel}>Total Incorrect:</Text>
                     <Text style={styles.resultValue}>{totalIncorrect}</Text>
                 </View>

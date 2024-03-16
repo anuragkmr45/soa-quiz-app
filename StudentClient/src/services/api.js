@@ -3,7 +3,10 @@ import { Platform } from 'react-native';
 import useAuthToken from '../hooks/token-manager/useAuthToken';
 
 // const baseURL = 'https://quizzy.in.net/'
-const baseURL = 'https://b1ca-2405-201-a003-9050-d980-b330-5e4-1d01.ngrok-free.app/'
+// const baseURL = 'https://b1ca-2405-201-a003-9050-d980-b330-5e4-1d01.ngrok-free.app/'
+// const baseURL = 'https://quizzynodecached.onrender.com/'
+// const baseURL = 'https://sheepdog-large-personally.ngrok-free.app/'
+const baseURL = 'https://weak-rose-bighorn-sheep-wear.cyclic.app';
 
 const api = axios.create({
     baseURL: baseURL,

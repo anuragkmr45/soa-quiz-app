@@ -57,7 +57,7 @@ const Navigations = () => {
         // );
 
         // Cleanup function
-        // return () => backHandler.remove();
+        // return () => .remove();
     }, []);
 
 

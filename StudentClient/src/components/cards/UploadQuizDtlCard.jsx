@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Card, TextInput, } from 'react-native-paper';
-import { View, StyleSheet, Text, BackHandler, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, BackHandler, Image, TouchableOpacity } from 'react-native';
 import TouchID from 'react-native-touch-id';
 import { useCameraDevice } from 'react-native-vision-camera';
 
-import IMg from '../../assest/image/scannQrBg.png'
+import QRImg from '../../assest/image/qr.png'
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
 
-const UploadQuizDtlCard = () => {
+const UploadQuizDtlCard = ({ name }) => {
     const [quizId, setQuizId] = useState('');
     const [password, setPassword] = useState('');
     const [deviceCapability, setDeviceCapability] = useState(false)
@@ -75,12 +75,12 @@ const UploadQuizDtlCard = () => {
                         if (success === true) {
                             navigation.navigate('ScannQR')
                         } else {
-                            BackHandler.exitApp()
+                            // BackHandler.exitApp()
                         }
                     })
                     .catch(error => {
-                        // console.error('error while fingerpritn auth: ', error)
-                        BackHandler.exitApp()
+                        console.error('error while fingerpritn auth: ', error)
+                        // BackHandler.exitApp()
                     })
             }
         })
@@ -96,30 +96,18 @@ const UploadQuizDtlCard = () => {
 
             {
                 deviceCapability ? (
-                    <TouchableOpacity
-                        mode="outlined"
-                        onPress={handleToucIdAuth}
-                        style={[
-                            styles.button,
-                            { width: '90%', height: '60%', justifyContent: 'center', alignItems: 'center' }
-                        ]}
-                    >
-                        <ImageBackground
-                            source={IMg}
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: 10,
-                            }}
-                        >
-                            <Text style={{ color: defaultStyling.primaryTextColor, fontWeight: 'bold', fontSize: 25 }}>
-                                Scan QR To Attend Quiz
-                            </Text>
-                        </ImageBackground>
-                    </TouchableOpacity>
+                    <View style={styles.qrCard}>
+                        <TouchableOpacity onPress={handleToucIdAuth}>
+                            <Image source={QRImg} style={styles.image} />
+                        </TouchableOpacity>
+                        <View style={styles.textContainer}>
+                            <View>
+                                <Text style={styles.text}>Welcome !! </Text>
+                                <Text style={styles.text}>{name}</Text>
+                            </View>
+                            <Text style={[styles.text, { fontWeight: 'normal', fontSize: 14, marginVertical: '10%' }]}>Scan QR to attend the quiz</Text>
+                        </View>
+                    </View>
                 ) : (
                     <Card style={styles.card}>
                         <Text
@@ -179,8 +167,40 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
     },
+    qrCard: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        margin: 10,
+        padding: 10,
+    },
+    image: {
+        width: 120,
+        height: 120,
+        borderRadius: 10,
+        marginRight: 10,
+        backgroundColor: defaultStyling.semidark,
+    },
+    textContainer: {
+        flex: 1,
+    },
+    text: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: 'black'
+    },
     modalContent: {
-        backgroundColor: defaultStyling.dark,
+        // backgroundColor: defaultStyling.dark,
         padding: 20,
         alignItems: 'center',
         justifyContent: 'center',

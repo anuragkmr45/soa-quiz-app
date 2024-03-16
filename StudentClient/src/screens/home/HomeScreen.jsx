@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Modal, ActivityIndicator, Image } from 'react-native';
-import { Button, Card } from 'react-native-paper';
+import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import FastImage from 'react-native-fast-image';
 import { useCameraPermission } from 'react-native-vision-camera';
 
 import useAuthToken from '../../hooks/token-manager/useAuthToken';
 import apiEndpoints from '../../services/api';
-import { defaultStyling } from '../../constant/styles';
-import CreatorImg from '../../assest/icons/coding.png'
-import Loader from '../../assest/gif/loader.gif'
+import ProfileIcon from '../../assest/image/profile.png'
+import ResultIcon from '../../assest/image/results.png'
+import CreatorIcon from '../../assest/image/creators.png'
+import LogoutIcon from '../../assest/image/logout.png'
+import HeroImg from '../../assest/image/hero.png'
 
-import ProfileCard from '../../components/cards/ProfileCard';
+import FeatureCard from '../../components/cards/FeatureCard';
 import UploadQuizDtlCard from '../../components/cards/UploadQuizDtlCard';
+import { defaultStyling } from '../../constant/styles';
 
 const HomeScreen = () => {
 
@@ -63,6 +64,7 @@ const HomeScreen = () => {
         try {
             if (!profile) {
                 const res = await apiEndpoints.getProfile()
+                // console.log('studetn profiloe: ', res)
                 setProfile(res)
             }
         } catch (error) {
@@ -81,197 +83,115 @@ const HomeScreen = () => {
     }, []);
 
     return (
-        <View style={styles.container}>
-            {
-                profile && (
-                    <ProfileCard userName={profile?.name} />
-                )
-            }
-            <View
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    alignItems: 'center',
-                    justifyContent: 'space-evenly',
-                    flex: 1,
 
-                }}
-            >
-                <View style={styles.profileBtns}>
-                    <Button
-                        mode="contained"
-                        style={styles.profileBtn}
-                        onPress={() => { navigation.navigate('Profile', { profile: profile }) }}
-                    >
-                        <Text style={{ color: defaultStyling.primaryTextColor }}>
-                            My Profile
-                        </Text>
-                    </Button>
-
-                    <Button
-                        mode="contained"
-                        style={styles.profileBtn}
-                        onPress={() => {
-                            navigation.navigate('Results', { results: results })
-                        }}
-                    >
-                        <Text style={{ color: defaultStyling.primaryTextColor }}>Results</Text>
-                    </Button>
-
-                </View>
-
-                <Card style={styles.card} onPress={() => { navigation.navigate('About') }} >
-                    <Card.Content style={styles.cardContent}>
-                        <View style={styles.imageContainer}>
-                            {/* <FastImage
-                                source={AboutGif}
-                                style={styles.image}
-                                onError={(error) => console.error('Error loading image:', error)}
-                            /> */}
-
-                            <Image source={CreatorImg} style={styles.image} />
+        loading ? (
+            <Text style={styles.text}>Loading ... </Text>
+        ) : (
+            <View style={styles.container} >
+                {/* <View>
+                    <Image source={HeroImg} style={styles.image} />
+                </View> */}
+                <View style={styles.card}>
+                    <Text style={{ color: 'black', marginTop: 20 }}>----</Text>
+                    <View style={styles.centerContainer}>
+                        <UploadQuizDtlCard name={profile?.name} />
+                        <View style={styles.fetureContainer}>
+                            <View style={styles.row}>
+                                <TouchableOpacity
+                                    style={{ marginRight: 14 }}
+                                    onPress={() => { navigation.navigate('Profile', { profile: profile }) }}
+                                >
+                                    <FeatureCard imageUrl={ProfileIcon} text="Profile" />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={{ marginLeft: 14 }}
+                                    onPress={() => { navigation.navigate('Results', { results: results }) }}
+                                >
+                                    <FeatureCard imageUrl={ResultIcon} text="Results" />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.row}>
+                                <TouchableOpacity
+                                    style={{ marginRight: 14 }}
+                                    onPress={() => { navigation.navigate('About') }}
+                                >
+                                    <FeatureCard imageUrl={CreatorIcon} text="Creators" />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={{ marginLeft: 14 }}
+                                    onPress={handleLogout}
+                                >
+                                    <FeatureCard imageUrl={LogoutIcon} text="Log out" />
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        <Text variant="bodyMedium" style={{ fontSize: 16 }}>About Creators</Text>
-                    </Card.Content>
-                </Card>
-
-                <UploadQuizDtlCard />
-                <Text style={{ color: '#FF204E', width: '90%', textAlign: 'center', fontSize: 10 }} >
-                    Turn Your Device DND On For Seamless  Experience
-                </Text>
-            </View>
-
-            <View style={styles.buttonContainer}>
-
-                {
-                    loading ? (
-                        <Button mode='contained' style={styles.button}>
-                            <Text style={{ color: defaultStyling.primaryTextColor }} >
-                                loading ...
-                            </Text>
-                        </Button>
-                    ) : (
-                        <Button mode="contained" icon='' style={styles.button} onPress={handleLogout}>
-                            <Text style={{ color: defaultStyling.primaryTextColor }} >
-                                Logout
-                            </Text>
-                        </Button>
-                    )
-                }
-            </View>
-
-            {/* Modal for loading */}
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={dataLoading}
-                onRequestClose={() => {
-                    // Handle modal close if needed
-                }}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        {/* <ActivityIndicator size="large" color="white" />
-                        <Text style={styles.modalText}>Loading...</Text> */}
-                        <FastImage
-                            source={Loader}
-                            style={styles.loadingImg}
-                            resizeMode={FastImage.resizeMode.cover}
-                        />
                     </View>
                 </View>
-            </Modal>
-        </View>
+            </View>
+        )
+
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
         flex: 1,
         alignItems: 'center',
-        backgroundColor: defaultStyling.dark,
-    },
-    profileBtns: {
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'center'
-    },
-    profileBtn: {
+        position: 'relative',
         backgroundColor: defaultStyling.semidark,
-        borderRadius: 10,
-        width: '43%',
-        marginHorizontal: 5,
+    },
+    centerContainer: {
+        justifyContent: 'space-evenly',
+        flex: 1,
+    },
+    fetureContainer: {
+        alignItems: 'center',
+    },
+    image: {
+        height: 100,
     },
     card: {
-        backgroundColor: defaultStyling.semidark,
-        width: '90%',
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        height: '80%',
+        alignItems: 'center',
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+        borderColor: 'white',
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 2,
         },
-        shadowOpacity: 0.70,
-        shadowRadius: 4,
-        elevation: 6,
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        paddingHorizontal: 20,
+        backgroundColor: 'white'
     },
-    cardContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'center'
-    },
-    imageContainer: {
-        marginRight: 10,
-    },
-    image: {
-        width: 40,
-        height: 40,
-        // borderRadius: 25, 
-    },
-    buttonContainer: {
-        shadowColor: defaultStyling.light,
+    cardContainer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '75%',
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 2,
         },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
         elevation: 5,
-        paddingVertical: 25,
-        borderTopLeftRadius: 35,
-        borderTopRightRadius: 35,
-        width: '100%',
-        paddingHorizontal: 20,
-        // backgroundColor: 'rgba(255, 255, 255, 0.1)'
     },
-    button: {
-        width: '100%',
-        backgroundColor: defaultStyling.danger,
-        borderRadius: 12,
-        paddingVertical: 5,
+    row: {
+        flexDirection: 'row',
+        marginBottom: 10,
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    },
-    modalContent: {
-        backgroundColor: 'inherit',
-        padding: 2,
-        borderRadius: 10,
-        alignItems: 'center',
-    },
-    loadingImg: {
-        width: 250,
-        height: 250,
-        // borderRadius: 25, 
-    },
-    modalText: {
-        marginTop: 10,
-        fontSize: 16,
-        color: 'white'
-    },
+
 });
 
 export default HomeScreen;

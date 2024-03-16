@@ -44,7 +44,7 @@ const QuizTestScreen = ({ route }) => {
         setIsLoading(true)
 
         try {
-            console.log('fewrfer')
+            // console.log('fewrfer')
             const res = await apiEndpoints.scoreCounter({
                 registrationNumber: quizData.registrationNumber,
                 quizId: quizData.quizID,
@@ -89,7 +89,7 @@ const QuizTestScreen = ({ route }) => {
     useEffect(() => {
         const handleAppStateChange = (nextAppState) => {
             if (appState === 'active' && nextAppState === 'background') {
-                console.log('App is working in the background.');
+                // console.log('App is working in the background.');
                 handleQuizSubmit();
                 Alert.alert('Quiz Submitted !! Due To Clsoing Of App')
                 Alert.alert('Quiz Submitted !! Due To Clsoing Of App', '', [
@@ -126,8 +126,8 @@ const QuizTestScreen = ({ route }) => {
 
     return (
         <>
-            <ImageBackground
-                source={BgImg}
+            <View
+                // source={BgImg}
                 style={styles.backgroundImage}
                 resizeMode="cover"
             >
@@ -196,7 +196,7 @@ const QuizTestScreen = ({ route }) => {
                     }
 
                 </View>
-            </ImageBackground>
+            </View>
             {/* Modal for loading */}
             <Modal
                 animationType="fade"
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'white',
+        color: defaultStyling.primaryTextColor,
         alignSelf: 'center'
     },
 });

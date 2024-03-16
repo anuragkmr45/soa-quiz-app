@@ -29,12 +29,13 @@ const ScannQr = () => {
             // console.log('quiz res: ', res)
             if (res.status === 200) {
                 const quizData = res.data;
+                // console.log('quizData: ', quizData);
                 navigation.navigate('Quiz', { quizData: quizData });
             }
         } catch (error) {
-            console.log('inside ejoin quiz catch')
+            // console.log('inside ejoin quiz catch')
             Alert.alert('Error', 'Something went while joining the quiz. Please try again later.');
-            console.error('Error while joining quiz: ', error);
+            // console.error('Error while joining quiz: ', error);
         } finally {
             setLoading(false)
         }
@@ -51,7 +52,7 @@ const ScannQr = () => {
         onCodeScanned: async (codes) => {
             if (codes && codes.length > 0) {
                 const qrData = JSON.parse(codes[0].value);
-                // console.log('qrData: ', qrData)
+                console.log('qrData: ', qrData)
                 const qrId = 'duniw7e8wfuc98nei3dwec';
 
                 const qrEexpiree = qrData.expireDate

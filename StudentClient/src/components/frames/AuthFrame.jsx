@@ -14,16 +14,16 @@ const AuthFrame = ({ children, text, img }) => {
 
     useEffect(() => {
 
-        const handleFetchToken = async () => {
-            try {
-                const authtoken = await getToken()
-                if (authtoken !== '') {
-                    navigation.navigate('Home')
-                }
-            } catch (error) {
-                console.log('error while fetching auth tokenL: ', error);
-            }
-        }
+        // const handleFetchToken = async () => {
+        //     try {
+        //         const authtoken = await getToken()
+        //         if (authtoken !== '') {
+        //             navigation.navigate('Home')
+        //         }
+        //     } catch (error) {
+        //         console.log('error while fetching auth tokenL: ', error);
+        //     }
+        // }
         // handleFetchToken()
 
         // Start the animation when the component mounts
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        height: '70%',
+        height: '80%',
         alignItems: 'center',
     },
     card: {
