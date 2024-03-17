@@ -120,8 +120,18 @@ const TeamCard = ({ img, name, insta, intro, github, linkedin }) => {
             {/* </View> */}
             <View style={styles.textContainer}>
                 <Text style={styles.name}>{name}</Text>
-                <Text style={styles.intro}>{limitedIntro} </Text>
+                <Text style={styles.intro}>{limitedIntro} ... </Text>
                 <View style={styles.actions}>
+                    {
+                        linkedin && (
+                            <TouchableOpacity
+                                style={styles.iconButton}
+                                onPress={() => handlePress(linkedin)}
+                            >
+                                <Image source={Linkedin} style={styles.icon} />
+                            </TouchableOpacity>
+                        )
+                    }
                     {
                         insta && (
                             <TouchableOpacity
@@ -142,16 +152,6 @@ const TeamCard = ({ img, name, insta, intro, github, linkedin }) => {
                             </TouchableOpacity>
                         )
                     }
-                    {
-                        linkedin && (
-                            <TouchableOpacity
-                                style={styles.iconButton}
-                                onPress={() => handlePress(linkedin)}
-                            >
-                                <Image source={Linkedin} style={styles.icon} />
-                            </TouchableOpacity>
-                        )
-                    }
                 </View>
             </View>
         </View >
@@ -169,15 +169,15 @@ const styles = StyleSheet.create({
         borderWidth: 0.2,
         borderColor: defaultStyling.semidark,
         borderRadius: 10,
-        shadowColor: defaultStyling.semidark,
+        shadowColor: defaultStyling.light,
         shadowOpacity: 1,
         shadowRadius: 1,
-        elevation: 15,
+        elevation: 0.1,
     },
     image: {
-        width: 80,
-        height: 80,
-        borderRadius: 10, // half of the width and height to make it rounded
+        width: 100,
+        height: 100,
+        borderRadius: 17,
         marginBottom: 2,
         marginRight: 10,
     },
@@ -186,13 +186,15 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     name: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
-        color: defaultStyling.primaryTextColor
+        color: defaultStyling.primaryText,
     },
     intro: {
         fontSize: 10,
         marginVertical: 2,
+        color: defaultStyling.secondaryText,
+        opacity: 0.7
     },
     actions: {
         flexDirection: 'row',

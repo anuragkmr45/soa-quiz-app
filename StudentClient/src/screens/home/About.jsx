@@ -1,19 +1,29 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-import AppBar from '../../components/appbar/AppBar'
 import TeamCard from '../../components/cards/TeamCard';
 import { defaultStyling } from '../../constant/styles';
+import ArrowIcon from '../../assest/icons/arrow.png'
 
 const About = () => {
+
+    const navigation = useNavigation()
+
     return (
         <>
-            <AppBar screen='About Creators' />
+            <StatusBar animated={true} backgroundColor={defaultStyling.light} />
+            <TouchableOpacity
+                style={{ borderColor: defaultStyling.light, backgroundColor: defaultStyling.light, paddingHorizontal: 20, paddingVertical: 20 }}
+                onPress={() => { navigation.navigate('Home') }}
+            >
+                <Image source={ArrowIcon} resizeMode='cover' style={{ alignSelf: 'flex-end' }} />
+            </TouchableOpacity>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>Mentors</Text>
+                    <Text style={{ color: defaultStyling.primaryText, fontSize: 16, fontWeight: '500' }}>Mentors</Text>
                     <TeamCard
-                        img="https://media.licdn.com/dms/image/C5103AQGEzNEyvvc5AQ/profile-displayphoto-shrink_800_800/0/1582521988828?e=1714608000&v=beta&t=bu3fsQ04KEF46MaTz6oW6sOpl_Z29Z-5DqbY5GyD5sI"
+                        img="https://firebasestorage.googleapis.com/v0/b/brandladder-webapp.appspot.com/o/general%2Fanukampamaam.jpg?alt=media&token=b0df57bb-5dbc-4fd2-94d0-c4f6f96690db"
                         name='Anukampa Behera'
                         intro='Assistant Professor at ITER, SOA University | DevOps, AI and ML Researcher'
                         insta='https://www.instagram.com/anukampabehera'
@@ -29,9 +39,9 @@ const About = () => {
                     />
                 </View>
                 <View style={styles.container}>
-                    <Text style={styles.title}>Developers</Text>
+                    <Text style={{ color: defaultStyling.primaryText, fontSize: 16, fontWeight: '500' }}>Developers</Text>
                     <TeamCard
-                        img="https://firebasestorage.googleapis.com/v0/b/brandladder-webapp.appspot.com/o/team%2F1707362911480.jpg?alt=media&token=20fb203b-607a-4727-bc70-02b4e6f97d23"
+                        img="https://media.licdn.com/dms/image/D5603AQGKr1uo9PAJwg/profile-displayphoto-shrink_400_400/0/1710516921803?e=1716422400&v=beta&t=0sMSe6PFojUXBW5B4f5TFiZyQUSqHcJfvy3mbJSLeNY"
                         name='Anurag Kumar'
                         intro="Tech Director at Brandladder | Android Develeoper at EaseMyLiving |  Open source contributor | MERN Stack, Electron JS and NEXT. JS Developer | React Native Cross Platform App Developer | Devops Trainee | Former CTO | Ex Project Lead At Progeeks | CSE 25' SOA"
                         insta='https://www.instagram.com/anuragkmr_45'
@@ -39,12 +49,20 @@ const About = () => {
                         github='https://github.com/anuragkmr45'
                     />
                     <TeamCard
-                        img="https://firebasestorage.googleapis.com/v0/b/brandladder-webapp.appspot.com/o/team%2Fsurajpropicteam.jpg?alt=media&token=873e0108-aad1-445f-8c37-21b1df62066f"
+                        img="https://media.licdn.com/dms/image/D5603AQH5ENl5vx3pig/profile-displayphoto-shrink_800_800/0/1677615719524?e=1716422400&v=beta&t=T1AJ6vsTYcjxK_gDIOeHnnc4bG3GiTmsSyvGUgVZlmE"
                         name='Suraj Sahu'
                         intro='Chief Technology Officer @BrandLadder | Navigating Multi-Cloud Technologies | Backend Developer in NodeJs, PHP, Java | Machine Learning Explorer | Database Maestro | Crafting Solutions in Python, Java, JavaScript, PHP'
                         insta='https://www.instagram.com/shaan.suraj'
                         linkedin='https://www.linkedin.com/in/shaansuraj'
                         github='https://github.com/shaansuraj'
+                    />
+                    <TeamCard
+                        img="https://firebasestorage.googleapis.com/v0/b/brandladder-webapp.appspot.com/o/general%2Fdiksha.png?alt=media&token=b7edbf5f-4d2e-4d46-9f32-8376de5185f0"
+                        name='Diksha Jethwa'
+                        intro="Frontend Web developer | UI UX Designer | B.Tech CSE'26 | Hacktoberfest 2023 | Trident Hackathon 5th runner-up| JS, Dart "
+                        insta='https://www.instagram.com/diksha_artworks'
+                        linkedin='https://www.linkedin.com/in/diksha-jethwa/'
+                        github='https://github.com/Diksha566'
                     />
                 </View>
             </ScrollView>
@@ -54,9 +72,8 @@ const About = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: defaultStyling.dark,
+        backgroundColor: defaultStyling.light,
         flex: 1,
-        paddingVertical: 20, // Add some padding to separate the cards from the edges
         paddingHorizontal: 8,
     },
     title: {
@@ -65,6 +82,7 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         flexGrow: 1, // Ensure the content grows vertically to fit all items
+        paddingHorizontal: 5
     },
 });
 

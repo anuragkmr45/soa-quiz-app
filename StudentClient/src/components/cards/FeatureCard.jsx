@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { defaultStyling } from '../../constant/styles';
 
 const Card = ({ imageUrl, text }) => {
 
@@ -16,7 +17,7 @@ const Card = ({ imageUrl, text }) => {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#FFF',
+        backgroundColor: 'rgba(248, 248, 251, 1)',
         borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: {
@@ -25,11 +26,12 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
-        paddingVertical: 10,
+        elevation: 0.1,
+        // paddingVertical: 10,
+        justifyContent: 'center',
         alignItems: 'center',
-        height: 120,
-        width: 120,
+        height: 190,
+        width: 140,
     },
     image: {
         width: 60,

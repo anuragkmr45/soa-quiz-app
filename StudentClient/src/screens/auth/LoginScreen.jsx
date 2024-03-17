@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
@@ -8,8 +8,9 @@ import apiEndpoints from '../../services/api.js';
 import useAuthToken from '../../hooks/token-manager/useAuthToken.js';
 
 import { defaultStyling } from '../../constant/styles.js';
-import LoginGif from '../../assest/image/auth-img.png'
+import LoginGif from '../../assest/image/signupHero.png'
 import AuthFrmae from '../../components/frames/AuthFrame.jsx'
+import Loader from '../../components/loading/Loader.jsx';
 
 const LoginScreen = () => {
 
@@ -63,65 +64,72 @@ const LoginScreen = () => {
         }
     };
 
-    const goToSignup = () => {
-        navigation.navigate('Signup');
-    };
-
     return (
-        <AuthFrmae text='Login' img={LoginGif}>
-            <TextInput
-                style={styles.input}
-                label="Registration No"
-                value={registrationNo}
-                onChangeText={text => setRegistrationNo(text)}
-            />
-            <TextInput
-                style={styles.input}
-                label="Password"
-                value={password}
-                onChangeText={text => setPassword(text)}
-                secureTextEntry
-            />
-            <Button mode="contained" onPress={handleLogin} style={styles.button} disabled={loading}>
-
-                {
-                    loading ? (
-                        <Text style={{ color: 'white' }} >
-                            Loading ...
+        loading ? (
+            <Loader loading={loading} />
+        ) : (
+            <AuthFrmae img={LoginGif}>
+                <View style={{ height: '100%' }}>
+                    <View style={{ marginVertical: 10 }}>
+                        <Text style={{ color: defaultStyling.primaryText, fontSize: 40, fontWeight: '400' }}>
+                            Sign in
                         </Text>
-                    ) : (
-                        <Text style={{ color: 'white' }} >
-                            Login
-                        </Text>
-                    )
-                }
+                        <View
+                            style={{
+                                width: '15%',
+                                height: 2,
+                                backgroundColor: defaultStyling.dark,
+                                elevation: 2,
+                                marginVertical: '4%'
+                            }}
+                        />
+                    </View>
+                    <TextInput
+                        style={styles.input}
+                        label="Registration No"
+                        value={registrationNo}
+                        onChangeText={text => setRegistrationNo(text)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        label="Password"
+                        value={password}
+                        onChangeText={text => setPassword(text)}
+                        secureTextEntry
+                    />
 
-            </Button>
-            <TouchableHighlight>
-                <Text style={styles.signupText} onPress={goToSignup}>
-                    Not registered yet? Go to Signup
-                </Text>
-            </TouchableHighlight>
-            {/* <TouchableHighlight>
-                <Text style={[styles.signupText, { color: 'red' }]} onPress={goToSignup}>
-                    Get Help
-                </Text>
-            </TouchableHighlight> */}
-        </AuthFrmae>
+                    <View style={{ position: 'absolute', bottom: 10, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+
+                        <Button
+                            onPress={handleLogin}
+                            style={{ borderWidth: 2, borderColor: defaultStyling.dark, backgroundColor: 'inherit', paddingVertical: 10, paddingHorizontal: 30, borderRadius: 50 }}>
+                            <Text style={{ color: defaultStyling.dark }}>Sign In</Text>
+                        </Button>
+
+                        <Button
+                            onPress={() => { navigation.navigate('Signup') }}
+                            style={{ borderWidth: 2, borderColor: defaultStyling.dark, backgroundColor: defaultStyling.dark, paddingVertical: 10, paddingHorizontal: 30, borderRadius: 50 }}>
+                            <Text style={{ color: defaultStyling.light }}>Sign Up</Text>
+                        </Button>
+
+                    </View>
+                </View >
+            </AuthFrmae >
+        )
     );
 };
 
 const styles = StyleSheet.create({
     input: {
-        marginBottom: 20,
-        backgroundColor: 'white',
-        color: 'white',
+        backgroundColor: defaultStyling.light,
+        color: defaultStyling.dark,
+        marginVertical: 10
     },
     button: {
         marginTop: 10,
         backgroundColor: defaultStyling.semidark,
         borderRadius: 8,
-        paddingVertical: 8
+        paddingVertical: 8,
     },
     signupText: {
         textAlign: 'center',

@@ -1,43 +1,28 @@
-import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Text, Image, Animated, Easing } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import React from 'react';
+import { View, StyleSheet, Text, Image } from 'react-native';
 
 import SplashScreenGIF from '../assest/gif/splash-screen.gif';
 import Logo from '../assest/logo.png';
+import { defaultStyling } from '../constant/styles';
 
 const SplashScreen = () => {
-    const bounceValue = useRef(new Animated.Value(0.1)).current;
-
-    useEffect(() => {
-        const bounceAnimation = Animated.sequence([
-            Animated.timing(bounceValue, { toValue: 1.04, duration: 1600, easing: Easing.inOut(Easing.ease), useNativeDriver: false }),
-            Animated.spring(bounceValue, { toValue: 1, friction: 4, useNativeDriver: false }),
-        ]);
-
-        Animated.loop(bounceAnimation).start();
-
-        return () => {
-            bounceValue.setValue(1);
-        };
-    }, [bounceValue]);
 
     return (
         <View style={styles.container}>
-            <FastImage
+            <Image
                 source={SplashScreenGIF}
                 style={styles.background}
-                resizeMode={FastImage.resizeMode.cover}
             />
-            <Animated.View style={[styles.contentContainer, { transform: [{ scale: bounceValue }] }]}>
+            <View style={styles.contentContainer}>
                 <Image
                     source={Logo}
                     style={styles.image}
                     resizeMode="contain"
                 />
                 <Text style={styles.text}>QUIZZIX !!</Text>
-            </Animated.View>
+            </View>
             <Text style={styles.bottomText}>
-                Welcome to SOA Quiz App
+                Version 1.0.0
             </Text>
         </View>
     );
@@ -48,9 +33,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: defaultStyling.dark
     },
     background: {
-        ...StyleSheet.absoluteFillObject,
+        // ...StyleSheet.absoluteFillObject,
         zIndex: -1,
     },
     contentContainer: {

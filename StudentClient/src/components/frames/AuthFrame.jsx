@@ -1,30 +1,13 @@
-import React, { useState, useEffect, Children } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Animated, ScrollView, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native'
-// import FastImage from 'react-native-fast-image';
 
-import useAuthToken from '../../hooks/token-manager/useAuthToken';
 import { defaultStyling } from '../../constant/styles';
 
 const AuthFrame = ({ children, text, img }) => {
 
     const [cardAnimation] = useState(new Animated.Value(0));
-    const { getToken } = useAuthToken()
-    const navigation = useNavigation();
 
     useEffect(() => {
-
-        // const handleFetchToken = async () => {
-        //     try {
-        //         const authtoken = await getToken()
-        //         if (authtoken !== '') {
-        //             navigation.navigate('Home')
-        //         }
-        //     } catch (error) {
-        //         console.log('error while fetching auth tokenL: ', error);
-        //     }
-        // }
-        // handleFetchToken()
 
         // Start the animation when the component mounts
         Animated.timing(cardAnimation, {
@@ -40,26 +23,17 @@ const AuthFrame = ({ children, text, img }) => {
                 source={img}
                 // resizeMode={FastImage.resizeMode.cover}
                 style={styles.image}
+                resizeMode='cover'
             />
-            {/* <FastImage
-                source={img}
-                resizeMode={FastImage.resizeMode.cover}
-                style={styles.image}
-            /> */}
             <View style={styles.cardContainer}>
                 <Animated.View style={[styles.card, {
                     transform: [{
                         translateY: cardAnimation.interpolate({
                             inputRange: [0, 1],
-                            outputRange: [200, 0], // Slide up from 200 to 0
+                            outputRange: [200, 0],
                         })
                     }]
                 }]}>
-                    <View style={styles.topSection}>
-                        <Text style={{ color: defaultStyling.dark, fontSize: 20, fontWeight: 500 }}>{text}</Text>
-                        <Text style={{ color: defaultStyling.dark, fontSize: 10 }}>Please {text} To Continue</Text>
-                        {/* <Text style={{ color: defaultStyling.dark, fontSize: 10 }}>Login With the same </Text> */}
-                    </View>
                     <ScrollView contentContainerStyle={styles.scrollViewContent}>
                         {children}
                     </ScrollView>
@@ -79,15 +53,17 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        height: '80%',
+        height: '70%',
         alignItems: 'center',
     },
     card: {
         // backgroundColor: defaultStyling.semidark,
+        // alignItems: 'center',
+        justifyContent: 'center',
         width: '100%',
         height: '100%',
-        borderTopLeftRadius: 50,
-        borderTopRightRadius: 50,
+        // borderTopLeftRadius: 50,
+        // borderTopRightRadius: 50,
         padding: 20,
         backgroundColor: 'white',
         // Add shadow properties
@@ -107,7 +83,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '60%',
-        height: '20%',
+        height: '30%',
         marginTop: 40
     },
     scrollViewContent: {

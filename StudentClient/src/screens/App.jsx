@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import useAuthToken from '../hooks/token-manager/useAuthToken';
 import { defaultStyling } from '../constant/styles';
-// import BgImg from '../assest/image/bg-img.png';
-import HeroImg from '../assest/image/heroimg.png'
-// import LoginIcon from '../assest/icons/login-icon.png'
+import ForwardIcon from '../assest/icons/forward.png';
+import HeroImg from '../assest/image/heroimg.png';
+import CurveBgImg from '../assest/image/curve-bg.jpg';
 
 const App = () => {
-
-    const [isAuth, setIsAuth] = useState(false)
+    const [isAuth, setIsAuth] = useState(false);
 
     const navigation = useNavigation();
     const { getToken } = useAuthToken();
@@ -18,77 +17,63 @@ const App = () => {
     useEffect(() => {
         const handleGetToken = async () => {
             try {
-                const res = await getToken()
+                const res = await getToken();
 
                 if (res) {
-                    setIsAuth(true)
+                    setIsAuth(true);
                 }
-
             } catch (error) {
-                // console.error('Error while getting auth token: ', error);
-                alert('Restart you app')
+                // Handle error gracefully
+                alert('Restart your app');
             }
-        }
+        };
 
         handleGetToken();
-    }, [])
+    }, []);
 
     return (
-        // <ImageBackground
-        //     source={BgImg}
-        //     style={styles.backgroundImage}
-        //     resizeMode="cover"
-        // >
-        <View
-            colors={[defaultStyling.dark, defaultStyling.semidark]}
-            style={styles.container}>
-            <View style={styles.centerContainer}>
-                <Image source={HeroImg} style={styles.image} />
-                <Text style={styles.text}>Quizzy</Text>
+        <View style={styles.container}>
+            <StatusBar
+                animated={true}
+                backgroundColor={defaultStyling.dark}
+            />
+            {/* <ImageBackground source={CurveBgImg}> */}
+            <View style={{ height: '100%', overflow: 'hidden' }}>
+                <Image source={HeroImg} />
+            </View>
+            {/* </ImageBackground> */}
+
+            <View style={{ backgroundColor: defaultStyling.light, borderTopRightRadius: 20, borderTopLeftRadius: 20, width: '100%', position: 'absolute', bottom: 0, padding: '8%' }}>
+                <View style={{ borderWidth: 2, borderRadius: 10, alignSelf: 'center', borderColor: defaultStyling.dark, width: '20%' }} />
+                <Text style={{ color: defaultStyling.primaryText, fontWeight: '400', fontSize: 40, marginTop: '4%' }}>Welcome</Text>
+                <Text style={{ color: defaultStyling.secondaryText, fontSize: 12, opacity: 0.6 }}>Sign in to your Registered Account</Text>
+                <View style={{ width: '15%', height: 2, backgroundColor: defaultStyling.dark, elevation: 2, marginVertical: '4%' }} />
+
+
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => { isAuth ? navigation.navigate('Home') : navigation.navigate('Login') }}>
+                    <Image source={ForwardIcon} />
+                </TouchableOpacity>
             </View>
 
-            {
-                isAuth ? (
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => { navigation.navigate('Home') }}>
-                        <Text style={styles.buttonText}>Get Started </Text>
-                    </TouchableOpacity>
-                ) : (
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => { navigation.navigate('Login') }}>
-                        <Text style={styles.buttonText}>Login</Text>
-                        {/* <Image src={LoginIcon} alt="" /> */}
-                    </TouchableOpacity>
-                )
-            }
-
-        </View>
-        // </ImageBackground>
+        </View >
     );
 };
 
 const styles = StyleSheet.create({
-    backgroundImage: {
-        flex: 1,
-        justifyContent: 'center',
-    },
     container: {
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
-        position: 'relative',
-        backgroundColor: defaultStyling.semidark
+        backgroundColor: defaultStyling.dark
     },
     centerContainer: {
         alignItems: 'center',
-        zIndex: 1, // Added
     },
     image: {
         width: 220,
         height: 220,
-        // marginBottom: 20,
     },
     text: {
         fontSize: 20,
@@ -96,36 +81,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: defaultStyling.primaryTextColor,
         fontStyle: 'italic',
-        fontFamily: ''
     },
     button: {
-        backgroundColor: defaultStyling.dark,
-        paddingVertical: 15,
-        paddingHorizontal: 30,
-        borderRadius: 10,
-        position: 'absolute',
-        bottom: 30,
-        width: '90%',
-        shadowColor: defaultStyling.dark,
-        shadowOffset: {
-            width: 10,
-            height: 200,
-        },
-        shadowOpacity: 0.35,
-        shadowRadius: 3.84,
-        elevation: 5,
-        zIndex: 1, // Added
+        alignItems: 'flex-end',
+        // opacity: 0.7,
     },
     buttonText: {
         fontSize: 18,
         fontWeight: 'bold',
         color: defaultStyling.primaryTextColor,
         alignSelf: 'center',
-    },
-    overlay: { // Added
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust opacity as needed
-        zIndex: 0, // Ensure it's below other elements
     },
 });
 

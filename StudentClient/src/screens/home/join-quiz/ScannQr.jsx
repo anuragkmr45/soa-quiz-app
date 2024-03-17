@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Modal, Alert, ActivityIndicator, Text, Dimensions } from 'react-native';
+import { View, StyleSheet, Alert, Dimensions, StatusBar, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CryptoJS from 'react-native-crypto-js';
 import { Camera, useCameraDevice, useCodeScanner, useCameraPermission } from 'react-native-vision-camera';
 
+import Loader from '../../../components/loading/Loader';
 import apiEndpoints from '../../../services/api';
 import { defaultStyling } from '../../../constant/styles';
+import CrossIcons from '../../../assest/icons/cross.png'
 
 const ScannQr = () => {
     const { requestPermission } = useCameraPermission();
@@ -34,7 +36,11 @@ const ScannQr = () => {
             }
         } catch (error) {
             // console.log('inside ejoin quiz catch')
-            Alert.alert('Error', 'Something went while joining the quiz. Please try again later.');
+            if (error.message === 'Request failed with status code 404') {
+                Alert.alert('Quiz Already Joined', '');
+            } else {
+                Alert.alert('Error', 'Something went while joining the quiz. Please try again later.');
+            }
             // console.error('Error while joining quiz: ', error);
         } finally {
             setLoading(false)
@@ -52,7 +58,7 @@ const ScannQr = () => {
         onCodeScanned: async (codes) => {
             if (codes && codes.length > 0) {
                 const qrData = JSON.parse(codes[0].value);
-                console.log('qrData: ', qrData)
+                // console.log('qrData: ', qrData)
                 const qrId = 'duniw7e8wfuc98nei3dwec';
 
                 const qrEexpiree = qrData.expireDate
@@ -69,9 +75,11 @@ const ScannQr = () => {
                 if (qrUniqueId === qrId) {
                     if (currentTime < qrEexpiree) {
                         await handleJoinQuiz(quizId, quizPassword);
+                    } else {
+                        Alert.alert('Qr Expired', '');
                     }
                 } else {
-                    Alert.alert('Expired', 'The QR code token has expired.');
+                    Alert.alert('Attend Quiz Using Quizzy', '');
                     return;
                 }
 
@@ -87,26 +95,23 @@ const ScannQr = () => {
         <View style={styles.container}>
             {
                 loading ? (
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={loading}
-                    >
-                        <View style={styles.modalContainer}>
-                            <View style={styles.modalContent}>
-                                <ActivityIndicator size="large" color="white" />
-                                <Text style={styles.modalText}>Loading...</Text>
-                            </View>
-                        </View>
-                    </Modal>
+                    <Loader loading={loading} />
                 ) : (
                     <View style={styles.cameraContainer}>
-                        <Camera
-                            style={styles.qrScanner}
-                            device={device}
-                            isActive={true}
-                            codeScanner={codeScanner}
-                        />
+                        <StatusBar hidden={true} />
+                        <View style={{ position: 'absolute', top: 20, right: 20 }}>
+                            <TouchableOpacity style={{ height: 100 }} onPress={() => { navigation.navigate('Home') }}>
+                                <Image source={CrossIcons} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ backgroundColor: defaultStyling.light, borderRadius: 10, paddingVertical: 40, paddingHorizontal: 10 }}>
+                            <Camera
+                                style={styles.qrScanner}
+                                device={device}
+                                isActive={true}
+                                codeScanner={codeScanner}
+                            />
+                        </View>
                     </View>
                 )
             }
@@ -114,9 +119,8 @@ const ScannQr = () => {
     );
 };
 
-
 const { width, height } = Dimensions.get('window');
-const qrScannerSize = Math.min(width, height) / 1.1;
+const qrScannerSize = Math.min(width, height) / 1.2;
 
 const styles = StyleSheet.create({
     container: {

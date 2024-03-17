@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, AppState, Alert, Modal } from 'react-native';
-import FastImage from 'react-native-fast-image'
-// import CountDown from 'react-native-countdown-component';
+import { Text, View, StyleSheet, TouchableOpacity, AppState, Alert } from 'react-native';
 
 import apiEndpoints from '../../services/api';
-import ResultLoader from '../../assest/gif/result-loader.gif'
-import QuizCard from '../../components/cards/QuizCard';
-import BgImg from '../../assest/image/bg-img.png';
 import { defaultStyling } from '../../constant/styles';
+import Loader from '../../components/loading/Loader';
+import QuizCard from '../../components/cards/QuizCard';
 
 const QuizTestScreen = ({ route }) => {
     const { quizData } = route.params;
@@ -17,9 +14,8 @@ const QuizTestScreen = ({ route }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userResponses, setUserResponses] = useState([]);
-    const [remainingDuration, setRemainingDuration] = useState(quizData.Duration * 60 - 5);
+    const [remainingDuration, setRemainingDuration] = useState(quizData.duration * 60 - 5);
     const [appState, setAppState] = useState(AppState.currentState);
-
 
     const handleOptionSelect = (questionText, selectedOption) => {
         const updatedResponses = [...userResponses];
@@ -58,7 +54,7 @@ const QuizTestScreen = ({ route }) => {
         } catch (error) {
             console.error('Error while submiting quiz: ', error.message);
             if (error.message === 'Request failed with status code 500') {
-                Alert.alert('Error Whilee Submiting quiz !!', 'Contact Co-ordinators', [
+                Alert.alert('Error While Submiting quiz !!', 'Contact Co-ordinators', [
                     {
                         text: 'Ok',
                         onPress: () => navigation.navigate('Home') // Navigate to home screen on OK press
@@ -91,10 +87,10 @@ const QuizTestScreen = ({ route }) => {
             if (appState === 'active' && nextAppState === 'background') {
                 // console.log('App is working in the background.');
                 handleQuizSubmit();
-                Alert.alert('Quiz Submitted !! Due To Clsoing Of App')
-                Alert.alert('Quiz Submitted !! Due To Clsoing Of App', '', [
-                    { text: 'OK', onPress: () => navigation.navigate('Home') },
-                ])
+                // Alert.alert('Quiz Submitted !! Due To Clsoing Of App')
+                // Alert.alert('Quiz Submitted !! Due To Clsoing Of App', '', [
+                //     { text: 'OK', onPress: () => navigation.navigate('Home') },
+                // ])
             }
             // else if (appState === 'active' && nextAppState === 'inactive') {
             //     console.log('App is in the process of transitioning to the background.');
@@ -125,48 +121,33 @@ const QuizTestScreen = ({ route }) => {
     }, [appState]);
 
     return (
-        <>
+        isLoading ? (
+            <Loader loading={isLoading} />
+        ) : (
             <View
-                // source={BgImg}
                 style={styles.backgroundImage}
                 resizeMode="cover"
             >
-                {/* <CountDown
-                until={quizData.Duration * 60} // seconds
-                size={30}
-                onFinish={() => alert('Time Finished')}
-                digitStyle={{
-                    backgroundColor: '#FFF',
-                }}
-                digitTxtStyle={{ color: defaultStyling.light }}
-                timeToShow={['M', 'S']}
-                timeLabels={{ m: 'MM', s: 'SS' }}
-            /> */}
-
-
                 <Text style={{ textAlign: 'center', color: 'red', fontSize: 10, fontWeight: 'bold', marginTop: 10 }}>
                     Note:- Closing the app consider as a cheating !!
                 </Text>
 
-                <View>
-                    <Text style={{ color: defaultStyling.dark, textAlign: 'center', fontSize: 40 }}>
-                        {Math.floor(remainingDuration / 60)}:{(remainingDuration % 60).toString().padStart(2, '0')}
-                    </Text>
-                </View>
+
                 <View style={styles.overlayContainer}>
                     <QuizCard
                         questionData={quizData.quizDetails.quizData[currentQuestionIndex]}
                         onSelectOption={handleOptionSelect}
+                        remainingDuration={remainingDuration}
                     />
                 </View>
                 <View style={styles.buttonContainer}>
                     {/* <TouchableOpacity
-                    style={[styles.button, { backgroundColor: defaultStyling.semidark }]}
-                    onPress={handlePreviousQuestion}
-                    disabled={currentQuestionIndex === 0}
-                    >
-                    <Text style={styles.buttonText}>Previous</Text>
-                </TouchableOpacity> */}
+                        style={[styles.button, { backgroundColor: defaultStyling.semidark }]}
+                        onPress={handlePreviousQuestion}
+                        disabled={currentQuestionIndex === 0}
+                        >
+                        <Text style={styles.buttonText}>Previous</Text>
+                    </TouchableOpacity> */}
 
                     {
                         currentQuestionIndex === quizData.quizDetails.quizData.length - 1 ? (
@@ -174,49 +155,22 @@ const QuizTestScreen = ({ route }) => {
                                 style={styles.button}
                                 onPress={!isLoading ? handleQuizSubmit : ''}
                             >
-                                {
-                                    isLoading ? (
-                                        <Text style={styles.buttonText}>Loading ... </Text>
-                                    ) : (
-                                        <>
-                                            <Text style={styles.buttonText}>Submit</Text>
-                                        </>
-                                    )
-                                }
+                                <Text style={styles.buttonText}>Submit</Text>
                             </TouchableOpacity>
                         ) : (
                             <TouchableOpacity
-                                style={[styles.button, { backgroundColor: defaultStyling.semidark }]}
+                                style={[styles.button, { backgroundColor: defaultStyling.dark }]}
                                 onPress={handleNextQuestion}
                                 disabled={currentQuestionIndex === quizData.quizDetails.quizData.length - 1}
                             >
-                                <Text style={styles.buttonText}>Next</Text>
+                                <Text style={{ color: defaultStyling.light, justifyContent: 'center', alignSelf: 'center' }}>Next</Text>
                             </TouchableOpacity>
                         )
                     }
 
                 </View>
             </View>
-            {/* Modal for loading */}
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={isLoading}
-                onRequestClose={() => {
-                    // Handle modal close if needed
-                }}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <FastImage
-                            source={ResultLoader}
-                            style={styles.loadingImg}
-                            resizeMode={FastImage.resizeMode.cover}
-                        />
-                    </View>
-                </View>
-            </Modal>
-        </>
+        )
     );
 };
 
@@ -225,13 +179,13 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         height: '100%',
+        backgroundColor: 'rgba(239, 240, 243, 1)'
     },
     overlayContainer: {
-        ...StyleSheet.absoluteFillObject,
-        paddingHorizontal: 18,
+        // ...StyleSheet.absoluteFillObject,
+        paddingHorizontal: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.18)',
     },
     buttonContainer: {
         position: 'absolute',
