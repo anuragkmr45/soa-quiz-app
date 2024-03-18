@@ -5,6 +5,8 @@ export const coursePlaceholder = {
 };
 
 export const courseOptions = [
-    { label: "BTech", value: "btech" },
-    { label: "MTech", value: "mtech" },
+    { label: "BTech", value: "BTech" },
+    { label: "BCA", value: "BCA" },
+    { label: "MTech", value: "MTech" },
+    { label: "MCA", value: "MCA" },
 ];

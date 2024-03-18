@@ -20,6 +20,7 @@ const LoginScreen = () => {
     const [registrationNo, setRegistrationNo] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
+    const [isShowPass, setIsShowPass] = useState(false);
 
     const deviceId = useGetAndroidID()
     const navigation = useNavigation();
@@ -70,6 +71,17 @@ const LoginScreen = () => {
         ) : (
             <AuthFrmae img={LoginGif}>
                 <View style={{ height: '100%' }}>
+                    <View
+                        style={{
+                            width: '15%',
+                            height: 3,
+                            backgroundColor: defaultStyling.dark,
+                            elevation: 2,
+                            marginVertical: '4%',
+                            alignSelf: 'center',
+                            borderRadius: 20
+                        }}
+                    />
                     <View style={{ marginVertical: 10 }}>
                         <Text style={{ color: defaultStyling.primaryText, fontSize: 40, fontWeight: '400' }}>
                             Sign in
@@ -91,14 +103,21 @@ const LoginScreen = () => {
                         onChangeText={text => setRegistrationNo(text)}
                     />
                     <TextInput
-                        style={styles.input}
                         label="Password"
                         value={password}
                         onChangeText={text => setPassword(text)}
-                        secureTextEntry
+                        secureTextEntry={isShowPass ? false : true}
+                        style={styles.input}
+                        right={
+                            <TextInput.Icon
+                                // name=""
+                                onPress={() => { setIsShowPass(!isShowPass) }}
+                                style={{ backgroundColor: isShowPass ? defaultStyling.danger : defaultStyling.dark, padding: 0, height: 25, width: 25 }}
+                            />
+                        }
                     />
 
-                    <View style={{ position: 'absolute', bottom: 10, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+                    <View style={{ position: 'relative', top: 10, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
 
                         <Button
                             onPress={handleLogin}

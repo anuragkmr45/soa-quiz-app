@@ -11,7 +11,7 @@ function App() {
   return (
     <NavigationContainer>
       <PaperProvider>
-        <SafeAreaView style={{ backgroundColor: defaultStyling.dark, flex: 1, flexGrow: 1 }}>
+        <SafeAreaView style={{ flex: 1, flexGrow: 1 }}>
           <Navigations />
         </SafeAreaView>
       </PaperProvider>

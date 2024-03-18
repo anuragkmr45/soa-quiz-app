@@ -1,25 +1,19 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image } from 'react-native';
 
-import SplashScreenGIF from '../assest/gif/splash-screen.gif';
 import Logo from '../assest/logo.png';
-import { defaultStyling } from '../constant/styles';
 
 const SplashScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Image
-                source={SplashScreenGIF}
-                style={styles.background}
-            />
             <View style={styles.contentContainer}>
                 <Image
                     source={Logo}
                     style={styles.image}
                     resizeMode="contain"
                 />
-                <Text style={styles.text}>QUIZZIX !!</Text>
+                <Text style={styles.text}></Text>
             </View>
             <Text style={styles.bottomText}>
                 Version 1.0.0
@@ -33,11 +27,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: defaultStyling.dark
-    },
-    background: {
-        // ...StyleSheet.absoluteFillObject,
-        zIndex: -1,
+        backgroundColor: 'rgba(64,123,255,255)',
     },
     contentContainer: {
         justifyContent: 'center',
@@ -45,8 +35,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     image: {
-        width: '600%',
-        height: '600%',
+        width: 200,
+        height: 200,
     },
     text: {
         fontSize: 24,

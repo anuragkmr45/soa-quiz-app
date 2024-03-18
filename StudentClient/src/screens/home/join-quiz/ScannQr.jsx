@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, Dimensions, StatusBar, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Alert, Dimensions, StatusBar, Image, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CryptoJS from 'react-native-crypto-js';
 import { Camera, useCameraDevice, useCodeScanner, useCameraPermission } from 'react-native-vision-camera';
@@ -31,17 +31,14 @@ const ScannQr = () => {
             // console.log('quiz res: ', res)
             if (res.status === 200) {
                 const quizData = res.data;
-                // console.log('quizData: ', quizData);
                 navigation.navigate('Quiz', { quizData: quizData });
             }
         } catch (error) {
-            // console.log('inside ejoin quiz catch')
             if (error.message === 'Request failed with status code 404') {
                 Alert.alert('Quiz Already Joined', '');
             } else {
-                Alert.alert('Error', 'Something went while joining the quiz. Please try again later.');
+                Alert.alert('Close other programs running on device')
             }
-            // console.error('Error while joining quiz: ', error);
         } finally {
             setLoading(false)
         }
@@ -75,8 +72,6 @@ const ScannQr = () => {
                 if (qrUniqueId === qrId) {
                     if (currentTime < qrEexpiree) {
                         await handleJoinQuiz(quizId, quizPassword);
-                    } else {
-                        Alert.alert('Qr Expired', '');
                     }
                 } else {
                     Alert.alert('Attend Quiz Using Quizzy', '');
@@ -104,13 +99,21 @@ const ScannQr = () => {
                                 <Image source={CrossIcons} />
                             </TouchableOpacity>
                         </View>
-                        <View style={{ backgroundColor: defaultStyling.light, borderRadius: 10, paddingVertical: 40, paddingHorizontal: 10 }}>
+                        <View style={{ backgroundColor: defaultStyling.light, borderRadius: 10, paddingVertical: 10, paddingHorizontal: 5 }}>
                             <Camera
+                                hdr={true}
                                 style={styles.qrScanner}
                                 device={device}
                                 isActive={true}
                                 codeScanner={codeScanner}
+                                focusable={true}
+                                enableZoomGesture={true}
                             />
+                        </View>
+                        <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
+                            <Text style={{ color: defaultStyling.danger, fontWeight: '600', fontSize: 20 }}>Caution ⚠ (Rules)</Text>
+                            <Text>😡 Quizzy gets angry when minimized..</Text>
+                            <Text>😒 Quizzy wants your attention, turn on "DND" mode.</Text>
                         </View>
                     </View>
                 )
@@ -120,7 +123,6 @@ const ScannQr = () => {
 };
 
 const { width, height } = Dimensions.get('window');
-const qrScannerSize = Math.min(width, height) / 1.2;
 
 const styles = StyleSheet.create({
     container: {
@@ -130,25 +132,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cameraContainer: {
-        ...StyleSheet.absoluteFillObject,
+        // ...StyleSheet.absoluteFillObject,
         justifyContent: 'center',
         alignItems: 'center',
     },
     qrScanner: {
-        width: qrScannerSize,
-        height: qrScannerSize,
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    },
-    modalContent: {
-        backgroundColor: 'inherit',
-        padding: 2,
-        borderRadius: 10,
-        alignItems: 'center',
+        width: width / 1.2,
+        height: height / 2,
     },
 });
 

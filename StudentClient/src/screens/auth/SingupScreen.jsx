@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, Alert, View, TouchableHighlight, Modal, ScrollView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -45,9 +45,9 @@ const SignupScreen = () => {
     const [name, setName] = useState('');
     const [regNo, setRegNo] = useState('');
     const [email, setEmail] = useState('');
-    const [course, setCourse] = useState('BTech');
+    const [course, setCourse] = useState('');
     const [batch, setBatch] = useState('2025');
-    const [branch, setBranch] = useState('CSE');
+    const [branch, setBranch] = useState('');
     const [section, setSection] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -55,6 +55,7 @@ const SignupScreen = () => {
     const [batchMenuVisible, setBatchMenuVisible] = useState(false);
     const [branchMenuVisible, setBranchMenuVisible] = useState(false);
     const [sectionMenuVisible, setSectionMenuVisible] = useState(false);
+    const [isShowPass, setIsShowPass] = useState(false);
 
     const navigation = useNavigation();
     const deviceId = useGetAndroidID();
@@ -105,6 +106,17 @@ const SignupScreen = () => {
         ) : (
             <AuthFrame text='Signup' img={LoginGif}>
                 <View style={{ marginVertical: 10 }}>
+                    <View
+                        style={{
+                            width: '15%',
+                            height: 3,
+                            backgroundColor: defaultStyling.dark,
+                            elevation: 2,
+                            marginVertical: '4%',
+                            alignSelf: 'center',
+                            borderRadius: 20
+                        }}
+                    />
                     <Text style={{ color: defaultStyling.primaryText, fontSize: 40, fontWeight: '400' }}>
                         Sign up
                     </Text>
@@ -179,8 +191,15 @@ const SignupScreen = () => {
                     label="Password"
                     value={password}
                     onChangeText={text => setPassword(text)}
-                    secureTextEntry
+                    secureTextEntry={isShowPass ? false : true}
                     style={styles.input}
+                    right={
+                        <TextInput.Icon
+                            // name=""
+                            onPress={() => { setIsShowPass(!isShowPass) }}
+                            style={{ backgroundColor: isShowPass ? defaultStyling.danger : defaultStyling.dark, padding: 0, height: 25, width: 25 }}
+                        />
+                    }
                 />
 
                 <DropdownMenu

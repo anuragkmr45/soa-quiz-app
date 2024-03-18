@@ -55,24 +55,27 @@ const HomeScreen = () => {
         TouchID.isSupported(optionalConfigObject).then((biometryType) => {
             if (biometryType === 'FaceID') {
                 console.log('FaceID is supported.');
-            } else {
+            } else if (biometryType) {
                 TouchID.authenticate('', optionalConfigObject)
                     .then((success) => {
                         if (success === true) {
                             navigation.navigate('ScannQR')
-                        } else {
-                            // BackHandler.exitApp()
                         }
                     })
                     .catch(error => {
                         console.error('error while fingerpritn auth: ', error)
                         // BackHandler.exitApp()
+                        Alert.alert('Touch ID not working !! ', '')
                     })
+            }
+            if (!biometryType) {
+                navigation.navigate('ScannQR')
             }
         })
     }
 
     const handleFetchResults = async () => {
+        setLoading(true)
         try {
             if (results.length === 0) {
                 const res = await apiEndpoints.getMyResults()
@@ -85,10 +88,13 @@ const HomeScreen = () => {
             Alert.alert('Result Not Found', 'Sign in again', [
                 { text: 'OK', onPress: () => { navigation.navigate('Login') } },
             ]);
+        } finally {
+            setLoading(false)
         }
     }
 
     const handleProfile = async () => {
+        setLoading(true)
         try {
             if (!profile) {
                 const res = await apiEndpoints.getProfile()
@@ -98,27 +104,19 @@ const HomeScreen = () => {
             Alert.alert('Profile Not Found', 'Sign in again', [
                 { text: 'OK', onPress: () => { navigation.navigate('Login') } },
             ]);
-            // navigation.navigate('Login')
+            navigation.navigate('Login')
+        } finally {
+            setLoading(false)
         }
     }
 
     useEffect(() => {
 
-        const handleFunCall = async () => {
-            setLoading(true)
-            try {
-                await handleFetchResults();
-                await handleCheckDeviceCapability();
-                await handleProfile();
-                await requestPermission();
-            } catch (error) {
-                navigation.navigate('Login')
-            } finally {
-                setLoading(false)
-            }
-        }
+        requestPermission();
+        handleFetchResults();
+        handleProfile();
+        handleCheckDeviceCapability();
 
-        handleFunCall()
     }, []);
 
     return (
@@ -148,6 +146,7 @@ const HomeScreen = () => {
                                 <TouchableOpacity
                                     style={{ marginRight: 8 }}
                                     onPress={handleToucIdAuth}
+                                // onPress={deviceCapability ? handleToucIdAuth : () => navigation.navigate('ScannQR')}
                                 >
                                     <FeatureCard imageUrl={ScanQrIcon} text="Scan Now" />
                                 </TouchableOpacity>

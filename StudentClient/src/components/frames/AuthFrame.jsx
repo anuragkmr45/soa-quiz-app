@@ -62,10 +62,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
         height: '100%',
-        // borderTopLeftRadius: 50,
-        // borderTopRightRadius: 50,
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
         padding: 20,
-        backgroundColor: 'white',
+        backgroundColor: defaultStyling.light,
         // Add shadow properties
         shadowColor: '#000',
         shadowOffset: {
