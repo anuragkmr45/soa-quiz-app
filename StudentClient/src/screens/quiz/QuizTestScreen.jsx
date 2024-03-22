@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Text, View, StyleSheet, TouchableOpacity, AppState, Alert } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, AppState, Alert, StatusBar, BackHandler } from 'react-native';
 
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles';
@@ -14,8 +14,8 @@ const QuizTestScreen = ({ route }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userResponses, setUserResponses] = useState([]);
-    const [remainingDuration, setRemainingDuration] = useState(quizData.duration * 60 - 5);
     const [appState, setAppState] = useState(AppState.currentState);
+    const [remainingTimeout, setRemainingTimeOut] = useState()
 
     const handleOptionSelect = (questionText, selectedOption) => {
         const updatedResponses = [...userResponses];
@@ -35,12 +35,11 @@ const QuizTestScreen = ({ route }) => {
     //     setCurrentQuestionIndex(prevIndex => prevIndex - 1);
     // };
 
-    // console.log('userResponses: ', userResponses)
+
     const handleQuizSubmit = async () => {
         setIsLoading(true)
 
         try {
-            // console.log('fewrfer')
             const res = await apiEndpoints.scoreCounter({
                 registrationNumber: quizData.registrationNumber,
                 quizId: quizData.quizID,
@@ -48,11 +47,11 @@ const QuizTestScreen = ({ route }) => {
             })
 
             if (res.data.success === true) {
+                // console.log('res.data: ', res.data)
                 navigation.navigate('Result', { quizResult: res.data })
             }
 
         } catch (error) {
-            console.error('Error while submiting quiz: ', error.message);
             if (error.message === 'Request failed with status code 500') {
                 Alert.alert('Error While Submiting quiz !!', 'Contact Co-ordinators', [
                     {
@@ -60,65 +59,94 @@ const QuizTestScreen = ({ route }) => {
                         onPress: () => navigation.navigate('Home') // Navigate to home screen on OK press
                     }
                 ]);
-            }
-            if (error.message === 'Request failed with status code 400') {
+            } else if (error.message === 'Request failed with status code 400') {
                 Alert.alert('Quiz Already Submited', '', [
                     {
                         text: 'Ok',
                         onPress: () => navigation.navigate('Home') // Navigate to home screen on OK press
                     }
                 ]);
-            }
-            if (error.message === 'Request failed with status code 404') {
+            } else if (error.message === 'Request failed with status code 404') {
                 Alert.alert('Quiz Ended', '', [
                     {
                         text: 'Ok',
                         onPress: () => navigation.navigate('Home') // Navigate to home screen on OK press
                     }
                 ]);
+            } else {
+                Alert.alert('Error Due to bad internet connection', '')
             }
         } finally {
             setIsLoading(false)
         }
     }
+    const startTimer = () => {
+        backgroundTimer = setTimeout(() => {
+            // console.log('Timer expired');
+            handleQuizSubmit();
+        }, 1000); // 5 seconds
+        startTime = Date.now();
+    };
+
+    const stopTimer = () => {
+        clearTimeout(backgroundTimer);
+    };
 
     useEffect(() => {
         const handleAppStateChange = (nextAppState) => {
             if (appState === 'active' && nextAppState === 'background') {
-                // console.log('App is working in the background.');
-                handleQuizSubmit();
-                // Alert.alert('Quiz Submitted !! Due To Clsoing Of App')
-                // Alert.alert('Quiz Submitted !! Due To Clsoing Of App', '', [
-                //     { text: 'OK', onPress: () => navigation.navigate('Home') },
-                // ])
+                // Start the timer when the app goes to background
+                // console.log('remaining time: ', remainingTimeout)
+                if (remainingTimeout === 0) {
+                    // console.log('quiz subbmited')
+                    handleQuizSubmit()
+                }
+                startTimer();
+            } else if ((appState === 'background' || appState === 'inactive') && nextAppState === 'active') {
+                // If app comes back to foreground, clear the timer
+                if (backgroundTimer) {
+                    const elapsedTime = Date.now() - startTime;
+                    const remainingTime = Math.max(0, 5000 - elapsedTime);
+                    setRemainingTimeOut(remainingTime);
+                    stopTimer();
+                }
+                // console.log('Timer reset');
             }
-            // else if (appState === 'active' && nextAppState === 'inactive') {
-            //     console.log('App is in the process of transitioning to the background.');
-            // } else if (appState.match(/inactive|background/) && nextAppState === 'active') {
-            //     console.log('App is coming to foreground');
-            // }
             setAppState(nextAppState);
         };
 
         const subscription = AppState.addEventListener('change', handleAppStateChange);
 
-        const intervalId = setInterval(async () => {
-            setRemainingDuration(prevDuration => {
-                if (prevDuration === 0) {
-                    handleQuizSubmit()
-                    clearInterval(intervalId); // Stop the interval
-                    return prevDuration;
-                } else {
-                    return prevDuration - 1;
-                }
-            });
-        }, 600);
+        const backAction = () => {
+            Alert.alert(
+                'Warning',
+                'Are you sure you want to go back?',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Yes',
+                        onPress: () => navigation.goBack(),
+                    },
+                ],
+                { cancelable: false }
+            );
+            return true;
+        };
 
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        // Clear the timer and remove event listener when the component unmounts
         return () => {
             subscription.remove();
-            clearInterval(intervalId);
+            clearTimeout(backgroundTimer);
+            backHandler.remove()
         };
-    }, [appState]);
+    }, [appState, navigation]);
+
 
     return (
         isLoading ? (
@@ -128,6 +156,10 @@ const QuizTestScreen = ({ route }) => {
                 style={styles.backgroundImage}
                 resizeMode="cover"
             >
+                <StatusBar
+                    animated={true}
+                    backgroundColor={defaultStyling.light}
+                />
                 <Text style={{ textAlign: 'center', color: 'red', fontSize: 10, fontWeight: 'bold', marginTop: 10 }}>
                     Note:- Closing the app consider as a cheating !!
                 </Text>
@@ -137,7 +169,6 @@ const QuizTestScreen = ({ route }) => {
                     <QuizCard
                         questionData={quizData.quizDetails.quizData[currentQuestionIndex]}
                         onSelectOption={handleOptionSelect}
-                        remainingDuration={remainingDuration}
                     />
                 </View>
                 <View style={styles.buttonContainer}>

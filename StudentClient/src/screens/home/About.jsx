@@ -13,12 +13,15 @@ const About = () => {
     return (
         <>
             <StatusBar animated={true} backgroundColor={defaultStyling.light} />
-            <TouchableOpacity
-                style={{ borderColor: defaultStyling.light, backgroundColor: defaultStyling.light, paddingHorizontal: 20, paddingVertical: 20 }}
-                onPress={() => { navigation.navigate('Home') }}
-            >
-                <Image source={ArrowIcon} resizeMode='cover' style={{ alignSelf: 'flex-end' }} />
-            </TouchableOpacity>
+            <View style={{ paddingHorizontal: 10, paddingVertical: 20, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: defaultStyling.light }}>
+                <Text style={{ color: defaultStyling.primaryText, fontWeight: '600', fontSize: 20, alignSelf: 'center' }}>About Creators</Text>
+                <TouchableOpacity
+                    style={{ borderColor: defaultStyling.light, alignSelf: 'center' }}
+                    onPress={() => { navigation.navigate('Home') }}
+                >
+                    <Image source={ArrowIcon} resizeMode='cover' style={{ alignSelf: 'flex-end' }} />
+                </TouchableOpacity>
+            </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.container}>
                     <Text style={{ color: defaultStyling.primaryText, fontSize: 16, fontWeight: '500' }}>Mentors</Text>
@@ -35,7 +38,7 @@ const About = () => {
                         intro="SRE Intern @Nutanix || CCNA certified || Final year @ITER || Flutter App Developer || Solving for India Regional Qualified || HackOn with Amazon`22 "
                         insta='https://www.instagram.com/pawan21.9'
                         linkedin='https://www.linkedin.com/in/pawan-kumar-9490581b5'
-                        github='https://github.com/anuragkmr45'
+                        github='https://github.com/pnkr01'
                     />
                 </View>
                 <View style={styles.container}>

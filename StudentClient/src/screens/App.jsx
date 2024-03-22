@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import useAuthToken from '../hooks/token-manager/useAuthToken';
 import { defaultStyling } from '../constant/styles';
 import ForwardIcon from '../assest/icons/forward.png';
 import HeroImg from '../assest/image/heroimg.png';
-import CurveBgImg from '../assest/image/curve-bg.jpg';
 
 const App = () => {
     const [isAuth, setIsAuth] = useState(false);

@@ -15,7 +15,7 @@ import Loader from '../../components/loading/Loader.jsx';
 const LoginScreen = () => {
 
     // 2141011114
-    // Anurag1234
+    // Iamro1455
 
     const [registrationNo, setRegistrationNo] = useState('');
     const [password, setPassword] = useState('');
@@ -121,13 +121,13 @@ const LoginScreen = () => {
 
                         <Button
                             onPress={handleLogin}
-                            style={{ borderWidth: 2, borderColor: defaultStyling.dark, backgroundColor: 'inherit', paddingVertical: 10, paddingHorizontal: 30, borderRadius: 50 }}>
+                            style={{ borderWidth: 2, borderColor: defaultStyling.dark, width: '60%', backgroundColor: 'inherit', paddingVertical: 10, paddingHorizontal: 30, borderRadius: 50 }}>
                             <Text style={{ color: defaultStyling.dark }}>Sign In</Text>
                         </Button>
 
                         <Button
                             onPress={() => { navigation.navigate('Signup') }}
-                            style={{ borderWidth: 2, borderColor: defaultStyling.dark, backgroundColor: defaultStyling.dark, paddingVertical: 10, paddingHorizontal: 30, borderRadius: 50 }}>
+                            style={{ borderWidth: 2, borderColor: defaultStyling.dark, width: '35%', backgroundColor: defaultStyling.dark, paddingVertical: 10, paddingHorizontal: 15, borderRadius: 50 }}>
                             <Text style={{ color: defaultStyling.light }}>Sign Up</Text>
                         </Button>
 
@@ -141,8 +141,8 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
     input: {
         backgroundColor: defaultStyling.light,
-        color: defaultStyling.dark,
-        marginVertical: 10
+        color: defaultStyling.primaryText,
+        marginVertical: 10,
     },
     button: {
         marginTop: 10,

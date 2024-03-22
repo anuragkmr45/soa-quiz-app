@@ -13,13 +13,13 @@ const ResultScreen = ({ route }) => {
 
     return (
         profile ? (
-            <View style={{ flex: 1, backgroundColor: defaultStyling.light }}>
-                <View style={{ elevation: 4, height: '16%', backgroundColor: defaultStyling.dark, borderBottomLeftRadius: 18, borderBottomRightRadius: 18 }} >
-                    <TouchableOpacity onProgress={() => navigation.navigate('Home')}>
+            <View style={{ flex: 1, backgroundColor: defaultStyling.light, height: '100%' }}>
+                <View style={{ elevation: 4, height: '18%', backgroundColor: defaultStyling.dark, borderBottomLeftRadius: 18, borderBottomRightRadius: 18 }} >
+                    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                         <Image source={BackIcon} style={{ paddingHorizontal: 6, alignSelf: 'flex-end' }} />
                     </TouchableOpacity>
                 </View>
-                <View style={{ position: 'relative', bottom: 70 }}>
+                <View style={{ position: 'relative', bottom: 70, height: '85%' }}>
                     <View style={{ elevation: 4, borderRadius: 180, padding: 20, backgroundColor: defaultStyling.light, width: '35%', alignSelf: 'center' }}>
                         <TouchableOpacity onPress={() => { navigation.navigate('Home') }}>
                             <Image source={ProfileImg} style={{ height: 80, width: 80, alignSelf: 'center' }} />
@@ -72,12 +72,14 @@ const ResultScreen = ({ route }) => {
                             </View>
                         </View>
                     </View>
-                    <Button
-                        style={{ backgroundColor: defaultStyling.dark, borderRadius: 8, marginHorizontal: '8%', paddingVertical: 10 }}
-                        onPress={() => { navigation.navigate('Home') }}
-                    >
-                        <Text style={{ color: defaultStyling.light }} >Back To Home</Text>
-                    </Button>
+                    <View style={{ position: 'absolute', width: '100%', bottom: 0 }}>
+                        <Button
+                            style={{ backgroundColor: defaultStyling.dark, borderRadius: 8, marginHorizontal: '8%', paddingVertical: 10 }}
+                            onPress={() => { navigation.navigate('Home') }}
+                        >
+                            <Text style={{ color: defaultStyling.light }} >Back To Home</Text>
+                        </Button>
+                    </View>
                 </View>
 
             </View>

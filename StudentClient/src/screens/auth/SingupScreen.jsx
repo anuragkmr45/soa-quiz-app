@@ -195,7 +195,6 @@ const SignupScreen = () => {
                     style={styles.input}
                     right={
                         <TextInput.Icon
-                            // name=""
                             onPress={() => { setIsShowPass(!isShowPass) }}
                             style={{ backgroundColor: isShowPass ? defaultStyling.danger : defaultStyling.dark, padding: 0, height: 25, width: 25 }}
                         />
@@ -238,13 +237,13 @@ const SignupScreen = () => {
 
                     <Button
                         onPress={() => { navigation.navigate('Login') }}
-                        style={{ borderWidth: 2, borderColor: defaultStyling.dark, backgroundColor: 'inherit', paddingVertical: 10, paddingHorizontal: 25, borderRadius: 50 }}>
+                        style={{ borderWidth: 2, borderColor: defaultStyling.dark, backgroundColor: 'inherit', paddingVertical: 10, paddingHorizontal: 15, borderRadius: 50, width: '35%' }}>
                         <Text style={{ color: defaultStyling.dark }}>Sign In</Text>
                     </Button>
 
                     <Button
                         onPress={handleSignup}
-                        style={{ borderWidth: 2, borderColor: defaultStyling.dark, backgroundColor: defaultStyling.dark, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 50 }}>
+                        style={{ borderWidth: 2, borderColor: defaultStyling.dark, backgroundColor: defaultStyling.dark, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 50, width: '60%' }}>
                         <Text style={{ color: defaultStyling.light }}>Sign Up</Text>
                     </Button>
 
@@ -268,7 +267,7 @@ const styles = StyleSheet.create({
         width: '100%',
         marginBottom: 20,
         backgroundColor: 'white',
-        color: defaultStyling.dark,
+        color: defaultStyling.primaryText,
         paddingVertical: 10,
         paddingHorizontal: 15,
         borderBottomWidth: 1,
@@ -290,21 +289,20 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
     },
     modalView: {
         margin: 20,
-        backgroundColor: "white",
+        backgroundColor: defaultStyling.light,
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
         shadowColor: "#000",
         width: '80%',
         shadowOffset: {
-            width: 0,
-            height: 2
+            width: 10,
+            height: 10
         },
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.75,
         shadowRadius: 4,
         elevation: 5
     },
@@ -312,10 +310,13 @@ const styles = StyleSheet.create({
         width: 200,
         alignItems: 'center',
         padding: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        backgroundColor: defaultStyling.semidark,
+        borderRadius: 10
     },
     optionText: {
-        color: defaultStyling.dark
+        color: defaultStyling.primaryText,
+        backgroundColor: defaultStyling.semidark
     }
 });
 

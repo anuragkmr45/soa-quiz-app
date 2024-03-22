@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useCameraPermission } from 'react-native-vision-camera';
 import TouchID from 'react-native-touch-id';
-import { useCameraDevice } from 'react-native-vision-camera';
 
 import apiEndpoints from '../../services/api';
 import ScanQrIcon from '../../assest/icons/scanQR.png';
@@ -19,26 +18,26 @@ import Loader from '../../components/loading/Loader';
 const HomeScreen = () => {
 
     const [profile, setProfile] = useState();
-    const [loading, setLoading] = useState(false);
-    const [results, setResults] = useState([]);
-    const [deviceCapability, setDeviceCapability] = useState(false)
+    const [loading, setLoading] = useState(true);
+    // const [deviceCapability, setDeviceCapability] = useState(false)
 
-    const { requestPermission } = useCameraPermission();
+    const { requestPermission, hasPermission } = useCameraPermission();
     const navigation = useNavigation();
-    const device = useCameraDevice('back')
 
-    const handleCheckDeviceCapability = async () => {
-        try {
-            if (device !== null) {
-                setDeviceCapability(true)
-            }
-        } catch (error) {
-            Alert.alert('Scanner Not Working', 'Device is not compatible', [
-                { text: 'OK', onPress: () => { navigation.navigate('Login') } },
-            ]);
-            setDeviceCapability(false)
-        }
-    }
+    // const device = useCameraDevice('back')
+
+    // const handleCheckDeviceCapability = async () => {
+    //     try {
+    //         if (device !== null) {
+    //             setDeviceCapability(true)
+    //         }
+    //     } catch (error) {
+    //         Alert.alert('Scanner Not Working', 'Device is not compatible', [
+    //             { text: 'OK', onPress: () => { navigation.navigate('Login') } },
+    //         ]);
+    //         setDeviceCapability(false)
+    //     }
+    // }
 
     const optionalConfigObject = {
         title: 'Authentication Required To Join Quiz',
@@ -59,38 +58,29 @@ const HomeScreen = () => {
                 TouchID.authenticate('', optionalConfigObject)
                     .then((success) => {
                         if (success === true) {
-                            navigation.navigate('ScannQR')
+                            if (hasPermission) {
+                                navigation.navigate('ScannQR')
+                            } else {
+                                Alert.alert(
+                                    'Camera Permission Denied',
+                                    'Enable Camera To Scan Qr',
+                                    [
+                                        { text: 'Cancel', style: 'cancel' },
+                                        { text: 'Give Camera Access', onPress: () => Linking.openSettings() }
+                                    ]
+                                );
+                            }
                         }
                     })
                     .catch(error => {
-                        console.error('error while fingerpritn auth: ', error)
+                        // console.error('error while fingerpritn auth: ', error)
                         // BackHandler.exitApp()
-                        Alert.alert('Touch ID not working !! ', '')
+                        Alert.alert('Touch ID Required !! ')
                     })
-            }
-            if (!biometryType) {
+            } else {
                 navigation.navigate('ScannQR')
             }
         })
-    }
-
-    const handleFetchResults = async () => {
-        setLoading(true)
-        try {
-            if (results.length === 0) {
-                const res = await apiEndpoints.getMyResults()
-
-                if (res.status === 200) {
-                    setResults(res.data.quizResults)
-                }
-            }
-        } catch (error) {
-            Alert.alert('Result Not Found', 'Sign in again', [
-                { text: 'OK', onPress: () => { navigation.navigate('Login') } },
-            ]);
-        } finally {
-            setLoading(false)
-        }
     }
 
     const handleProfile = async () => {
@@ -113,10 +103,7 @@ const HomeScreen = () => {
     useEffect(() => {
 
         requestPermission();
-        handleFetchResults();
-        handleProfile();
-        handleCheckDeviceCapability();
-
+        handleProfile()
     }, []);
 
     return (
@@ -146,7 +133,6 @@ const HomeScreen = () => {
                                 <TouchableOpacity
                                     style={{ marginRight: 8 }}
                                     onPress={handleToucIdAuth}
-                                // onPress={deviceCapability ? handleToucIdAuth : () => navigation.navigate('ScannQR')}
                                 >
                                     <FeatureCard imageUrl={ScanQrIcon} text="Scan Now" />
                                 </TouchableOpacity>
@@ -160,7 +146,7 @@ const HomeScreen = () => {
                             <View style={styles.row}>
                                 <TouchableOpacity
                                     style={{ marginRight: 8 }}
-                                    onPress={() => { navigation.navigate('Results', { results: results }) }}
+                                    onPress={() => { navigation.navigate('Results') }}
                                 >
                                     <FeatureCard imageUrl={ResultIcon} text="Results" />
                                 </TouchableOpacity>

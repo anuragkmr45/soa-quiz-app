@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, Dimensions, StatusBar, Image, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, Alert, Dimensions, StatusBar, Text, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CryptoJS from 'react-native-crypto-js';
 import { Camera, useCameraDevice, useCodeScanner, useCameraPermission } from 'react-native-vision-camera';
@@ -7,7 +7,7 @@ import { Camera, useCameraDevice, useCodeScanner, useCameraPermission } from 're
 import Loader from '../../../components/loading/Loader';
 import apiEndpoints from '../../../services/api';
 import { defaultStyling } from '../../../constant/styles';
-import CrossIcons from '../../../assest/icons/cross.png'
+// import CrossIcons from '../../../assest/icons/cross.png'
 
 const ScannQr = () => {
     const { requestPermission } = useCameraPermission();
@@ -28,7 +28,7 @@ const ScannQr = () => {
                 quizId: id ? id : quizId,
                 password: pass ? pass : password
             });
-            // console.log('quiz res: ', res)
+
             if (res.status === 200) {
                 const quizData = res.data;
                 navigation.navigate('Quiz', { quizData: quizData });
@@ -45,7 +45,7 @@ const ScannQr = () => {
     };
 
     const decryptData = (encryptedData) => {
-        const secretKey = 'abcd';
+        const secretKey = 'weirnf#$%$erfbn9[-2-2-verc0-2@';
         const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
         return bytes.toString(CryptoJS.enc.Utf8);
     };
@@ -55,27 +55,18 @@ const ScannQr = () => {
         onCodeScanned: async (codes) => {
             if (codes && codes.length > 0) {
                 const qrData = JSON.parse(codes[0].value);
-                // console.log('qrData: ', qrData)
-                const qrId = 'duniw7e8wfuc98nei3dwec';
 
                 const qrEexpiree = qrData.expireDate
-                const encriptQrId = qrData.qrUniqueId
                 const encriptQuizId = qrData.quizId
                 const encriptQuizPass = qrData.password
 
-                const qrUniqueId = decryptData(encriptQrId)
                 const quizId = decryptData(encriptQuizId)
                 const quizPassword = decryptData(encriptQuizPass)
 
                 const currentTime = new Date().getTime();
 
-                if (qrUniqueId === qrId) {
-                    if (currentTime < qrEexpiree) {
-                        await handleJoinQuiz(quizId, quizPassword);
-                    }
-                } else {
-                    Alert.alert('Attend Quiz Using Quizzy', '');
-                    return;
+                if (currentTime < qrEexpiree) {
+                    await handleJoinQuiz(quizId, quizPassword);
                 }
 
             }
@@ -83,22 +74,28 @@ const ScannQr = () => {
     });
 
     useEffect(() => {
+
+        Alert.alert('Make Sure Your DND Is On', 'If any interruption occurs during the exam, your quiz may be submitted. , You have a total of 5 seconds to return to the quiz', [
+            { text: 'Already Done', style: 'cancel' },
+            { text: 'Enable DND', onPress: () => Linking.openSettings() }
+        ])
+
         requestPermission();
     }, []);
 
     return (
         <View style={styles.container}>
+            {/* <View style={{ borderWidth: 2 }}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Home') }}>
+                    <Image source={CrossIcons} />
+                </TouchableOpacity>
+            </View> */}
             {
                 loading ? (
                     <Loader loading={loading} />
                 ) : (
                     <View style={styles.cameraContainer}>
                         <StatusBar hidden={true} />
-                        <View style={{ position: 'absolute', top: 20, right: 20 }}>
-                            <TouchableOpacity style={{ height: 100 }} onPress={() => { navigation.navigate('Home') }}>
-                                <Image source={CrossIcons} />
-                            </TouchableOpacity>
-                        </View>
                         <View style={{ backgroundColor: defaultStyling.light, borderRadius: 10, paddingVertical: 10, paddingHorizontal: 5 }}>
                             <Camera
                                 hdr={true}
@@ -118,7 +115,7 @@ const ScannQr = () => {
                     </View>
                 )
             }
-        </View>
+        </View >
     );
 };
 
@@ -133,7 +130,7 @@ const styles = StyleSheet.create({
     },
     cameraContainer: {
         // ...StyleSheet.absoluteFillObject,
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         alignItems: 'center',
     },
     qrScanner: {

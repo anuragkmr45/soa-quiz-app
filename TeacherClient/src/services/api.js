@@ -46,15 +46,10 @@ const apiEndpoints = {
             setAuthToken(token, false);
             return api.post('/dashboard/add-quiz', { Title, Description, DateCreated, SubjectID, TopicName, Questions });
         },
-        // createLiveQuiz: ({ quizId, duration, startTime }) => {
-        //     const token = localStorage.getItem('authToken');
-        //     setAuthToken(token, false);
-        //     return api.post('/dashboard/make-quiz-live', { quizId, duration, startTime });
-        // },
-        createLiveQuiz: ({ quizId, duration }) => {
+        createLiveQuiz: ({ quizId }) => {
             const token = localStorage.getItem('authToken');
             setAuthToken(token, false);
-            return api.post('/dashboard/make-quiz-live', { quizId, duration });
+            return api.post('/dashboard/make-quiz-live', { quizId });
         },
         getMyQuizzes: () => {
             const token = localStorage.getItem('authToken');
@@ -75,6 +70,11 @@ const apiEndpoints = {
             setAuthToken(token);
             return api.get(`/dashboard/my-quizzes/${quizId}/results`);
         },
+        endQuiz: (quizId) => {
+            const token = localStorage.getItem('authToken');
+            setAuthToken(token, true)
+            return api.get(`/dashboard/make-quiz-live/${quizId}/end-quiz`)
+        }
     },
     student: {
         login: ({ regNo, password }) => api.post('/student-login', { regNo, password }),

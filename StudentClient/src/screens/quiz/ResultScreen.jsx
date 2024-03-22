@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Animated } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native'
 
@@ -99,61 +99,14 @@ const ResultScreen = ({ route }) => {
                 </View>
             </View>
             <View style={{ width: '80%', alignSelf: 'center' }}>
-                <Button style={{ backgroundColor: defaultStyling.dark, paddingVertical: 10, borderRadius: 10 }} onPress={() => { navigation.navigate('Home') }}>
+                <Button style={{ backgroundColor: defaultStyling.dark, paddingVertical: 10, borderRadius: 10 }} onPress={() => { navigation.navigate('Results') }}>
                     <Text style={{ color: defaultStyling.light }}>
-                        Back To Home
+                        All Quizzes Results
                     </Text>
                 </Button>
             </View>
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: defaultStyling.dark,
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        color: defaultStyling.primaryTextColor
-    },
-    resultContainer: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 10,
-        padding: 20,
-        width: '80%',
-        backgroundColor: defaultStyling.semidark
-    },
-    resultItem: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 10,
-    },
-    resultLabel: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    resultValue: {
-        fontSize: 16,
-    },
-    buttonContainer: {
-        position: 'absolute',
-        bottom: 20,
-        width: '100%',
-        paddingHorizontal: 20,
-    },
-    button: {
-        backgroundColor: defaultStyling.semidark,
-        width: '100%',
-        borderRadius: 10,
-        paddingVertical: 8,
-    },
-});
 
 export default ResultScreen;

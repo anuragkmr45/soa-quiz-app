@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Card } from 'react-native-paper';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { defaultStyling } from '../../constant/styles';
+import QuizAttendingImg from '../../assest/image/quiz-time.png'
 
-const QuizCard = ({ questionData, onSelectOption, remainingDuration }) => {
+const QuizCard = ({ questionData, onSelectOption }) => {
     const [selectedOption, setSelectedOption] = useState(null);
+
+    const copyToClipboard = () => {
+        Clipboard.setString('Do not try to copy !! ');
+    };
 
     const handleOptionPress = (option) => {
         setSelectedOption(option);
@@ -14,15 +20,13 @@ const QuizCard = ({ questionData, onSelectOption, remainingDuration }) => {
     return (
         <View style={{ paddingVertical: 10, height: '100%' }}>
             <View style={{ alignItems: 'center', zIndex: 20 }}>
-                <View style={{ borderWidth: 5, borderColor: 'rgba(239, 240, 243, 1)', paddingVertical: 25, paddingHorizontal: 15, borderRadius: 150, elevation: 4, backgroundColor: defaultStyling.dark }}>
-                    <Text style={{ color: defaultStyling.light, textAlign: 'center', fontSize: 20, elevation: 4 }}>
-                        {Math.floor(remainingDuration / 60)}:{(remainingDuration % 60).toString().padStart(2, '0')}
-                    </Text>
+                <View style={{ borderWidth: 5, borderColor: 'rgba(239, 240, 243, 1)', padding: 15, borderRadius: 150, elevation: 4, backgroundColor: defaultStyling.dark }}>
+                    <Image source={QuizAttendingImg} style={{ height: 30, width: 30 }} />
                 </View>
             </View>
             <Card.Content style={{ backgroundColor: defaultStyling.dark, height: '30%', paddingVertical: 10, justifyContent: 'center', borderRadius: 10, elevation: 4, position: 'relative', bottom: 35 }}>
                 <ScrollView style={{ marginTop: 26 }}>
-                    <Text style={{ color: defaultStyling.light, marginBottom: 10, fontSize: 20 }} >
+                    <Text style={{ color: defaultStyling.light, marginBottom: 10, fontSize: 20 }} onLongPress={copyToClipboard}>
                         {questionData.question_text}
                     </Text>
                 </ScrollView>
@@ -43,9 +47,12 @@ const QuizCard = ({ questionData, onSelectOption, remainingDuration }) => {
                                     backgroundColor: selectedOption === option ? defaultStyling.semidark : defaultStyling.light
                                 }}
                             >
-                                <Text style={{
-                                    color: selectedOption === option ? defaultStyling.dark : defaultStyling.primaryText
-                                }}>
+                                <Text
+                                    style={{
+                                        color: selectedOption === option ? defaultStyling.dark : defaultStyling.primaryText
+                                    }}
+                                    onLongPress={copyToClipboard}
+                                >
                                     {option}
                                 </Text>
                             </TouchableOpacity>
