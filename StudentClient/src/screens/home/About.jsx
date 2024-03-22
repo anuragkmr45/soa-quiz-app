@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import TeamCard from '../../components/cards/TeamCard';
 import { defaultStyling } from '../../constant/styles';
-import ArrowIcon from '../../assest/icons/arrow.png'
+import ArrowIcon from '../../assest/icons/arrow.webp'
 
 const About = () => {
 

@@ -3,7 +3,7 @@ import { ScrollView, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Card } from 'react-native-paper';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { defaultStyling } from '../../constant/styles';
-import QuizAttendingImg from '../../assest/image/quiz-time.png'
+import QuizAttendingImg from '../../assest/image/quiz-time.webp'
 
 const QuizCard = ({ questionData, onSelectOption }) => {
     const [selectedOption, setSelectedOption] = useState(null);

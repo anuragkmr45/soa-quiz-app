@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { defaultStyling } from '../../constant/styles';
-import Insta from '../../assest/image/icons/insta.png';
-import Github from '../../assest/image/icons/github.png';
-import Linkedin from '../../assest/image/icons/linkedin.png';
+import Insta from '../../assest/icons/insta.webp';
+import Github from '../../assest/icons/github.webp';
+import Linkedin from '../../assest/icons/linkedin.webp';
 
 const TeamCard = ({ img, name, insta, intro, github, linkedin }) => {
 

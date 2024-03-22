@@ -7,7 +7,7 @@ import DashBoard from '../../../../components/frames/dashboard';
 import { showSuccessToast, showErrorToast } from '../../../../components/tosters/notifications'
 
 const LiveQuizes = () => {
-    const [quizId, setQuizId] = useState('itersoaXDVK');
+    const [quizId, setQuizId] = useState('');
     const [quizPass, setQuizPass] = useState('');
     const [quizCredentails, setQuizCredentails] = useState();
     const [loading, setLoading] = useState(false)

@@ -5,11 +5,11 @@ import { useCameraPermission } from 'react-native-vision-camera';
 import TouchID from 'react-native-touch-id';
 
 import apiEndpoints from '../../services/api';
-import ScanQrIcon from '../../assest/icons/scanQR.png';
-import ProfileIcon from '../../assest/icons/profile.png';
-import ResultIcon from '../../assest/icons/results.png';
-import CreatorIcon from '../../assest/icons/creator.png';
-import HomeHeroImg from '../../assest/image/signupHero.png';
+import ScanQrIcon from '../../assest/icons/scanQR.webp';
+import ProfileIcon from '../../assest/icons/profile.webp';
+import ResultIcon from '../../assest/icons/results.webp';
+import CreatorIcon from '../../assest/icons/creator.webp';
+import HomeHeroImg from '../../assest/image/signupHero.webp';
 
 import FeatureCard from '../../components/cards/FeatureCard';
 import { defaultStyling } from '../../constant/styles';

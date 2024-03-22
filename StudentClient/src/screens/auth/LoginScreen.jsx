@@ -8,7 +8,7 @@ import apiEndpoints from '../../services/api.js';
 import useAuthToken from '../../hooks/token-manager/useAuthToken.js';
 
 import { defaultStyling } from '../../constant/styles.js';
-import LoginGif from '../../assest/image/signupHero.png'
+import LoginGif from '../../assest/image/singinHero.webp'
 import AuthFrmae from '../../components/frames/AuthFrame.jsx'
 import Loader from '../../components/loading/Loader.jsx';
 
@@ -143,17 +143,6 @@ const styles = StyleSheet.create({
         backgroundColor: defaultStyling.light,
         color: defaultStyling.primaryText,
         marginVertical: 10,
-    },
-    button: {
-        marginTop: 10,
-        backgroundColor: defaultStyling.semidark,
-        borderRadius: 8,
-        paddingVertical: 8,
-    },
-    signupText: {
-        textAlign: 'center',
-        marginTop: 20,
-        color: defaultStyling.semidark,
     },
 });
 

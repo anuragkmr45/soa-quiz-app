@@ -4,8 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import useAuthToken from '../hooks/token-manager/useAuthToken';
 import { defaultStyling } from '../constant/styles';
-import ForwardIcon from '../assest/icons/forward.png';
-import HeroImg from '../assest/image/heroimg.png';
+import ForwardIcon from '../assest/icons/forward.webp';
+import HeroImg from '../assest/image/heroimg.webp';
 
 const App = () => {
     const [isAuth, setIsAuth] = useState(false);

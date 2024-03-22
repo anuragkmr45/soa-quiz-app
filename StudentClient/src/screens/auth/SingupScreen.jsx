@@ -9,7 +9,7 @@ import { courseOptions } from '../../.data/course'
 import { batchOptions } from '../../.data/batch'
 import { branchOptions } from '../../.data/branch'
 import { sectionOptions } from '../../.data/section'
-import LoginGif from '../../assest/image/auth-img.png'
+import LoginGif from '../../assest/image/signupHero.webp'
 import { defaultStyling } from '../../constant/styles'
 import AuthFrame from '../../components/frames/AuthFrame';
 import Loader from '../../components/loading/Loader';

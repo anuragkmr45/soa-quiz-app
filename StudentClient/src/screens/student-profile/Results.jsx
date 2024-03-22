@@ -6,7 +6,7 @@ import Loader from '../../components/loading/Loader';
 import apiEndpoints from '../../services/api';
 import { defaultStyling } from '../../constant/styles'
 import DataNotFound from '../../components/data-not-found/DataNotFound'
-import CrossIcons from '../../assest/icons/arrow.png'
+import CrossIcons from '../../assest/icons/arrow.webp'
 
 const Results = () => {
 
@@ -59,7 +59,7 @@ const Results = () => {
                     <Loader />
                     :
 
-                    results.light > 0 ? (
+                    results.length > 0 ? (
                         <>
                             <View style={{ height: '94%' }}>
                                 <ScrollView>

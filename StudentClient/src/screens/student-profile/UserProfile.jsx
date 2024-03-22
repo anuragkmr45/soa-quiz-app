@@ -4,8 +4,8 @@ import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native'
 
 import { defaultStyling } from '../../constant/styles';
-import ProfileImg from '../../assest/icons/profile.png'
-import BackIcon from '../../assest/icons/cross.png'
+import ProfileImg from '../../assest/icons/profile.webp'
+import BackIcon from '../../assest/icons/cross.webp'
 
 const ResultScreen = ({ route }) => {
     const { profile } = route.params;

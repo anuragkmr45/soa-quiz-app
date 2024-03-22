@@ -4,7 +4,7 @@ import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native'
 
 import { defaultStyling } from '../../constant/styles';
-import CrossIcon from '../../assest/icons/cross.png'
+import CrossIcon from '../../assest/icons/cross.webp'
 
 const ResultScreen = ({ route }) => {
     // Dummy data for demonstration

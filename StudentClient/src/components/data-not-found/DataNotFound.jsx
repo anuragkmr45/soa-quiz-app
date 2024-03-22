@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, Image } from 'react-native'
 
-import DNFImg from '../../assest/image/data-not-found.png'
+import DNFImg from '../../assest/image/data-not-found.webp'
 import { defaultStyling } from '../../constant/styles'
 
 const DataNotFound = () => {

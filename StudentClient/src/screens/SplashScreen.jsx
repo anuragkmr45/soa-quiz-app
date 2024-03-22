@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image } from 'react-native';
 
-import Logo from '../assest/logo.png';
+import Logo from '../assest/logo.webp';
 
 const SplashScreen = () => {
 
